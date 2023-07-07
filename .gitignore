@@ -10,7 +10,6 @@ tmp
 temp
 thirdparty
 catkin_build
-cmake-build-debug
 .idea
 *.bag
 *_commit_info.txt
@@ -20,14 +19,12 @@ log
 *.core*
 bag
 hios-bdb*
-.DS_Store
 ._.DS_Store
 ._*
 lcov
 *.txt
-.idea
+xbuild
 build
-.idea
 store.json
 cmake-build-debug
 CMakeCache.txt
