@@ -73,11 +73,11 @@ fi
 # clean option and prepare related directories
 if [ "$clean" == "ON" ]; then
     rm -rf $build_home
+    rm -rf $output_home
 fi
 
 detect_make_dir $build_home
-
-cd $work_home
+detect_make_dir $output_home
 
 
 cd $build_home
