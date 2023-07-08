@@ -113,7 +113,7 @@ namespace haomo{
         //当前的微秒数
         void sysUtils::getMicroSeconds(uint64_t &ms){
             struct timeval tv;
-            int r = gettimeofday(&tv, NULL);
+            int r = gettimeofday(&tv, nullptr);
             if (r != 0){
                 perror("gettimeofday failed");
                 return;
@@ -137,7 +137,7 @@ namespace haomo{
                 perror("clock_gettime failed");
                 return;
             }
-            time_t ct = time(NULL);
+            time_t ct = time(nullptr);
             ns = 1000000000 * (uint64_t) ct + (uint64_t) ts.tv_nsec;
 #else
             uint64_t ms;
@@ -148,10 +148,10 @@ namespace haomo{
 
         //获取屏幕终端的宽高
         void sysUtils::getTerminalSize(size_t *width, size_t *height){
-            if (width != NULL){
+            if (width != nullptr){
                 *width = 0;
             }
-            if (height != NULL){
+            if (height != nullptr){
                 *height = 0;
             }
             struct winsize sz;
@@ -160,10 +160,10 @@ namespace haomo{
                 perror("ioctl failed");
                 return;
             }
-            if (width != NULL){
+            if (width != nullptr){
                 *width = sz.ws_col;
             }
-            if (height != NULL){
+            if (height != nullptr){
                 *height = sz.ws_row;
             }
         }

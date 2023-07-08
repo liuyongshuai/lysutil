@@ -38,19 +38,19 @@ int main(int argc, char *argv[]){
     routers->addRouter(haomo::transtopic::ROUTER_TYPE_REGEXP, "/abcd/(\\d+)/(\\w+)", httpFunc2, "a=$1&b=$2");
     std::string uri = "/abc/wendao/444444";
     rItem = routers->matchRouter(uri, args);
-    std::cout << uri << "\tmatch\t" << (rItem == NULL ? "failed" : rItem->config) << std::endl;
+    std::cout << uri << "\tmatch\t" << (rItem == nullptr ? "failed" : rItem->config) << std::endl;
     printArgs(args);
     uri = "/abc/aaaa/dddd";
     rItem = routers->matchRouter(uri, args);
-    std::cout << uri << "\tmatch\t" << (rItem == NULL ? "failed" : rItem->config) << std::endl;
+    std::cout << uri << "\tmatch\t" << (rItem == nullptr ? "failed" : rItem->config) << std::endl;
     printArgs(args);
     uri = "/abc/5544554/wendao";
     rItem = routers->matchRouter(uri, args);
-    std::cout << uri << "\tmatch\t" << (rItem == NULL ? "failed" : rItem->config) << std::endl;
+    std::cout << uri << "\tmatch\t" << (rItem == nullptr ? "failed" : rItem->config) << std::endl;
     printArgs(args);
     uri = "/abcd/333333/8888";
     rItem = routers->matchRouter(uri, args);
-    std::cout << uri << "\tmatch\t" << (rItem == NULL ? "failed" : rItem->config) << std::endl;
+    std::cout << uri << "\tmatch\t" << (rItem == nullptr ? "failed" : rItem->config) << std::endl;
     printArgs(args);
     return 0;
 }

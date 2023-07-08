@@ -35,7 +35,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include <errno.h>
-#include <stdlib.h>
 #include <stdarg.h>
 #include <openssl/md5.h>
 

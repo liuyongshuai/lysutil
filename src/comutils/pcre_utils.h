@@ -18,7 +18,7 @@ namespace haomo{
         public:
             pcreUtils(const std::string &pattern){
                 this->pattern = pattern;
-                this->re = NULL;
+                this->re = nullptr;
             };
 
             //内部使用的匹配方法，这里的返回值是双层vector，考虑到会有多个捕获组的情况
@@ -66,7 +66,6 @@ namespace haomo{
             pcre *re;
 
             void init();
-
             pcreUtils(){};
         };
     }
