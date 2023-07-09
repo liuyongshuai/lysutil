@@ -17,6 +17,6 @@
 #include "httpsvr/http_common.h"
 
 int main(int argc, char *argv[]){
-    std::cout << haomo::transtopic::NORMAL_POST_CONTENT_TYPE << std::endl;
+    std::cout << lysutil::httpsvr::NORMAL_POST_CONTENT_TYPE << std::endl;
     return 0;
 }

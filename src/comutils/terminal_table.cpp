@@ -6,8 +6,8 @@
 #include<iostream>
 #include "terminal_table.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         static const char *replaceStr[] = {
                 "“", "\"",
                 "”", "\"",

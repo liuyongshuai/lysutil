@@ -6,8 +6,8 @@
 #include<iostream>
 #include "http_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
 
         std::unordered_set <uint8_t> httpUtils::isTokenTable = {
                 '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '0', '1', '2', '3', '4',

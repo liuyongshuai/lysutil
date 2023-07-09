@@ -9,8 +9,8 @@
 #define ENCODE64(c)     (((c) & 0xC0) ? -1 : base64digits[(int)c])
 #define DECODE64(c)     (((c) & 0x80) ? -1 : base64val[(int)c])
 #define UTF8_CHAR_CHECK(c) if(c<(uint8_t)0x80||c>(uint8_t)0xBF){break;}
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         //基本常用汉字的unicode范围
         int32_t strUtils::chineseCharUnicode[2] = {0x4E00, 0x9FA5};
         //半角阿拉伯数字0~9范围

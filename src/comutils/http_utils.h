@@ -11,8 +11,8 @@
 #include<map>
 #include "str_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class httpUtils{
         public:
             //规范化header的key

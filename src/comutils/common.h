@@ -40,8 +40,8 @@
 
 #define xisspace(c) isspace((unsigned char)c)
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         //颜色用的方法
         typedef void (*ColorFunc)(const std::string &, std::string &, int, int);
 

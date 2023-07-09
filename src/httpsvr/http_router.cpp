@@ -6,8 +6,8 @@
 #include<iostream>
 #include "http_router.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace httpsvr{
         std::shared_ptr <httpRouter> httpRouter::instance_ = nullptr;
 
         //添加一条路由信息
@@ -21,7 +21,7 @@ namespace haomo{
          */
         void httpRouter::addRouter(ROUTER_TYPE t, const std::string &c, httpFunc f, const std::string &extParam){
             std::string tmpUri = c;
-            strUtils::trimChar(tmpUri, '/');
+            comutils::strUtils::trimChar(tmpUri, '/');
             routerItem *ritem = new routerItem;
             ritem->type = t;
             ritem->config = tmpUri;
@@ -38,7 +38,7 @@ namespace haomo{
          */
         const routerItem *httpRouter::matchRouter(const std::string &uri, std::map <std::string, std::string> &args) const{
             std::string tmpUri = uri;
-            strUtils::trimChar(tmpUri, '/');
+            comutils::strUtils::trimChar(tmpUri, '/');
             std::vector< routerItem * >::const_iterator iter;
             for (iter = routerList.begin(); iter != routerList.end(); iter++){
                 if ((*iter)->type == ROUTER_TYPE_PATH_INFO){
@@ -75,10 +75,10 @@ namespace haomo{
             std::map <std::string, std::string> tmpArgs;
             //请求的URL的切片
             std::vector <std::string> pathInfo;
-            strUtils::strSplit(uri, '/', pathInfo);
+            comutils::strUtils::strSplit(uri, '/', pathInfo);
             //事先配置好的路由的切片，要和URL逐个比对，若有:arg、:arg:这样的还要替换
             std::vector <std::string> confInfo;
-            strUtils::strSplit(router->config, '/', confInfo);
+            comutils::strUtils::strSplit(router->config, '/', confInfo);
             if (pathInfo.size() > confInfo.size()){
                 return false;
             }
@@ -90,10 +90,10 @@ namespace haomo{
                     if (pathInfo.size() > i){
                         std::string pathVal = pathInfo[i];
                         //非数字必须 :arg:，数字只能 :arg
-                        if (!strUtils::isAllNumber(pathVal) && val[val.size() - 1] != ':'){
+                        if (!comutils::strUtils::isAllNumber(pathVal) && val[val.size() - 1] != ':'){
                             return false;
                         }
-                        strUtils::trimChar(val, ':');
+                        comutils::strUtils::trimChar(val, ':');
                         tmpArgs[val] = pathVal;
                     }
                 }
@@ -115,7 +115,7 @@ namespace haomo{
          */
         bool httpRouter::matchRegexpRouter(const std::string &uri, const routerItem *router, std::map <std::string, std::string> &args) const{
             std::map <std::string, std::string> tmpArgs;
-            pcreUtils reg(router->config);
+            comutils::pcreUtils reg(router->config);
             if (reg.reg_match(uri) != 0){
                 std::cout << "httpRouter::matchRegexpRouter:regexp not match\t" << router->config << "\t" << uri << std::endl;
                 return false;
@@ -136,7 +136,7 @@ namespace haomo{
                         std::string tmpArgStr = argStr;
                         char buf[256] = {0};
                         sprintf(buf, "$%lu", i++);
-                        strUtils::strReplace(argStr, buf, *iter1, tmpArgStr);
+                        comutils::strUtils::strReplace(argStr, buf, *iter1, tmpArgStr);
                         argStr = tmpArgStr;
                     }
                 }
@@ -144,7 +144,7 @@ namespace haomo{
 
             std::vector <std::string> tmpArgVec;
             size_t pos;
-            strUtils::strSplit(argStr, '&', tmpArgVec);
+            comutils::strUtils::strSplit(argStr, '&', tmpArgVec);
             std::vector< std::string >::const_iterator vecStrIter;
             for (vecStrIter = tmpArgVec.begin(); vecStrIter != tmpArgVec.end(); vecStrIter++){
                 pos = vecStrIter->find_first_of("=", 0);

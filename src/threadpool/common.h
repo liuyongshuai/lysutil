@@ -6,7 +6,7 @@
 #ifndef _PFSM_LOGSIM_COMMON_H_202307061649_
 #define _PFSM_LOGSIM_COMMON_H_202307061649_
 
-namespace haomo{
+namespace lysutil{
     namespace transtopic{
     }
 }

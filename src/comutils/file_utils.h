@@ -11,8 +11,8 @@
 #include<map>
 #include "str_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class fileUtils{
         public:
             //文件操作相关，如判断文件或目录是否存在、最后修改时间、获取目录下的文件列表(包括隐藏的)、一次性读写文件等

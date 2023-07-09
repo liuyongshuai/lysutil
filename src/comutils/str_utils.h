@@ -11,8 +11,8 @@
 #include<map>
 #include "common.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class strUtils{
         public:
             //只保留str中的汉字、字母、数字，其他的一律替换为空格

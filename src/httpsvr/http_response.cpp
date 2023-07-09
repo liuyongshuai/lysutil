@@ -6,8 +6,8 @@
 #include<iostream>
 #include "http_response.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace httpsvr{
         std::string genCurData(uint32_t maxAgeTime){
             char expire_time[128] = {0};
             time_t expire;
@@ -59,7 +59,7 @@ namespace haomo{
         //设置头信息
         void httpResponse::setHeader(const std::string &k, const std::string &v){
             std::string headerKey = k;
-            httpUtils::canonicalHeaderKey(headerKey);
+            comutils::httpUtils::canonicalHeaderKey(headerKey);
             std::vector <std::string> tmp;
             tmp.push_back(v);
             this->headers[headerKey] = tmp;
@@ -67,13 +67,13 @@ namespace haomo{
 
         void httpResponse::addHeader(const std::string &k, const std::string &v){
             std::string headerKey = k;
-            httpUtils::canonicalHeaderKey(headerKey);
+            comutils::httpUtils::canonicalHeaderKey(headerKey);
             this->headers[headerKey].push_back(v);
         }
 
         void httpResponse::getHeader(const std::string &k, std::vector <std::string> &vs){
             std::string headerKey = k;
-            httpUtils::canonicalHeaderKey(headerKey);
+            comutils::httpUtils::canonicalHeaderKey(headerKey);
             std::vector <std::string> tmp;
             std::map < std::string, std::vector < std::string > > ::const_iterator
             iter;
@@ -103,7 +103,7 @@ namespace haomo{
             }
 
             //path信息
-            if (path.size() > 0){
+            if (!path.empty()){
                 char p[256] = {0};
                 sprintf(p, "; Path=%s", path.c_str());
                 ckBuf.append(p);
@@ -113,7 +113,7 @@ namespace haomo{
             }
 
             //domain信息
-            if (domain.size() > 0){
+            if (!domain.empty()){
                 char d[256] = {0};
                 sprintf(d, "; Domain=%s", domain.c_str());
                 ckBuf.append(d);

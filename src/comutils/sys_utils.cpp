@@ -6,8 +6,8 @@
 #include<iostream>
 #include "sys_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         //对整数向上圆整为2^n倍数
         size_t sysUtils::up2n(size_t num){
             if (num <= 2){

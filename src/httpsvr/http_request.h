@@ -14,8 +14,8 @@
 #include "comutils/terminal_table.h"
 #include "comutils/pcre_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace httpsvr{
         class httpRequest{
         public:
             httpRequest(const char *body, size_t bodyLen);

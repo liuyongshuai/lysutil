@@ -12,8 +12,8 @@
 #include "http_common.h"
 #include "comutils/http_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace httpsvr{
         class httpResponse{
         public:
             httpResponse();

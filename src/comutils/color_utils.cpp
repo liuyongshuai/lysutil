@@ -6,8 +6,8 @@
 #include<iostream>
 #include "color_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         void colorUtils::Green(const std::string &inStr, std::string &outStr, int blink, int underline){
             cliColorRender(inStr, outStr, COLOR_GREEN, 0, blink, underline);
         }

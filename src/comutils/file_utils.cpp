@@ -6,8 +6,8 @@
 #include<iostream>
 #include "file_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         //判断文件是否存在
         bool fileUtils::isFileExist(const std::string &filePath){
             struct stat buffer{};

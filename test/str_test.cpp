@@ -17,22 +17,22 @@
 #include "comutils/pcre_utils.h"
 #include "comutils/terminal_table.h"
 
-void printVector1(const std::vector <std::string> &output){
-    std::vector< std::string >::const_iterator iter;
+void printVector1(const std::vector<std::string> &output) {
+    std::vector<std::string>::const_iterator iter;
     std::cout << std::endl;
     std::cout << std::endl;
-    for (iter = output.begin(); iter != output.end(); iter++){
+    for (iter = output.begin(); iter != output.end(); iter++) {
         std::cout << *iter << std::endl;
     }
     std::cout << std::endl;
     std::cout << std::endl;
 }
 
-void printMap1(const std::map <std::string, std::string> &output){
-    std::map< std::string, std::string >::const_iterator iter;
+void printMap1(const std::map<std::string, std::string> &output) {
+    std::map<std::string, std::string>::const_iterator iter;
     std::cout << std::endl;
     std::cout << std::endl;
-    for (iter = output.begin(); iter != output.end(); iter++){
+    for (iter = output.begin(); iter != output.end(); iter++) {
         std::cout << "k=" << iter->first << "\tv=" << iter->second << std::endl;
     }
     std::cout << std::endl;
@@ -114,20 +114,20 @@ const char *testForTable[] = {
         "30|1152921509242339341|桥头排骨\n（金城路店）加拿大籍人员康明凯（Michael John Kovrig）窃取、刺探国家秘密和情报案侦办工作已取得重要进展。有关部门介绍，康明凯自2017年以来，经常持普通护照和商务签证入境，通过中国境内的关系人，窃取、刺探中国敏感信息和情报。迈克尔（Spavor Michael Peter Todd)是康明凯的重要情报关系人，向康明凯提供情报。",
 };
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
     std::string s = "C/C++语言提供了几个标准库函数，可以将字符串转换为任意类型(整型、长整型、浮点型等)。";
-    std::vector <int32_t> unicodes;
-    haomo::transtopic::strUtils::utf8ToUnicodes(s, unicodes);
-    std::vector< int32_t >::iterator iter;
-    for (iter = unicodes.begin(); iter != unicodes.end(); iter++){
+    std::vector<int32_t> unicodes;
+    lysutil::comutils::strUtils::utf8ToUnicodes(s, unicodes);
+    std::vector<int32_t>::iterator iter;
+    for (iter = unicodes.begin(); iter != unicodes.end(); iter++) {
         std::cout << *iter << "\t";
     }
     std::cout << std::endl;
 
     //再转回来
     std::string str;
-    haomo::transtopic::strUtils::unicodesToUTF8(unicodes, str);
+    lysutil::comutils::strUtils::unicodesToUTF8(unicodes, str);
     std::cout << str << std::endl;
 
 
@@ -135,8 +135,8 @@ int main(int argc, char *argv[]){
     std::string rawStr = "各地区、各部门要抓紧做好本地区、本领域的劳动节假期调整落实工作，采取有效措施，保障交通运力，加强旅游服务，丰富产品供给，强化综合调控，确保平稳运行。";
     std::string b64en;
     std::string b64de;
-    haomo::transtopic::strUtils::base64Encode(rawStr, b64en);
-    haomo::transtopic::strUtils::base64Decode(b64en, b64de);
+    lysutil::comutils::strUtils::base64Encode(rawStr, b64en);
+    lysutil::comutils::strUtils::base64Decode(b64en, b64de);
     std::cout << rawStr << std::endl;
     std::cout << b64en << std::endl;
     std::cout << b64de << std::endl;
@@ -146,8 +146,8 @@ int main(int argc, char *argv[]){
     std::string rawUrl = "http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=114204118#id-4.计价&收银服务-术语说明";
     std::string urlEn;
     std::string urlDe;
-    haomo::transtopic::strUtils::urlEncode(rawUrl, urlEn);
-    haomo::transtopic::strUtils::urlDecode(urlEn, urlDe);
+    lysutil::comutils::strUtils::urlEncode(rawUrl, urlEn);
+    lysutil::comutils::strUtils::urlDecode(urlEn, urlDe);
     std::cout << rawUrl << std::endl;
     std::cout << urlEn << std::endl;
     std::cout << urlDe << std::endl;
@@ -156,80 +156,80 @@ int main(int argc, char *argv[]){
     std::cout << "\n---------colorUtils---------" << std::endl;
     std::string out1;
     std::string out2;
-    haomo::transtopic::colorUtils::Green(rawStr, out1, 1, 1);
-    haomo::transtopic::colorUtils::Yellow(rawStr, out2, 0, 0);
+    lysutil::comutils::colorUtils::Green(rawStr, out1, 1, 1);
+    lysutil::comutils::colorUtils::Yellow(rawStr, out2, 0, 0);
     std::cout << out1 << std::endl;
     std::cout << out2 << std::endl;
 
 
     std::cout << "\n---------getTerminalSize---------" << std::endl;
     size_t screenWidth, screenHeight;
-    haomo::transtopic::sysUtils::getTerminalSize(&screenWidth, &screenHeight);
+    lysutil::comutils::sysUtils::getTerminalSize(&screenWidth, &screenHeight);
     std::cout << "screenWidth=" << screenWidth << "\tscreenHeight=" << screenHeight << std::endl;
 
 
     std::cout << "\n---------trimSpace---------" << std::endl;
     std::string trimSp1 = "  c\n\t   ";
-    haomo::transtopic::strUtils::trimSpace(trimSp1);
+    lysutil::comutils::strUtils::trimSpace(trimSp1);
     std::cout << "trimSp=" << trimSp1 << "\tsize=" << trimSp1.size() << std::endl;
     std::string trimSp2 = "  c\n\t   ";
-    haomo::transtopic::strUtils::trimLeftSpace(trimSp2);
+    lysutil::comutils::strUtils::trimLeftSpace(trimSp2);
     std::cout << "trimSp2=" << trimSp2 << "\tsize=" << trimSp2.size() << std::endl;
     std::string trimSp3 = "  c\n\t   ";
-    haomo::transtopic::strUtils::trimRightSpace(trimSp3);
+    lysutil::comutils::strUtils::trimRightSpace(trimSp3);
     std::cout << "trimSp3=" << trimSp3 << "\tsize=" << trimSp3.size() << std::endl;
     std::string trimCH1 = "abcaaaaaaa";
-    haomo::transtopic::strUtils::trimChar(trimCH1, 'a');
+    lysutil::comutils::strUtils::trimChar(trimCH1, 'a');
     std::cout << "trimCH1=" << trimCH1 << "\tsize=" << trimCH1.size() << std::endl;
 
 
-    std::cout << "\n-------haomo::transtopic::pcreUtils-------" << std::endl;
-    haomo::transtopic::pcreUtils reg1(";");
+    std::cout << "\n-------lysutil::comutils::pcreUtils-------" << std::endl;
+    lysutil::comutils::pcreUtils reg1(";");
     std::string ck = "a=c;d=f;a=adsfadfadfadfadfadf;d=453453453534;;;;;;;;-";
-    std::vector <std::string> reg1SubList;
+    std::vector<std::string> reg1SubList;
     reg1.reg_split(ck, reg1SubList);
     printVector1(reg1SubList);
 
-    std::cout << "\n-------haomo::transtopic::strUtils::strSplit-------" << std::endl;
-    std::vector <std::string> split2SubList;
-    haomo::transtopic::strUtils::strSplit(ck, ';', split2SubList);
+    std::cout << "\n-------lysutil::comutils::strUtils::strSplit-------" << std::endl;
+    std::vector<std::string> split2SubList;
+    lysutil::comutils::strUtils::strSplit(ck, ';', split2SubList);
     printVector1(split2SubList);
     std::cout << std::endl;
 
-    std::cout << "\n-------haomo::transtopic::httpr=Utils::splitRawCookie-------" << std::endl;
-    std::map <std::string, std::string> cookie2SubList;
-    haomo::transtopic::httpUtils::splitRawCookie(ck, cookie2SubList);
+    std::cout << "\n-------lysutil::comutils::httpr=Utils::splitRawCookie-------" << std::endl;
+    std::map<std::string, std::string> cookie2SubList;
+    lysutil::comutils::httpUtils::splitRawCookie(ck, cookie2SubList);
     printMap1(cookie2SubList);
     std::string ck1;
-    haomo::transtopic::httpUtils::joinRawCookie(cookie2SubList, ck1);
+    lysutil::comutils::httpUtils::joinRawCookie(cookie2SubList, ck1);
     std::cout << ck1 << std::endl;
     std::cout << std::endl;
 
     std::cout << "\n---------/dev/urandom---------" << std::endl;
     std::string deviceRandom1;
-    haomo::transtopic::sysUtils::getDeviceRandom(deviceRandom1, 30);
+    lysutil::comutils::sysUtils::getDeviceRandom(deviceRandom1, 30);
     std::cout << deviceRandom1 << std::endl;
     std::cout << std::endl;
 
     std::cout << "\n---------local ip---------" << std::endl;
-    std::vector <std::string> localIP;
+    std::vector<std::string> localIP;
     std::string hostName;
-    haomo::transtopic::sysUtils::getLocalIP(localIP, hostName);
+    lysutil::comutils::sysUtils::getLocalIP(localIP, hostName);
     printVector1(localIP);
     std::cout << "hostName=" << hostName << std::endl;
     std::cout << std::endl;
 
     std::cout << "\n---------clock---------" << std::endl;
     uint64_t ms, ns;
-    haomo::transtopic::sysUtils::getMicroSeconds(ms);
-    haomo::transtopic::sysUtils::getNanoSeconds(ns);
+    lysutil::comutils::sysUtils::getMicroSeconds(ms);
+    lysutil::comutils::sysUtils::getNanoSeconds(ns);
     std::cout << "ms=" << ms << "\tns=" << ns << std::endl;
     std::cout << std::endl;
 
     std::cout << "\n---------random---------" << std::endl;
     size_t i;
-    for (i = 0; i < 10; i++){
-        int r = haomo::transtopic::sysUtils::getRandom();
+    for (i = 0; i < 10; i++) {
+        int r = lysutil::comutils::sysUtils::getRandom();
         std::cout << "random int=" << r << std::endl;
     }
     std::cout << std::endl;
@@ -243,23 +243,23 @@ int main(int argc, char *argv[]){
             "wendao",
     };
     size_t fsLen = sizeof(fs) / sizeof(char *);
-    for (i = 0; i < fsLen; i++){
+    for (i = 0; i < fsLen; i++) {
         const char *f = fs[i];
-        bool r = haomo::transtopic::fileUtils::isFileExist(f);
+        bool r = lysutil::comutils::fileUtils::isFileExist(f);
         std::cout << "file[" << f << "] isExist:" << r << std::endl;
         std::string bname;
-        haomo::transtopic::fileUtils::fileBaseName(f, bname);
+        lysutil::comutils::fileUtils::fileBaseName(f, bname);
         std::cout << "file[" << f << "] basename:" << bname << std::endl;
     }
     std::cout << std::endl;
 
     std::cout << "\n---------fileSize & getContent---------" << std::endl;
     std::string tmpFilePath = "./info.json";
-    if (haomo::transtopic::fileUtils::isFileExist(tmpFilePath)){
-        size_t fileSize = haomo::transtopic::fileUtils::fileSize(tmpFilePath);
+    if (lysutil::comutils::fileUtils::isFileExist(tmpFilePath)) {
+        size_t fileSize = lysutil::comutils::fileUtils::fileSize(tmpFilePath);
         std::cout << "fileSize=" << fileSize << std::endl;
         std::string tmpFileBuf;
-        haomo::transtopic::fileUtils::getTxtFileContent(tmpFilePath, tmpFileBuf);
+        lysutil::comutils::fileUtils::getTxtFileContent(tmpFilePath, tmpFileBuf);
         std::cout << "getTxtFileContent=" << tmpFileBuf << std::endl;
     }
 
@@ -267,38 +267,38 @@ int main(int argc, char *argv[]){
     //cout << tmpFileBuf << endl;
 
     std::cout << "\n---------isAllNumber---------" << std::endl;
-    std::cout << haomo::transtopic::strUtils::isAllNumber("444444444") << std::endl;
-    std::cout << haomo::transtopic::strUtils::isAllNumber("444444f444") << std::endl;
-    std::cout << haomo::transtopic::strUtils::isAllNumber("0") << std::endl;
-    std::cout << haomo::transtopic::strUtils::isAllNumber("") << std::endl;
+    std::cout << lysutil::comutils::strUtils::isAllNumber("444444444") << std::endl;
+    std::cout << lysutil::comutils::strUtils::isAllNumber("444444f444") << std::endl;
+    std::cout << lysutil::comutils::strUtils::isAllNumber("0") << std::endl;
+    std::cout << lysutil::comutils::strUtils::isAllNumber("") << std::endl;
 
 
     std::cout << "\n---------rune---------" << std::endl;
     std::string runStr = "擘画强军蓝图，指引奋进征程。2013年到2018年全国两会期间，中共中央总书记、国家主席、中央军委主席习近平连续出席解放军和武警部队代表团全体会议并发表重要讲话，提出一系列新思想、新论断、新要求。6年来，全军部队认真贯彻习主席重要讲话精神，牢固确立习近平强军思想的指导地位，重振政治纲纪，重塑组织形态，重整斗争格局，重构建设布局，重树作风形象，在中国特色强军之路上迈出坚定步伐。";
     std::string runeOutput;
     size_t lineNum;
-    haomo::transtopic::runeUtils::runeWrap(runStr, 10, runeOutput, lineNum);
+    lysutil::comutils::runeUtils::runeWrap(runStr, 10, runeOutput, lineNum);
     std::cout << "runeWrap..... lineNum = " << lineNum << std::endl;
     std::cout << runeOutput << std::endl;
 
     std::cout << "\n---------table---------" << std::endl;
-    haomo::transtopic::terminalTable table;
+    lysutil::comutils::terminalTable table;
     table.addHeadData(3, "shop_id", "shop_name", "desc");
 
-    haomo::transtopic::pcreUtils rg("\\|");
+    lysutil::comutils::pcreUtils rg("\\|");
 
     size_t tlen = sizeof(testForTable) / sizeof(char *);
-    for (i = 0; i < tlen; i++){
+    for (i = 0; i < tlen; i++) {
         std::string tmpStr(testForTable[i]);
-        std::vector <std::string> subList;
+        std::vector<std::string> subList;
         rg.reg_split(tmpStr, subList);
         table.addRowData(subList);
     }
 
     //设置各种颜色
-    table.setBorderColorType(haomo::transtopic::COLOR_RED);
-    table.setRowFontColorType(haomo::transtopic::COLOR_GREEN);
-    table.setHeaderFontColorType(haomo::transtopic::COLOR_BROWN);
+    table.setBorderColorType(lysutil::comutils::COLOR_RED);
+    table.setRowFontColorType(lysutil::comutils::COLOR_GREEN);
+    table.setHeaderFontColorType(lysutil::comutils::COLOR_BROWN);
 
     std::string output;
     table.renderToString(output);

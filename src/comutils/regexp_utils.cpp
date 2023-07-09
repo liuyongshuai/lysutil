@@ -6,8 +6,8 @@
 #include<iostream>
 #include "regexp_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         //找出所有的子串：成功返回0，失败返回负数
         //内层的vector，第一个为整个匹配串，其他的表示捕获子串
         int regexpUtils::reg_match_all(const std::string &pattern,

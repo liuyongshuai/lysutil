@@ -37,8 +37,8 @@
 
 #define HTTP_HEADER_BUF_SIZE  10240
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace httpsvr{
         class httpRequest;
 
         class httpResponse;

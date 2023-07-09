@@ -6,14 +6,14 @@
 #include<iostream>
 #include "http_request.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace httpsvr{
         /**
          * 提取header中的信息
          */
         void httpRequest::getHeader(const std::string &key, std::string &val){
             std::string k = key;
-            strUtils::toLower(k);
+            comutils::strUtils::toLower(k);
             std::map< std::string, std::string >::const_iterator iter;
             if ((iter = this->headers.find(k)) != this->headers.end()){
                 val = iter->second;
@@ -63,7 +63,7 @@ namespace haomo{
             std::string sepline;
 
             //打印header信息
-            terminalTable tHeader;
+            comutils::terminalTable tHeader;
             tHeader.addHeadData(2, "key", "value");
             for (iter = this->headers.begin(); iter != this->headers.end(); iter++){
                 tHeader.addRowData(2, iter->first.c_str(), iter->second.c_str());
@@ -73,15 +73,15 @@ namespace haomo{
             std::cout << tstr << std::endl;
 
             //开始打印请求参数
-            if (args.size() > 0){
+            if (!args.empty()){
                 std::cout << std::endl;
                 std::map < std::string, std::vector < std::string > > ::const_iterator
                 mapVecIter;
-                terminalTable tArgs;
+                comutils::terminalTable tArgs;
                 tArgs.addHeadData(2, "key", "value");
                 for (mapVecIter = this->args.begin(); mapVecIter != this->args.end(); mapVecIter++){
                     std::string v;
-                    strUtils::strJoin(mapVecIter->second, "\n", v);
+                    comutils::strUtils::strJoin(mapVecIter->second, "\n", v);
                     tArgs.addRowData(2, mapVecIter->first.c_str(), v.c_str());
                 }
                 std::string tstr;
@@ -121,22 +121,22 @@ namespace haomo{
 
             //以类似于"GET /abc HTTP/1.1"开头
             tmpHeaderCur = strstr(tmpReqBody, sepChar1);
-            if (tmpHeaderCur == NULL){
+            if (tmpHeaderCur == nullptr){
                 return -1;
             }
             sz = tmpHeaderCur - tmpHeaderPre;
             bzero(tmpBuf, HTTP_HEADER_BUF_SIZE);
             memcpy(tmpBuf, tmpHeaderPre, sz);
             tmpStr = tmpBuf;
-            strUtils::strSplit(tmpStr, ' ', tmpVec);
+            comutils::strUtils::strSplit(tmpStr, ' ', tmpVec);
             if (tmpVec.size() < 3){
                 return -1;
             }
 
 
             //0即为method
-            strUtils::trimSpace(tmpVec[0]);
-            strUtils::toUpper(tmpVec[0]);
+            comutils::strUtils::trimSpace(tmpVec[0]);
+            comutils::strUtils::toUpper(tmpVec[0]);
             if (tmpVec[0] == "GET"){
                 this->method = GET;
             }
@@ -160,7 +160,7 @@ namespace haomo{
             }
 
             //1即为uri
-            strUtils::trimSpace(tmpVec[1]);
+            comutils::strUtils::trimSpace(tmpVec[1]);
             uri = tmpVec[1];
             if ((pos = uri.find_first_of("?", 0)) != std::string::npos){
                 std::string argStr(uri, pos + 1);
@@ -169,21 +169,21 @@ namespace haomo{
             }
 
             //2即为protocol
-            strUtils::trimSpace(tmpVec[2]);
+            comutils::strUtils::trimSpace(tmpVec[2]);
             protocol = tmpVec[2];
             tmpHeaderCur += 2;
             tmpHeaderPre = tmpReqBody + bodyLen;
 
             //解析请求的header信息
-            if ((tmpHeaderPre = strstr(tmpHeaderCur, sepChar2)) == NULL){
+            if ((tmpHeaderPre = strstr(tmpHeaderCur, sepChar2)) == nullptr){
                 tmpHeaderPre = tmpReqBody + bodyLen;
             }
             tmpStr.clear();
             tmpVec.clear();
             tmpStr.append(tmpHeaderCur, tmpHeaderPre - tmpHeaderCur);
-            pcreUtils reg(sepChar1);
+            comutils::pcreUtils reg(sepChar1);
             reg.reg_split(tmpStr, tmpVec);
-            if (tmpVec.size() > 0){
+            if (!tmpVec.empty()){
                 for (vecStrIter = tmpVec.begin(); vecStrIter != tmpVec.end(); vecStrIter++){
                     pos = vecStrIter->find_first_of(":", 0);
                     if (pos == std::string::npos || pos == 0){
@@ -191,9 +191,9 @@ namespace haomo{
                     }
                     std::string k(*vecStrIter, 0, pos);
                     std::string v(*vecStrIter, pos + 1);
-                    strUtils::trimSpace(k);
-                    strUtils::trimSpace(v);
-                    strUtils::toLower(k);
+                    comutils::strUtils::trimSpace(k);
+                    comutils::strUtils::trimSpace(v);
+                    comutils::strUtils::toLower(k);
                     this->headers[k] = v;
                 }
             }
@@ -222,10 +222,10 @@ namespace haomo{
             this->getHeader("Content-Type", cntType);
             if (cntType.find_first_of(";", 0) != std::string::npos){
                 tmpVec.clear();
-                strUtils::strSplit(cntType, ';', tmpVec);
+                comutils::strUtils::strSplit(cntType, ';', tmpVec);
                 for (vecStrIter = tmpVec.begin(); vecStrIter != tmpVec.end(); vecStrIter++){
                     std::string tmpCntType = *vecStrIter;
-                    strUtils::trimSpace(tmpCntType);
+                    comutils::strUtils::trimSpace(tmpCntType);
                     if (tmpCntType.find_first_of("/", 0) != std::string::npos){
                         cntType = tmpCntType;
                     }
@@ -234,8 +234,8 @@ namespace haomo{
                     }
                 }
             }
-            strUtils::trimSpace(cntType);
-            strUtils::toLower(cntType);
+            comutils::strUtils::trimSpace(cntType);
+            comutils::strUtils::toLower(cntType);
             if (cntType == NORMAL_POST_CONTENT_TYPE){
                 this->parseArgs(rawBody);
                 free(rawBody);
@@ -266,7 +266,7 @@ namespace haomo{
             tmpBoundary.append("\r\n");
             size_t i, pos;
             //寻找分界符
-            while ((cur = strstr(tmpBuf, tmpBoundary.c_str())) != NULL){
+            while ((cur = strstr(tmpBuf, tmpBoundary.c_str())) != nullptr){
                 std::string fieldName, fieldValue, fileName, fileContentType;
                 cur += tmpBoundary.size();
                 std::string tmpPart;
@@ -278,31 +278,31 @@ namespace haomo{
                     }
                     tmpPart.append(tmpPtr++, 1);
                 }
-                strUtils::trimSpace(tmpPart);
+                comutils::strUtils::trimSpace(tmpPart);
                 //非法数据
-                if (tmpPart.size() == 0 || tmpPart.find("Content-Disposition") == std::string::npos){
+                if (tmpPart.empty() || tmpPart.find("Content-Disposition") == std::string::npos){
                     return;
                 }
                 std::vector <std::string> tmpVec;
-                strUtils::strSplit(tmpPart, ';', tmpVec);
-                if (tmpVec.size() == 0){
+                comutils::strUtils::strSplit(tmpPart, ';', tmpVec);
+                if (tmpVec.empty()){
                     return;
                 }
                 for (i = 0; i < tmpVec.size(); i++){
-                    strUtils::trimSpace(tmpVec[i]);
+                    comutils::strUtils::trimSpace(tmpVec[i]);
                     if (tmpVec[i].find("filename=") == 0){
                         fileName = tmpVec[i].substr(9);
-                        strUtils::trimChar(fileName, '"');
+                        comutils::strUtils::trimChar(fileName, '"');
                         continue;
                     }
                     if (tmpVec[i].find("name=") == 0){
                         fieldName = tmpVec[i].substr(5);
-                        strUtils::trimChar(fieldName, '"');
+                        comutils::strUtils::trimChar(fieldName, '"');
                         continue;
                     }
                 }
                 //字段
-                if (fileName.size() == 0){
+                if (fileName.empty()){
                     //跳过\r\n\r\n
                     tmpPtr += 4;
                     while (true){
@@ -327,7 +327,7 @@ namespace haomo{
                 }
                 if ((pos = tmpFileContentType.find(":")) != std::string::npos){
                     fileContentType = tmpFileContentType.substr(pos + 1);
-                    strUtils::trimSpace(fileContentType);
+                    comutils::strUtils::trimSpace(fileContentType);
                 }
                 //跳过\r\n\r\n
                 tmpPtr += 4;
@@ -357,7 +357,7 @@ namespace haomo{
 
                     }
                 }
-                if (next == NULL){
+                if (next == nullptr){
 //                    std::cout << "next is NULL" << std::endl;
                     return;
                 }
@@ -379,7 +379,7 @@ namespace haomo{
         void httpRequest::parseArgs(const std::string &str){
             std::vector <std::string> tmpArgVec;
             size_t pos = 0;
-            strUtils::strSplit(str, '&', tmpArgVec);
+            comutils::strUtils::strSplit(str, '&', tmpArgVec);
             std::vector< std::string >::const_iterator vecStrIter;
             for (vecStrIter = tmpArgVec.begin(); vecStrIter != tmpArgVec.end(); vecStrIter++){
                 pos = vecStrIter->find_first_of("=", 0);

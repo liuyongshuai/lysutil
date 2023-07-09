@@ -11,8 +11,8 @@
 #include<map>
 #include "str_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class runeUtils{
         public:
             //单个字符宽度

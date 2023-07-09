@@ -11,8 +11,8 @@
 #include<map>
 #include "str_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class sysUtils{
         public:
             //获取屏幕终端的宽高

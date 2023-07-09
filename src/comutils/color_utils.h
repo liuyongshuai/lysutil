@@ -11,8 +11,8 @@
 #include<map>
 #include "str_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class colorUtils{
         public:
             static void Green(const std::string &inStr, std::string &outStr, int blink = 0, int underline = 0);

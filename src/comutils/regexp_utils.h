@@ -12,8 +12,8 @@
 #include<regex>
 #include "str_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class regexpUtils{
         public:
             //找出所有的子串：成功返回0，失败返回负数

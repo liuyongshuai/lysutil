@@ -8,8 +8,8 @@
 #include "pcre_utils.h"
 
 #define TABLE_LEN(a) ( (sizeof(a)) / (sizeof(a[0])) )
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         int runeUtils::isRuneInTable(int32_t rune, runeInterval *table, size_t tableLen){
             if (rune < (*table).first){
                 return -1;

@@ -12,8 +12,8 @@
 #include<pcre.h>
 #include "str_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
         class pcreUtils{
         public:
             pcreUtils(const std::string &pattern){

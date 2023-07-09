@@ -15,8 +15,8 @@
 #include "rune_utils.h"
 #include "pcre_utils.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace comutils{
 
         class terminalTable{
         public:

@@ -8,8 +8,8 @@
 
 #define PCRE_OVECCOUNT 128
 
-namespace haomo {
-    namespace transtopic {
+namespace lysutil {
+    namespace comutils {
         //初始化操作
         void pcreUtils::init() {
             if (this->re != nullptr) {

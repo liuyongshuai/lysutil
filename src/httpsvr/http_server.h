@@ -11,8 +11,8 @@
 #include<map>
 #include "http_common.h"
 
-namespace haomo{
-    namespace transtopic{
+namespace lysutil{
+    namespace httpsvr{
         class httpServer{
 
         };
