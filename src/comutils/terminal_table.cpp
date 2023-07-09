@@ -116,7 +116,7 @@ namespace haomo{
 
         //添加表头数据
         void terminalTable::addHeadData(const std::vector <std::string> &headData){
-            if (headData.size() <= 0){
+            if (headData.empty()){
                 return;
             }
             std::vector< std::string >::const_iterator iter;
@@ -154,7 +154,7 @@ namespace haomo{
 
         //添加行数据
         void terminalTable::addRowData(const std::vector <std::string> &rowData){
-            if (rowData.size() <= 0){
+            if (rowData.empty()){
                 return;
             }
             std::vector< std::string >::const_iterator iter;
@@ -199,7 +199,7 @@ namespace haomo{
         void terminalTable::reProcessTableWidth(){
             //根据屏幕宽度计算表格的总宽度，留一些冗余宽度
             size_t screenWidth = 0;
-            sysUtils::getTerminalSize(&screenWidth, NULL);
+            sysUtils::getTerminalSize(&screenWidth, nullptr);
             allTableAllowWidth = screenWidth - maxColumnNum * 3 - 3;
 
             //初始化各列宽度
@@ -316,7 +316,7 @@ namespace haomo{
                 //所有的小格子折的行数要保持一致
                 if (subCells.size() < maxLineNum){
                     for (j = subCells.size(); j < maxLineNum; j++){
-                        subCells.push_back(" ");
+                        subCells.emplace_back(" ");
                     }
                 }
 
@@ -346,7 +346,7 @@ namespace haomo{
             //先补齐表头的数据
             if (rawheadData.size() > 0 && rawheadData.size() < maxColumnNum){
                 for (i = rawheadData.size(); i < maxColumnNum; i++){
-                    rawheadData.push_back(" ");
+                    rawheadData.emplace_back(" ");
                 }
             }
 
@@ -360,7 +360,7 @@ namespace haomo{
             }
 
             //如果有某小格子的内容特别特别的长的话，统一给各行折一下行
-            if (rawheadData.size() > 0){
+            if (!rawheadData.empty()){
                 tableRow headObj;
                 headObj.rowType = 0;
                 wrapTableRows(headObj, rawheadData);

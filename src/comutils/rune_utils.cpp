@@ -56,10 +56,10 @@ namespace haomo{
                 return;
             }
             char *lcType = getenv("LC_CTYPE");
-            if (lcType == NULL){
+            if (lcType == nullptr){
                 lcType = getenv("LANG");
             }
-            if (lcType == NULL){
+            if (lcType == nullptr){
                 isEastAsianLocale = -1;
                 return;
             }
@@ -78,7 +78,7 @@ namespace haomo{
             pcreUtils reg("^[a-z][a-z][a-z]?(?:_[A-Z][A-Z])?\\.(.+)");
             std::vector <std::vector< std::string >> matchAll;
             reg.reg_match_all(locale, matchAll);
-            if (matchAll.size() > 0){
+            if (!matchAll.empty()){
                 std::vector <std::string> matchs = matchAll[0];
                 if (matchs.size() == 2){
                     charset.clear();
