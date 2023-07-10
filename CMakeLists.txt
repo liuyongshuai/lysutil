@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
-project(lysutils)
-set(project_name "lysutils")
+project(lysutil)
+set(project_name "lysutil")
 
 ##============= 确定c++编译器 =============
 set(DEFAULT_CPP_COMPILER "/usr/local/gcc/bin/c++")

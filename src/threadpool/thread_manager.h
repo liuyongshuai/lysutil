@@ -1,23 +1,23 @@
 /*************************************************************************
- * File:	common.h
+ * File:	thread_manager.h
  * Author:	liuyongshuai<liuyongshuai@hotmail.com>
- * Time:	2023-07-06 16:49
+ * Time:	2023-07-10 19:08
  ************************************************************************/
-#ifndef _PFSM_LOGSIM_COMMON_H_202307061649_
-#define _PFSM_LOGSIM_COMMON_H_202307061649_
+#ifndef _LYSUTIL_THREAD_MANAGER_H_202307101908_
+#define _LYSUTIL_THREAD_MANAGER_H_202307101908_
 
-#include<chrono>
-#include<mutex>
 #include<string>
 #include<vector>
 #include<map>
-#include<memory>
-#include<thread>
-#include<errno.h>
+#include "thread_factory.h"
 
 namespace lysutil{
     namespace threadpool{
+        class ThreadManager{
 
+        };
     }
-}
-#endif //_PFSM_LOGSIM_COMMON_H_202307061649_
+} //namespace lysutil
+
+
+#endif //_LYSUTIL_THREAD_MANAGER_H_202307101908_
