@@ -48,7 +48,7 @@ namespace apache{
              *
              * @version $Id:$
              */
-            class Monitor : apache::thrift::TNonCopyable{
+            class Monitor : TNonCopyable{
             public:
                 /** Creates a new mutex, and takes ownership of it. */
                 Monitor();
