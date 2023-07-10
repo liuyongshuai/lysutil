@@ -60,7 +60,7 @@ namespace apache{
             };
 
 
-            class Guard : apache::thrift::TNonCopyable{
+            class Guard : TNonCopyable{
             public:
                 Guard(const Mutex &value, int64_t timeout = 0) : mutex_(&value){
                     if (timeout == 0){

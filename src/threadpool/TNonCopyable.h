@@ -26,18 +26,18 @@
  */
 namespace apache{
     namespace thrift{
+        namespace concurrency{
+            class TNonCopyable{
+            protected:
+                TNonCopyable() = default;
 
-        class TNonCopyable{
-        protected:
-            TNonCopyable() = default;
+                ~TNonCopyable() = default;
 
-            ~TNonCopyable() = default;
+                TNonCopyable(const TNonCopyable &) = delete;
 
-            TNonCopyable(const TNonCopyable &) = delete;
-
-            TNonCopyable &operator=(const TNonCopyable &) = delete;
-        };
-
+                TNonCopyable &operator=(const TNonCopyable &) = delete;
+            };
+        }
     }
 }
 
