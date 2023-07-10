@@ -24,7 +24,7 @@
 #include <errno.h>
 #include "threadpool/Exception.h"
 #include "threadpool/Mutex.h"
-#include "TNonCopyable.h"
+#include "threadpool/TNonCopyable.h"
 
 namespace apache{
     namespace thrift{
