@@ -83,8 +83,6 @@ set(SRC_SOURCE_LIST
         ${src_home}/threadpool/thread_dispatcher.cpp
         ${src_home}/threadpool/thread_factory.cpp
         ${src_home}/threadpool/thread_manager.cpp
-        ${src_home}/threadpool/thread_task.cpp
-        ${src_home}/threadpool/thread_worker.cpp
         ${src_home}/threadpool/timed_mutex.cpp
         ${src_home}/threadpool/timer_manager.cpp
         )
