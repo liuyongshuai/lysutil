@@ -21,6 +21,7 @@
 #define _THRIFT_CONCURRENCY_MONITOR_H_ 1
 
 #include <chrono>
+#include <errno.h>
 #include <threadpool/Exception.h>
 #include <threadpool/Mutex.h>
 #include "TNonCopyable.h"
@@ -71,7 +72,7 @@ namespace apache{
                  * Waits a maximum of the specified timeout in milliseconds for the condition
                  * to occur, or waits forever if timeout is zero.
                  *
-                 * Returns 0 if condition occurs, THRIFT_ETIMEDOUT on timeout, or an error code.
+                 * Returns 0 if condition occurs, ETIMEDOUT on timeout, or an error code.
                  */
                 int waitForTimeRelative(const std::chrono::milliseconds &timeout) const;
 
@@ -79,7 +80,7 @@ namespace apache{
 
                 /**
                  * Waits until the absolute time specified by abstime.
-                 * Returns 0 if condition occurs, THRIFT_ETIMEDOUT on timeout, or an error code.
+                 * Returns 0 if condition occurs, ETIMEDOUT on timeout, or an error code.
                  */
                 int waitForTime(const std::chrono::time_point <std::chrono::steady_clock> &abstime) const;
 

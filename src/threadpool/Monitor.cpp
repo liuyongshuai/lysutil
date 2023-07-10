@@ -62,7 +62,7 @@ namespace apache{
                  */
                 void wait(const std::chrono::milliseconds &timeout){
                     int result = waitForTimeRelative(timeout);
-                    if (result == THRIFT_ETIMEDOUT){
+                    if (result == ETIMEDOUT){
                         throw TimedOutException();
                     }
                     else if (result != 0){
@@ -74,7 +74,7 @@ namespace apache{
                  * Waits until the specified timeout in milliseconds for the condition to
                  * occur, or waits forever if timeout is zero.
                  *
-                 * Returns 0 if condition occurs, THRIFT_ETIMEDOUT on timeout, or an error code.
+                 * Returns 0 if condition occurs, ETIMEDOUT on timeout, or an error code.
                  */
                 int waitForTimeRelative(const std::chrono::milliseconds &timeout){
                     if (timeout.count() == 0){
@@ -89,12 +89,12 @@ namespace apache{
                     bool timedout = (conditionVariable_.wait_for(lock, timeout)
                                      == std::cv_status::timeout);
                     lock.release();
-                    return (timedout ? THRIFT_ETIMEDOUT : 0);
+                    return (timedout ? ETIMEDOUT : 0);
                 }
 
                 /**
                  * Waits until the absolute time specified by abstime.
-                 * Returns 0 if condition occurs, THRIFT_ETIMEDOUT on timeout, or an error code.
+                 * Returns 0 if condition occurs, ETIMEDOUT on timeout, or an error code.
                  */
                 int waitForTime(const std::chrono::time_point <std::chrono::steady_clock> &abstime){
                     assert(mutex_);
@@ -105,7 +105,7 @@ namespace apache{
                     bool timedout = (conditionVariable_.wait_until(lock, abstime)
                                      == std::cv_status::timeout);
                     lock.release();
-                    return (timedout ? THRIFT_ETIMEDOUT : 0);
+                    return (timedout ? ETIMEDOUT : 0);
                 }
 
                 /**
