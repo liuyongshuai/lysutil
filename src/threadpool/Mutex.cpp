@@ -17,8 +17,7 @@
  * under the License.
  */
 
-#include <threadpool/Mutex.h>
-
+#include "threadpool/Mutex.h"
 #include <chrono>
 #include <mutex>
 

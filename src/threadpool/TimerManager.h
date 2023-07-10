@@ -20,9 +20,8 @@
 #ifndef _THRIFT_CONCURRENCY_TIMERMANAGER_H_
 #define _THRIFT_CONCURRENCY_TIMERMANAGER_H_ 1
 
-#include <threadpool/Monitor.h>
-#include <threadpool/ThreadFactory.h>
-
+#include "threadpool/Monitor.h"
+#include "threadpool/ThreadFactory.h"
 #include <memory>
 #include <map>
 
@@ -136,9 +135,7 @@ namespace apache{
 
                 std::shared_ptr< Dispatcher > dispatcher_;
                 std::shared_ptr< Thread > dispatcherThread_;
-                using task_iterator =
-                        decltype(taskMap_)
-                        ::iterator;
+                using task_iterator = decltype(taskMap_)::iterator;
                 typedef std::pair< task_iterator, task_iterator > task_range;
             };
         }

@@ -17,9 +17,8 @@
  * under the License.
  */
 
-#include <threadpool/TimerManager.h>
-#include <threadpool/Exception.h>
-
+#include "threadpool/TimerManager.h"
+#include "threadpool/Exception.h"
 #include <assert.h>
 #include <iostream>
 #include <memory>

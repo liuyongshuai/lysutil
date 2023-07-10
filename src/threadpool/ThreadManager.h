@@ -22,7 +22,7 @@
 
 #include <functional>
 #include <memory>
-#include <threadpool/ThreadFactory.h>
+#include "threadpool/ThreadFactory.h"
 
 namespace apache{
     namespace thrift{
@@ -58,7 +58,7 @@ namespace apache{
                 ThreadManager() = default;
 
             public:
-                typedef std::function< void(std::shared_ptr < Runnable > ) > ExpireCallback;
+                typedef std::function< void(std::shared_ptr< Runnable >) > ExpireCallback;
 
                 virtual ~ThreadManager() = default;
 
@@ -89,14 +89,14 @@ namespace apache{
                 /**
                  * \returns the current thread factory
                  */
-                virtual std::shared_ptr <ThreadFactory> threadFactory() const = 0;
+                virtual std::shared_ptr< ThreadFactory > threadFactory() const = 0;
 
                 /**
                  * Set the thread factory.
                  * \throws InvalidArgumentException if the new thread factory has a different
                  *                                  detached disposition than the one replacing it
                  */
-                virtual void threadFactory(std::shared_ptr <ThreadFactory> value) = 0;
+                virtual void threadFactory(std::shared_ptr< ThreadFactory > value) = 0;
 
                 /**
                  * Adds worker thread(s).
@@ -163,21 +163,21 @@ namespace apache{
                  *
                  * @throws TooManyPendingTasksException Pending task count exceeds max pending task count
                  */
-                virtual void add(std::shared_ptr <Runnable> task,
+                virtual void add(std::shared_ptr< Runnable > task,
                                  int64_t timeout = 0LL,
                                  int64_t expiration = 0LL) = 0;
 
                 /**
                  * Removes a pending task
                  */
-                virtual void remove(std::shared_ptr <Runnable> task) = 0;
+                virtual void remove(std::shared_ptr< Runnable > task) = 0;
 
                 /**
                  * Remove the next pending task which would be run.
                  *
                  * @return the task removed.
                  */
-                virtual std::shared_ptr <Runnable> removeNextPending() = 0;
+                virtual std::shared_ptr< Runnable > removeNextPending() = 0;
 
                 /**
                  * Remove tasks from front of task queue that have expired.
@@ -192,15 +192,14 @@ namespace apache{
                  */
                 virtual void setExpireCallback(ExpireCallback expireCallback) = 0;
 
-                static std::shared_ptr <ThreadManager> newThreadManager();
+                static std::shared_ptr< ThreadManager > newThreadManager();
 
                 /**
                  * Creates a simple thread manager the uses count number of worker threads and has
                  * a pendingTaskCountMax maximum pending tasks. The default, 0, specified no limit
                  * on pending tasks
                  */
-                static std::shared_ptr <ThreadManager> newSimpleThreadManager(size_t count = 4,
-                                                                              size_t pendingTaskCountMax = 0);
+                static std::shared_ptr< ThreadManager > newSimpleThreadManager(size_t count = 4, size_t pendingTaskCountMax = 0);
 
                 class Task;
 

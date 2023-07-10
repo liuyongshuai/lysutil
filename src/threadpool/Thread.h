@@ -22,8 +22,7 @@
 
 #include <memory>
 #include <thread>
-
-#include <threadpool/Monitor.h>
+#include "threadpool/Monitor.h"
 
 namespace apache{
     namespace thrift{

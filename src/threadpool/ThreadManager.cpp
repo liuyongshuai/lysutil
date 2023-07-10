@@ -19,13 +19,11 @@
 
 #include <map>
 
-#include <threadpool/ThreadManager.h>
-#include <threadpool/Exception.h>
-#include <threadpool/Monitor.h>
+#include "threadpool/ThreadManager.h"
+#include "threadpool/Exception.h"
+#include "threadpool/Monitor.h"
 #include <iostream>
 #include <memory>
-
-#include <stdexcept>
 #include <deque>
 #include <set>
 

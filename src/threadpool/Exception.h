@@ -29,17 +29,9 @@ namespace apache{
             class TException : public std::exception{
             public:
                 TException() : message_(){}
-
                 TException(const std::string &message) : message_(message){}
-
-                virtual ~TException()
-
-                noexcept override =
-                default;
-
-                const char *what() const
-
-                noexcept override{
+                virtual ~TException() noexcept override = default;
+                const char *what() const noexcept override{
                     if (message_.empty()){
                         return "Default TException.";
                     }
@@ -64,28 +56,24 @@ namespace apache{
             class IllegalStateException : public TException{
             public:
                 IllegalStateException() = default;
-
                 IllegalStateException(const std::string &message) : TException(message){}
             };
 
             class TimedOutException : public TException{
             public:
                 TimedOutException() : TException("TimedOutException"){};
-
                 TimedOutException(const std::string &message) : TException(message){}
             };
 
             class TooManyPendingTasksException : public TException{
             public:
                 TooManyPendingTasksException() : TException("TooManyPendingTasksException"){};
-
                 TooManyPendingTasksException(const std::string &message) : TException(message){}
             };
 
             class SystemResourceException : public TException{
             public:
                 SystemResourceException() = default;
-
                 SystemResourceException(const std::string &message) : TException(message){}
             };
         }
