@@ -17,26 +17,22 @@
  * under the License.
  */
 
-#ifndef TNONCOPYABLE_H
-#define TNONCOPYABLE_H
+#include <threadpool/ThreadFactory.h>
+#include <memory>
 
-/**
- * @brief A simple non-copyable base class pattern. Derive from TNonCopyable to
- * make a class non-copyable and prohibit assignment and copy-construction.
- */
-namespace apache {
-namespace thrift {
+namespace apache{
+    namespace thrift{
+        namespace concurrency{
 
-class TNonCopyable {
-protected:
-  TNonCopyable() = default;
-  ~TNonCopyable() = default;
+            std::shared_ptr <Thread> ThreadFactory::newThread(std::shared_ptr <Runnable> runnable) const{
+                std::shared_ptr <Thread> result = std::make_shared< Thread >(isDetached(), runnable);
+                runnable->thread(result);
+                return result;
+            }
 
-  TNonCopyable(const TNonCopyable&) = delete;
-  TNonCopyable& operator=(const TNonCopyable&) = delete;
-};
-
-}
-}
-
-#endif
+            Thread::id_t ThreadFactory::getCurrentThreadId() const{
+                return std::this_thread::get_id();
+            }
+        }
+    }
+} // apache::thrift::concurrency

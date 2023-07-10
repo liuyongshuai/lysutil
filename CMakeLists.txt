@@ -77,14 +77,12 @@ set(SRC_SOURCE_LIST
         ${src_home}/httpsvr/http_server.cpp
 
         #threadpool
-        ${src_home}/threadpool/monitor.cpp
-        ${src_home}/threadpool/simple_thread_manager.cpp
-        ${src_home}/threadpool/thread.cpp
-        ${src_home}/threadpool/thread_dispatcher.cpp
-        ${src_home}/threadpool/thread_factory.cpp
-        ${src_home}/threadpool/thread_manager.cpp
-        ${src_home}/threadpool/timed_mutex.cpp
-        ${src_home}/threadpool/timer_manager.cpp
+        ${src_home}/threadpool/Monitor.cpp
+        ${src_home}/threadpool/Mutex.cpp
+        ${src_home}/threadpool/Thread.cpp
+        ${src_home}/threadpool/ThreadFactory.cpp
+        ${src_home}/threadpool/ThreadManager.cpp
+        ${src_home}/threadpool/TimerManager.cpp
         )
 
 add_executable(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST})
