@@ -11,7 +11,7 @@
 #include<map>
 #include<errno.h>
 #include "non_copyable.h"
-#include "timedmutex.h"
+#include "timed_mutex.h"
 #include "exception.h"
 
 namespace lysutil{
