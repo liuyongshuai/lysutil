@@ -17,8 +17,8 @@
  * under the License.
  */
 
-#include "threadpool/ThreadFactory.h"
 #include <memory>
+#include "threadpool/ThreadFactory.h"
 
 namespace apache{
     namespace thrift{

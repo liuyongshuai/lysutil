@@ -17,12 +17,13 @@
  * under the License.
  */
 
-#include "threadpool/TimerManager.h"
-#include "threadpool/Exception.h"
 #include <assert.h>
 #include <iostream>
 #include <memory>
 #include <set>
+#include "threadpool/TimerManager.h"
+#include "threadpool/Exception.h"
+
 
 namespace apache{
     namespace thrift{

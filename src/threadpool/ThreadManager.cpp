@@ -18,14 +18,13 @@
  */
 
 #include <map>
-
-#include "threadpool/ThreadManager.h"
-#include "threadpool/Exception.h"
-#include "threadpool/Monitor.h"
 #include <iostream>
 #include <memory>
 #include <deque>
 #include <set>
+#include "threadpool/ThreadManager.h"
+#include "threadpool/Exception.h"
+#include "threadpool/Monitor.h"
 
 namespace apache{
     namespace thrift{

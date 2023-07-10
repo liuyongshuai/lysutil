@@ -20,8 +20,8 @@
 #ifndef _THRIFT_CONCURRENCY_THREADFACTORY_H_
 #define _THRIFT_CONCURRENCY_THREADFACTORY_H_ 1
 
-#include "threadpool/Thread.h"
 #include <memory>
+#include "threadpool/Thread.h"
 
 namespace apache{
     namespace thrift{

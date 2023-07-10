@@ -18,13 +18,14 @@
  */
 
 
-#include "threadpool/Monitor.h"
-#include "threadpool/Exception.h"
 #include <assert.h>
 #include <condition_variable>
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include "threadpool/Monitor.h"
+#include "threadpool/Exception.h"
+
 
 namespace apache{
     namespace thrift{

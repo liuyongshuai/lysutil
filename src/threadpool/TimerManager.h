@@ -20,10 +20,10 @@
 #ifndef _THRIFT_CONCURRENCY_TIMERMANAGER_H_
 #define _THRIFT_CONCURRENCY_TIMERMANAGER_H_ 1
 
-#include "threadpool/Monitor.h"
-#include "threadpool/ThreadFactory.h"
 #include <memory>
 #include <map>
+#include "threadpool/Monitor.h"
+#include "threadpool/ThreadFactory.h"
 
 namespace apache{
     namespace thrift{
