@@ -17,8 +17,6 @@ namespace lysutil{
         public:
             TimedMutex();
 
-            ~TimedMutex() = default;
-
             void lock() const;
 
             bool trylock() const;
@@ -31,9 +29,7 @@ namespace lysutil{
 
         private:
             TimedMutex(const TimedMutex &) = delete;
-
             TimedMutex &operator=(const TimedMutex &) = delete;
-
             std::shared_ptr< std::timed_mutex > mutex_;
         };
     }

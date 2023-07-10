@@ -49,28 +49,24 @@ namespace lysutil{
         class IllegalStateException : public TException{
         public:
             IllegalStateException() = default;
-
             IllegalStateException(const std::string &message) : TException(message){}
         };
 
         class TimedOutException : public TException{
         public:
             TimedOutException() : TException("TimedOutException"){};
-
             TimedOutException(const std::string &message) : TException(message){}
         };
 
         class TooManyPendingTasksException : public TException{
         public:
             TooManyPendingTasksException() : TException("TooManyPendingTasksException"){};
-
             TooManyPendingTasksException(const std::string &message) : TException(message){}
         };
 
         class SystemResourceException : public TException{
         public:
             SystemResourceException() = default;
-
             SystemResourceException(const std::string &message) : TException(message){}
         };
     }

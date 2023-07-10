@@ -42,7 +42,7 @@ namespace lysutil{
                 this->_runnable = runnable;
             }
 
-            virtual ~Thread(){
+            ~Thread(){
                 if (!this->detached_ && this->thread_->joinable()){
                     try{
                         this->join();
@@ -72,7 +72,7 @@ namespace lysutil{
             /**
              * 开始运行线程
              */
-            virtual void start(){
+            void start(){
                 if (getState() != UNINITIALIZED){
                     return;
                 }
@@ -93,7 +93,7 @@ namespace lysutil{
             /**
              * 等待线程运行完
              */
-            virtual void join(){
+            void join(){
                 if (!this->detached_ && this->state_ != UNINITIALIZED){
                     this->thread_->join();
                 }
