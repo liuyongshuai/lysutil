@@ -75,6 +75,18 @@ set(SRC_SOURCE_LIST
         ${src_home}/httpsvr/http_response.cpp
         ${src_home}/httpsvr/http_router.cpp
         ${src_home}/httpsvr/http_server.cpp
+
+        #threadpool
+        ${src_home}/threadpool/monitor.cpp
+        ${src_home}/threadpool/simple_thread_manager.cpp
+        ${src_home}/threadpool/thread.cpp
+        ${src_home}/threadpool/thread_dispatcher.cpp
+        ${src_home}/threadpool/thread_factory.cpp
+        ${src_home}/threadpool/thread_manager.cpp
+        ${src_home}/threadpool/thread_task.cpp
+        ${src_home}/threadpool/thread_worker.cpp
+        ${src_home}/threadpool/timed_mutex.cpp
+        ${src_home}/threadpool/timer_manager.cpp
         )
 
 add_executable(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST})
