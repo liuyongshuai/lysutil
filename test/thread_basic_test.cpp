@@ -34,16 +34,15 @@ private:
 };
 
 int main(int argc, char *argv[]){
-    std::shared_ptr< apache::thrift::concurrency::ThreadManager > threadManager = apache::thrift::concurrency::ThreadManager::newSimpleThreadManager(30, 4);
+    std::shared_ptr< apache::thrift::concurrency::ThreadManager > threadManager = apache::thrift::concurrency::ThreadManager::newSimpleThreadManager(10, 4);
     std::shared_ptr< apache::thrift::concurrency::ThreadFactory > threadFactory = std::make_shared< apache::thrift::concurrency::ThreadFactory >();
     threadManager->threadFactory(threadFactory);
     threadManager->start();
-    for (int i = 1; i < 10; i++){
+    for (int i = 1; i < 30; i++){
         std::cout << threadManager->state() << std::endl;
         std::shared_ptr< apache::thrift::concurrency::Runnable > task = std::shared_ptr< apache::thrift::concurrency::Runnable >(new printCounter(i));
         threadManager->add(task);
     }
-    sleep(30);
     threadManager->stop();
     return 0;
 }
