@@ -38,11 +38,10 @@ int main(int argc, char *argv[]){
     std::shared_ptr< apache::thrift::concurrency::ThreadFactory > threadFactory = std::make_shared< apache::thrift::concurrency::ThreadFactory >();
     threadManager->threadFactory(threadFactory);
 
-    threadManager->start();
+    //threadManager->start();
     for (int i = 1; i < 10; i++){
         std::cout << threadManager->state() << std::endl;
         std::shared_ptr< apache::thrift::concurrency::Runnable > task = std::shared_ptr< apache::thrift::concurrency::Runnable >(new printCounter(i));
-        task->run();
         threadManager->add(task);
     }
     sleep(10);
