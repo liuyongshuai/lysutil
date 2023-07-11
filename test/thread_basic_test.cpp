@@ -39,5 +39,7 @@ int main(int argc, char *argv[]){
         std::shared_ptr< apache::thrift::concurrency::Runnable > task = std::shared_ptr< apache::thrift::concurrency::Runnable >(new printCounter(i));
         threadManager->add(task);
     }
+    sleep(10);
+    threadManager->stop();
     return 0;
 }
