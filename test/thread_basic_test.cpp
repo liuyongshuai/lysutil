@@ -9,6 +9,7 @@
 #include<stdio.h>
 #include<stdint.h>
 #include<iostream>
+#include <memory>
 #include "thriftconcurrency/ThreadManager.h"
 #include "thriftconcurrency/Exception.h"
 #include "thriftconcurrency/Monitor.h"
@@ -32,8 +33,9 @@ private:
 
 int main(int argc, char *argv[]){
     std::shared_ptr< apache::thrift::concurrency::ThreadManager > threadManager = apache::thrift::concurrency::ThreadManager::newSimpleThreadManager(30, 4);
-    std::shared_ptr< apache::thrift::concurrency::ThreadFactory > threadFactory = std::shared_ptr< apache::thrift::concurrency::ThreadFactory >(new apache::thrift::concurrency::ThreadFactory());
+    std::shared_ptr< apache::thrift::concurrency::ThreadFactory > threadFactory = std::make_shared< apache::thrift::concurrency::ThreadFactory >();
     threadManager->threadFactory(threadFactory);
+    threadManager->addWorker(1);
     threadManager->start();
     for (int i = 1; i < 10; i++){
         std::shared_ptr< apache::thrift::concurrency::Runnable > task = std::shared_ptr< apache::thrift::concurrency::Runnable >(new printCounter(i));
