@@ -19,12 +19,14 @@ public:
     printCounter(int cnt) : cnt_(cnt){}
 
     ~printCounter() override{
-        std::cout << "[DESTORY]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
+        std::cout << "[DESTORY]cnt=" << this->cnt_ << std::endl;
+        //std::cout << "[DESTORY]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
     }
 
     void run() override{
         sleep(1);
-        std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
+        std::cout << "[RUN]cnt=" << this->cnt_ << std::endl;
+        //std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
     }
 
 private:
