@@ -163,9 +163,7 @@ namespace apache{
                  *
                  * @throws TooManyPendingTasksException Pending task count exceeds max pending task count
                  */
-                virtual void add(std::shared_ptr< Runnable > task,
-                                 int64_t timeout = 0LL,
-                                 int64_t expiration = 0LL) = 0;
+                virtual void add(std::shared_ptr< Runnable > task, int64_t timeout = 0LL, int64_t expiration = 0LL) = 0;
 
                 /**
                  * Removes a pending task

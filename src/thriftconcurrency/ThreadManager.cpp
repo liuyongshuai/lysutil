@@ -179,8 +179,7 @@ namespace apache{
                 };
 
                 Task(std::shared_ptr< Runnable > runnable, uint64_t expiration = 0ULL)
-                        : runnable_(runnable),
-                          state_(WAITING){
+                        : runnable_(runnable), state_(WAITING){
                     if (expiration != 0ULL){
                         expireTime_.reset(new std::chrono::steady_clock::time_point(std::chrono::steady_clock::now() + std::chrono::milliseconds(expiration)));
                     }
