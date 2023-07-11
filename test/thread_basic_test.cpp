@@ -9,17 +9,19 @@
 #include<stdio.h>
 #include<stdint.h>
 #include<iostream>
-#include "thriftconcurrency/threadManager.h"
+#include "thriftconcurrency/ThreadManager.h"
+#include "thriftconcurrency/Exception.h"
+#include "thriftconcurrency/Monitor.h"
 
 class printCounter : public apache::thrift::concurrency::Runnable{
 public:
     printCounter(int cnt) : cnt_(cnt){}
 
-    ~printCounter(){
+    ~printCounter() override{
         std::cout << "[DESTORY]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
     }
 
-    void run(){
+    void run() override{
         sleep(1);
         std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
     }
