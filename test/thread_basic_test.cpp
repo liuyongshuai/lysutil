@@ -23,15 +23,9 @@ public:
     }
 
     void run() override{
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 20; i++){
             sleep(1);
-            std::cout << "[RUN]cnt=" << this->cnt_ << std::endl;
-            if (this->thread().use_count() == 0){
-                std::cout << "[RUN]thread().use_count()==0" << std::endl;
-            }
-            else{
-                std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
-            }
+            std::cout << "[RUN]cnt=" << this->cnt_ << "\ti=" << i << std::endl;
         }
     }
 
