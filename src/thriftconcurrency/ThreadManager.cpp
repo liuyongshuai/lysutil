@@ -22,9 +22,9 @@
 #include <memory>
 #include <deque>
 #include <set>
-#include "threadpool/ThreadManager.h"
-#include "threadpool/Exception.h"
-#include "threadpool/Monitor.h"
+#include "thriftconcurrency/ThreadManager.h"
+#include "thriftconcurrency/Exception.h"
+#include "thriftconcurrency/Monitor.h"
 
 namespace apache{
     namespace thrift{

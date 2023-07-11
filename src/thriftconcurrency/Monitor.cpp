@@ -23,8 +23,8 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
-#include "threadpool/Monitor.h"
-#include "threadpool/Exception.h"
+#include "thriftconcurrency/Monitor.h"
+#include "thriftconcurrency/Exception.h"
 
 
 namespace apache{

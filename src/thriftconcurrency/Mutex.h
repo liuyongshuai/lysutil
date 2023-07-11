@@ -21,7 +21,7 @@
 #define _THRIFT_CONCURRENCY_MUTEX_H_ 1
 
 #include <memory>
-#include "threadpool/TNonCopyable.h"
+#include "thriftconcurrency/TNonCopyable.h"
 
 namespace apache{
     namespace thrift{

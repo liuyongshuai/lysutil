@@ -21,8 +21,8 @@
 #include <iostream>
 #include <memory>
 #include <set>
-#include "threadpool/TimerManager.h"
-#include "threadpool/Exception.h"
+#include "thriftconcurrency/TimerManager.h"
+#include "thriftconcurrency/Exception.h"
 
 
 namespace apache{

@@ -22,9 +22,9 @@
 
 #include <chrono>
 #include <errno.h>
-#include "threadpool/Exception.h"
-#include "threadpool/Mutex.h"
-#include "threadpool/TNonCopyable.h"
+#include "thriftconcurrency/Exception.h"
+#include "thriftconcurrency/Mutex.h"
+#include "thriftconcurrency/TNonCopyable.h"
 
 namespace apache{
     namespace thrift{

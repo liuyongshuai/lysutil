@@ -21,7 +21,7 @@
 #define _THRIFT_CONCURRENCY_THREADFACTORY_H_ 1
 
 #include <memory>
-#include "threadpool/Thread.h"
+#include "thriftconcurrency/Thread.h"
 
 namespace apache{
     namespace thrift{

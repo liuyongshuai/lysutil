@@ -76,13 +76,13 @@ set(SRC_SOURCE_LIST
         ${src_home}/httpsvr/http_router.cpp
         ${src_home}/httpsvr/http_server.cpp
 
-        #threadpool
-        ${src_home}/threadpool/Monitor.cpp
-        ${src_home}/threadpool/Mutex.cpp
-        ${src_home}/threadpool/Thread.cpp
-        ${src_home}/threadpool/ThreadFactory.cpp
-        ${src_home}/threadpool/ThreadManager.cpp
-        ${src_home}/threadpool/TimerManager.cpp
+        #thriftconcurrency
+        ${src_home}/thriftconcurrency/Monitor.cpp
+        ${src_home}/thriftconcurrency/Mutex.cpp
+        ${src_home}/thriftconcurrency/Thread.cpp
+        ${src_home}/thriftconcurrency/ThreadFactory.cpp
+        ${src_home}/thriftconcurrency/ThreadManager.cpp
+        ${src_home}/thriftconcurrency/TimerManager.cpp
         )
 
 add_executable(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST})

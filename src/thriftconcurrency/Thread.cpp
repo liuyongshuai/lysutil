@@ -17,45 +17,18 @@
  * under the License.
  */
 
-#include <chrono>
-#include <mutex>
-#include "threadpool/Mutex.h"
+#include "thriftconcurrency/Thread.h"
 
 namespace apache{
     namespace thrift{
         namespace concurrency{
 
-            /**
-             * Implementation of Mutex class using C++11 std::timed_mutex
-             *
-             * Methods throw std::system_error on error.
-             *
-             * @version $Id:$
-             */
-            class Mutex::impl : public std::timed_mutex{
-            };
-
-            Mutex::Mutex() : impl_(new Mutex::impl()){
-            }
-
-            void *Mutex::getUnderlyingImpl() const{
-                return impl_.get();
-            }
-
-            void Mutex::lock() const{
-                impl_->lock();
-            }
-
-            bool Mutex::trylock() const{
-                return impl_->try_lock();
-            }
-
-            bool Mutex::timedlock(int64_t ms) const{
-                return impl_->try_lock_for(std::chrono::milliseconds(ms));
-            }
-
-            void Mutex::unlock() const{
-                impl_->unlock();
+            void Thread::threadMain(std::shared_ptr <Thread> thread){
+                thread->setState(started);
+                thread->runnable()->run();
+                if (thread->getState() != stopping && thread->getState() != stopped){
+                    thread->setState(stopping);
+                }
             }
 
         }

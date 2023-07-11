@@ -22,8 +22,8 @@
 
 #include <memory>
 #include <map>
-#include "threadpool/Monitor.h"
-#include "threadpool/ThreadFactory.h"
+#include "thriftconcurrency/Monitor.h"
+#include "thriftconcurrency/ThreadFactory.h"
 
 namespace apache{
     namespace thrift{
