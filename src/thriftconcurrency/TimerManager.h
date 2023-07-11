@@ -74,7 +74,9 @@ namespace apache{
                  */
                 virtual Timer add(std::shared_ptr< Runnable > task, const std::chrono::milliseconds &timeout);
 
-                Timer add(std::shared_ptr< Runnable > task, uint64_t timeout){ return add(task, std::chrono::milliseconds(timeout)); }
+                Timer add(std::shared_ptr< Runnable > task, uint64_t timeout){
+                    return this->add(task, std::chrono::milliseconds(timeout));
+                }
 
                 /**
                  * Adds a task to be executed at some time in the future by a worker thread.

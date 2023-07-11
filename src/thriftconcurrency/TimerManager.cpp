@@ -29,9 +29,6 @@ namespace apache{
     namespace thrift{
         namespace concurrency{
 
-            using std::shared_ptr;
-            using std::weak_ptr;
-
             /**
              * TimerManager class
              *
@@ -44,7 +41,7 @@ namespace apache{
                     WAITING, EXECUTING, CANCELLED, COMPLETE
                 };
 
-                Task(shared_ptr <Runnable> runnable) : runnable_(runnable), state_(WAITING){}
+                Task(std::shared_ptr< Runnable > runnable) : runnable_(runnable), state_(WAITING){}
 
                 ~Task() override = default;
 
@@ -55,12 +52,12 @@ namespace apache{
                     }
                 }
 
-                bool operator==(const shared_ptr <Runnable> &runnable) const{ return runnable_ == runnable; }
+                bool operator==(const std::shared_ptr< Runnable > &runnable) const{ return runnable_ == runnable; }
 
                 task_iterator it_;
 
             private:
-                shared_ptr <Runnable> runnable_;
+                std::shared_ptr< Runnable > runnable_;
 
                 friend class TimerManager::Dispatcher;
 
@@ -90,14 +87,12 @@ namespace apache{
                     }
 
                     do{
-                        std::set <shared_ptr< TimerManager::Task >> expiredTasks;
+                        std::set< std::shared_ptr< TimerManager::Task >> expiredTasks;
                         {
                             Synchronized s(manager_->monitor_);
                             task_iterator expiredTaskEnd;
                             auto now = std::chrono::steady_clock::now();
-                            while (manager_->state_ == TimerManager::STARTED
-                                   && (expiredTaskEnd = manager_->taskMap_.upper_bound(now))
-                                      == manager_->taskMap_.begin()){
+                            while (manager_->state_ == TimerManager::STARTED && (expiredTaskEnd = manager_->taskMap_.upper_bound(now)) == manager_->taskMap_.begin()){
                                 std::chrono::milliseconds timeout(0);
                                 if (!manager_->taskMap_.empty()){
                                     timeout = std::chrono::duration_cast< std::chrono::milliseconds >(manager_->taskMap_.begin()->first - now);
@@ -115,7 +110,7 @@ namespace apache{
 
                             if (manager_->state_ == TimerManager::STARTED){
                                 for (auto ix = manager_->taskMap_.begin(); ix != expiredTaskEnd; ix++){
-                                    shared_ptr <TimerManager::Task> task = ix->second;
+                                    std::shared_ptr< TimerManager::Task > task = ix->second;
                                     expiredTasks.insert(task);
                                     task->it_ = manager_->taskMap_.end();
                                     if (task->state_ == TimerManager::Task::WAITING){
@@ -224,12 +219,12 @@ namespace apache{
                 }
             }
 
-            shared_ptr< const ThreadFactory > TimerManager::threadFactory() const{
+            std::shared_ptr< const ThreadFactory > TimerManager::threadFactory() const{
                 Synchronized s(monitor_);
                 return threadFactory_;
             }
 
-            void TimerManager::threadFactory(shared_ptr< const ThreadFactory > value){
+            void TimerManager::threadFactory(std::shared_ptr< const ThreadFactory > value){
                 Synchronized s(monitor_);
                 threadFactory_ = value;
             }
@@ -238,12 +233,11 @@ namespace apache{
                 return taskCount_;
             }
 
-            TimerManager::Timer TimerManager::add(shared_ptr <Runnable> task, const std::chrono::milliseconds &timeout){
+            TimerManager::Timer TimerManager::add(std::shared_ptr< Runnable > task, const std::chrono::milliseconds &timeout){
                 return add(task, std::chrono::steady_clock::now() + timeout);
             }
 
-            TimerManager::Timer TimerManager::add(shared_ptr <Runnable> task,
-                                                  const std::chrono::time_point <std::chrono::steady_clock> &abstime){
+            TimerManager::Timer TimerManager::add(std::shared_ptr< Runnable > task, const std::chrono::time_point< std::chrono::steady_clock > &abstime){
                 auto now = std::chrono::steady_clock::now();
 
                 if (abstime < now){
@@ -259,7 +253,7 @@ namespace apache{
                 // because the new task might insert at the front.
                 bool notifyRequired = (taskCount_ == 0) ? true : abstime < taskMap_.begin()->first;
 
-                shared_ptr <Task> timer(new Task(task));
+                std::shared_ptr< Task > timer(new Task(task));
                 taskCount_++;
                 timer->it_ = taskMap_.emplace(abstime, timer);
 
@@ -273,7 +267,7 @@ namespace apache{
                 return timer;
             }
 
-            void TimerManager::remove(shared_ptr <Runnable> task){
+            void TimerManager::remove(std::shared_ptr< Runnable > task){
                 Synchronized s(monitor_);
                 if (state_ != TimerManager::STARTED){
                     throw IllegalStateException();
@@ -300,7 +294,7 @@ namespace apache{
                     throw IllegalStateException();
                 }
 
-                shared_ptr <Task> task = handle.lock();
+                std::shared_ptr< Task > task = handle.lock();
                 if (!task){
                     throw NoSuchTaskException();
                 }

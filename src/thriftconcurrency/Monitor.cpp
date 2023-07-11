@@ -85,9 +85,8 @@ namespace apache{
                     auto *mutexImpl = static_cast<std::timed_mutex *>(mutex_->getUnderlyingImpl());
                     assert(mutexImpl);
 
-                    std::unique_lock <std::timed_mutex> lock(*mutexImpl, std::adopt_lock);
-                    bool timedout = (conditionVariable_.wait_for(lock, timeout)
-                                     == std::cv_status::timeout);
+                    std::unique_lock< std::timed_mutex > lock(*mutexImpl, std::adopt_lock);
+                    bool timedout = (conditionVariable_.wait_for(lock, timeout) == std::cv_status::timeout);
                     lock.release();
                     return (timedout ? ETIMEDOUT : 0);
                 }
@@ -96,14 +95,13 @@ namespace apache{
                  * Waits until the absolute time specified by abstime.
                  * Returns 0 if condition occurs, ETIMEDOUT on timeout, or an error code.
                  */
-                int waitForTime(const std::chrono::time_point <std::chrono::steady_clock> &abstime){
+                int waitForTime(const std::chrono::time_point< std::chrono::steady_clock > &abstime){
                     assert(mutex_);
                     auto *mutexImpl = static_cast<std::timed_mutex *>(mutex_->getUnderlyingImpl());
                     assert(mutexImpl);
 
-                    std::unique_lock <std::timed_mutex> lock(*mutexImpl, std::adopt_lock);
-                    bool timedout = (conditionVariable_.wait_until(lock, abstime)
-                                     == std::cv_status::timeout);
+                    std::unique_lock< std::timed_mutex > lock(*mutexImpl, std::adopt_lock);
+                    bool timedout = (conditionVariable_.wait_until(lock, abstime) == std::cv_status::timeout);
                     lock.release();
                     return (timedout ? ETIMEDOUT : 0);
                 }
@@ -117,7 +115,7 @@ namespace apache{
                     auto *mutexImpl = static_cast<std::timed_mutex *>(mutex_->getUnderlyingImpl());
                     assert(mutexImpl);
 
-                    std::unique_lock <std::timed_mutex> lock(*mutexImpl, std::adopt_lock);
+                    std::unique_lock< std::timed_mutex > lock(*mutexImpl, std::adopt_lock);
                     conditionVariable_.wait(lock);
                     lock.release();
                     return 0;
@@ -130,7 +128,7 @@ namespace apache{
             private:
                 void init(Mutex *mutex){ mutex_ = mutex; }
 
-                const std::unique_ptr <Mutex> ownedMutex_;
+                const std::unique_ptr< Mutex > ownedMutex_;
                 std::condition_variable_any conditionVariable_;
                 Mutex *mutex_;
             };
@@ -164,7 +162,7 @@ namespace apache{
                 const_cast<Monitor::Impl *>(impl_)->wait(timeout);
             }
 
-            int Monitor::waitForTime(const std::chrono::time_point <std::chrono::steady_clock> &abstime) const{
+            int Monitor::waitForTime(const std::chrono::time_point< std::chrono::steady_clock > &abstime) const{
                 return const_cast<Monitor::Impl *>(impl_)->waitForTime(abstime);
             }
 

@@ -30,10 +30,6 @@ namespace apache{
     namespace thrift{
         namespace concurrency{
 
-            using std::shared_ptr;
-            using std::unique_ptr;
-            using std::dynamic_pointer_cast;
-
             /**
              * ThreadManager class
              *
@@ -69,12 +65,12 @@ namespace apache{
 
                 ThreadManager::STATE state() const override{ return state_; }
 
-                shared_ptr< ThreadFactory > threadFactory() const override{
+                std::shared_ptr< ThreadFactory > threadFactory() const override{
                     Guard g(mutex_);
                     return threadFactory_;
                 }
 
-                void threadFactory(shared_ptr< ThreadFactory > value) override{
+                void threadFactory(std::shared_ptr< ThreadFactory > value) override{
                     Guard g(mutex_);
                     if (threadFactory_ && threadFactory_->isDetached() != value->isDetached()){
                         throw InvalidArgumentException();
@@ -118,11 +114,11 @@ namespace apache{
                     pendingTaskCountMax_ = value;
                 }
 
-                void add(shared_ptr< Runnable > value, int64_t timeout, int64_t expiration) override;
+                void add(std::shared_ptr< Runnable > value, int64_t timeout, int64_t expiration) override;
 
-                void remove(shared_ptr< Runnable > task) override;
+                void remove(std::shared_ptr< Runnable > task) override;
 
-                shared_ptr< Runnable > removeNextPending() override;
+                std::shared_ptr< Runnable > removeNextPending() override;
 
                 void removeExpiredTasks() override{
                     removeExpired(false);
@@ -157,11 +153,11 @@ namespace apache{
                 ExpireCallback expireCallback_;
 
                 ThreadManager::STATE state_;
-                shared_ptr< ThreadFactory > threadFactory_;
+                std::shared_ptr< ThreadFactory > threadFactory_;
 
                 friend class ThreadManager::Task;
 
-                typedef std::deque< shared_ptr< Task >> TaskQueue;
+                typedef std::deque< std::shared_ptr< Task >> TaskQueue;
                 TaskQueue tasks_;
                 Mutex mutex_;
                 Monitor monitor_;
@@ -170,9 +166,9 @@ namespace apache{
 
                 friend class ThreadManager::Worker;
 
-                std::set< shared_ptr< Thread >> workers_;
-                std::set< shared_ptr< Thread >> deadWorkers_;
-                std::map< const Thread::id_t, shared_ptr< Thread > > idMap_;
+                std::set< std::shared_ptr< Thread >> workers_;
+                std::set< std::shared_ptr< Thread >> deadWorkers_;
+                std::map< const Thread::id_t, std::shared_ptr< Thread > > idMap_;
             };
 
             class ThreadManager::Task : public Runnable{
@@ -182,7 +178,7 @@ namespace apache{
                     WAITING, EXECUTING, TIMEDOUT, COMPLETE
                 };
 
-                Task(shared_ptr< Runnable > runnable, uint64_t expiration = 0ULL)
+                Task(std::shared_ptr< Runnable > runnable, uint64_t expiration = 0ULL)
                         : runnable_(runnable),
                           state_(WAITING){
                     if (expiration != 0ULL){
@@ -199,17 +195,17 @@ namespace apache{
                     }
                 }
 
-                shared_ptr< Runnable > getRunnable(){ return runnable_; }
+                std::shared_ptr< Runnable > getRunnable(){ return runnable_; }
 
-                const unique_ptr< std::chrono::steady_clock::time_point > &getExpireTime() const{ return expireTime_; }
+                const std::unique_ptr< std::chrono::steady_clock::time_point > &getExpireTime() const{ return expireTime_; }
 
             private:
-                shared_ptr< Runnable > runnable_;
+                std::shared_ptr< Runnable > runnable_;
 
                 friend class ThreadManager::Worker;
 
                 STATE state_;
-                unique_ptr< std::chrono::steady_clock::time_point > expireTime_;
+                std::unique_ptr< std::chrono::steady_clock::time_point > expireTime_;
             };
 
             class ThreadManager::Worker : public Runnable{
@@ -224,8 +220,7 @@ namespace apache{
 
             private:
                 bool isActive() const{
-                    return (manager_->workerCount_ <= manager_->workerMaxCount_)
-                           || (manager_->state_ == JOINING && !manager_->tasks_.empty());
+                    return (manager_->workerCount_ <= manager_->workerMaxCount_) || (manager_->state_ == JOINING && !manager_->tasks_.empty());
                 }
 
             public:
@@ -279,7 +274,7 @@ namespace apache{
                             manager_->idleCount_--;
                         }
 
-                        shared_ptr< ThreadManager::Task > task;
+                        std::shared_ptr< ThreadManager::Task > task;
 
                         if (active){
                             if (!manager_->tasks_.empty()){
@@ -288,17 +283,13 @@ namespace apache{
                                 if (task->state_ == ThreadManager::Task::WAITING){
                                     // If the state is changed to anything other than EXECUTING or TIMEDOUT here
                                     // then the execution loop needs to be changed below.
-                                    task->state_ =
-                                            (task->getExpireTime() && *(task->getExpireTime()) < std::chrono::steady_clock::now()) ?
-                                            ThreadManager::Task::TIMEDOUT :
-                                            ThreadManager::Task::EXECUTING;
+                                    task->state_ = (task->getExpireTime() && *(task->getExpireTime()) < std::chrono::steady_clock::now()) ? ThreadManager::Task::TIMEDOUT : ThreadManager::Task::EXECUTING;
                                 }
                             }
 
                             /* If we have a pending task max and we just dropped below it, wakeup any
                                 thread that might be blocked on add. */
-                            if (manager_->pendingTaskCountMax_ != 0
-                                && manager_->tasks_.size() <= manager_->pendingTaskCountMax_ - 1){
+                            if (manager_->pendingTaskCountMax_ != 0 && manager_->tasks_.size() <= manager_->pendingTaskCountMax_ - 1){
                                 manager_->maxMonitor_.notify();
                             }
                         }
@@ -354,10 +345,9 @@ namespace apache{
             };
 
             void ThreadManager::Impl::addWorker(size_t value){
-                std::set< shared_ptr< Thread >> newThreads;
+                std::set< std::shared_ptr< Thread >> newThreads;
                 for (size_t ix = 0; ix < value; ix++){
-                    shared_ptr< ThreadManager::Worker > worker
-                            = std::make_shared< ThreadManager::Worker >(this);
+                    std::shared_ptr< ThreadManager::Worker > worker = std::make_shared< ThreadManager::Worker >(this);
                     newThreads.insert(threadFactory_->newThread(worker));
                 }
 
@@ -366,11 +356,10 @@ namespace apache{
                 workers_.insert(newThreads.begin(), newThreads.end());
 
                 for (const auto &newThread: newThreads){
-                    shared_ptr< ThreadManager::Worker > worker
-                            = dynamic_pointer_cast< ThreadManager::Worker, Runnable >(newThread->runnable());
+                    std::shared_ptr< ThreadManager::Worker > worker = std::dynamic_pointer_cast< ThreadManager::Worker, Runnable >(newThread->runnable());
                     worker->state_ = ThreadManager::Worker::STARTING;
                     newThread->start();
-                    idMap_.insert(std::pair< const Thread::id_t, shared_ptr< Thread > >(newThread->getId(), newThread));
+                    idMap_.insert(std::pair< const Thread::id_t, std::shared_ptr< Thread > >(newThread->getId(), newThread));
                 }
 
                 while (workerCount_ != workerMaxCount_){
@@ -401,8 +390,7 @@ namespace apache{
                 Guard g(mutex_);
                 bool doStop = false;
 
-                if (state_ != ThreadManager::STOPPING && state_ != ThreadManager::JOINING
-                    && state_ != ThreadManager::STOPPED){
+                if (state_ != ThreadManager::STOPPING && state_ != ThreadManager::JOINING && state_ != ThreadManager::STOPPED){
                     doStop = true;
                     state_ = ThreadManager::JOINING;
                 }
@@ -444,7 +432,6 @@ namespace apache{
                 }
 
                 for (const auto &deadWorker: deadWorkers_){
-
                     // when used with a joinable thread factory, we join the threads as we remove them
                     if (!threadFactory_->isDetached()){
                         deadWorker->join();
@@ -462,7 +449,7 @@ namespace apache{
                 return idMap_.find(id) == idMap_.end();
             }
 
-            void ThreadManager::Impl::add(shared_ptr< Runnable > value, int64_t timeout, int64_t expiration){
+            void ThreadManager::Impl::add(std::shared_ptr< Runnable > value, int64_t timeout, int64_t expiration){
                 Guard g(mutex_, timeout);
 
                 if (!g){
@@ -470,9 +457,7 @@ namespace apache{
                 }
 
                 if (state_ != ThreadManager::STARTED){
-                    throw IllegalStateException(
-                            "ThreadManager::Impl::add ThreadManager "
-                            "not started");
+                    throw IllegalStateException("ThreadManager::Impl::add ThreadManager not started");
                 }
 
                 // if we're at a limit, remove an expired task to see if the limit clears
@@ -501,12 +486,10 @@ namespace apache{
                 }
             }
 
-            void ThreadManager::Impl::remove(shared_ptr< Runnable > task){
+            void ThreadManager::Impl::remove(std::shared_ptr< Runnable > task){
                 Guard g(mutex_);
                 if (state_ != ThreadManager::STARTED){
-                    throw IllegalStateException(
-                            "ThreadManager::Impl::remove ThreadManager not "
-                            "started");
+                    throw IllegalStateException("ThreadManager::Impl::remove ThreadManager not started");
                 }
 
                 for (auto it = tasks_.begin(); it != tasks_.end(); ++it){
@@ -520,16 +503,14 @@ namespace apache{
             std::shared_ptr< Runnable > ThreadManager::Impl::removeNextPending(){
                 Guard g(mutex_);
                 if (state_ != ThreadManager::STARTED){
-                    throw IllegalStateException(
-                            "ThreadManager::Impl::removeNextPending "
-                            "ThreadManager not started");
+                    throw IllegalStateException("ThreadManager::Impl::removeNextPending ThreadManager not started");
                 }
 
                 if (tasks_.empty()){
-                    return std::shared_ptr< Runnable >();
+                    return {};
                 }
 
-                shared_ptr< ThreadManager::Task > task = tasks_.front();
+                std::shared_ptr< ThreadManager::Task > task = tasks_.front();
                 tasks_.pop_front();
 
                 return task->getRunnable();
@@ -581,13 +562,12 @@ namespace apache{
                 const size_t pendingTaskCountMax_;
             };
 
-            shared_ptr< ThreadManager > ThreadManager::newThreadManager(){
-                return shared_ptr< ThreadManager >(new ThreadManager::Impl());
+            std::shared_ptr< ThreadManager > ThreadManager::newThreadManager(){
+                return std::shared_ptr< ThreadManager >(new ThreadManager::Impl());
             }
 
-            shared_ptr< ThreadManager > ThreadManager::newSimpleThreadManager(size_t count,
-                                                                              size_t pendingTaskCountMax){
-                return shared_ptr< ThreadManager >(new SimpleThreadManager(count, pendingTaskCountMax));
+            std::shared_ptr< ThreadManager > ThreadManager::newSimpleThreadManager(size_t count, size_t pendingTaskCountMax){
+                return std::shared_ptr< ThreadManager >(new SimpleThreadManager(count, pendingTaskCountMax));
             }
         }
     }
