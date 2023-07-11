@@ -26,7 +26,7 @@ public:
     void run() override{
         sleep(1);
         std::cout << "[RUN]cnt=" << this->cnt_ << std::endl;
-        //std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
+        std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
     }
 
 private:
@@ -42,6 +42,7 @@ int main(int argc, char *argv[]){
     for (int i = 1; i < 10; i++){
         std::cout << threadManager->state() << std::endl;
         std::shared_ptr< apache::thrift::concurrency::Runnable > task = std::shared_ptr< apache::thrift::concurrency::Runnable >(new printCounter(i));
+        task->run();
         threadManager->add(task);
     }
     sleep(10);
