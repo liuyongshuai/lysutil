@@ -23,13 +23,15 @@ public:
     }
 
     void run() override{
-        sleep(1);
-        std::cout << "[RUN]cnt=" << this->cnt_ << std::endl;
-        if (this->thread().use_count() == 0){
-            std::cout << "[RUN]thread().use_count()==0" << std::endl;
-        }
-        else{
-            std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
+        for (int i = 0; i < 100; i++){
+            sleep(1);
+            std::cout << "[RUN]cnt=" << this->cnt_ << std::endl;
+            if (this->thread().use_count() == 0){
+                std::cout << "[RUN]thread().use_count()==0" << std::endl;
+            }
+            else{
+                std::cout << "[RUN]threadId=" << this->thread()->getId() << "\tcnt=" << this->cnt_ << std::endl;
+            }
         }
     }
 
@@ -47,7 +49,7 @@ int main(int argc, char *argv[]){
         std::shared_ptr< apache::thrift::concurrency::Runnable > task = std::shared_ptr< apache::thrift::concurrency::Runnable >(new printCounter(i));
         threadManager->add(task);
     }
-    sleep(10);
+    sleep(30);
     threadManager->stop();
     return 0;
 }
