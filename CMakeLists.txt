@@ -68,6 +68,7 @@ set(SRC_SOURCE_LIST
         ${src_home}/comutils/rune_utils.cpp
         ${src_home}/comutils/str_utils.cpp
         ${src_home}/comutils/sys_utils.cpp
+        ${src_home}/comutils/md5_utils.cpp
         ${src_home}/comutils/terminal_table.cpp
 
         #httpsvr
