@@ -8,6 +8,8 @@
 
 namespace lysutil{
     namespace httpsvr{
+        std::shared_ptr <globalConf> globalConf::instance_ = nullptr;
+
         /**
          * 解析配置文件
          */
