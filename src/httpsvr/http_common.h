@@ -175,6 +175,18 @@ namespace lysutil{
                 {GATEWAY_TIME_OUT,                "Gateway Time out"},
                 {VERSION_NOT_SUPPORTED,           "HTTP Version not supported"}
         };
+
+
+        //不同的文件扩展名对应的content-type信息
+        const static std::map< std::string, std::string > contentTypeList = {
+                {"js", "application/javascript"},
+                {"css", "text/css"},
+                {"html", "text/html;charset=utf-8"},
+                {"json", "application/json"},
+                {"png", "image/png"},
+                {"ico", "image/x-icon"},
+                {"svg", "image/svg+xml"},
+        };
     }
 }
 #endif //_TRANSTOPIC_COMMON_H_202306271124_
