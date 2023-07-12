@@ -88,6 +88,7 @@ namespace lysutil{
 
             //执行请求
             httpReq.printReq();
+            httpReq.redirect_file = r->redirect_file;
             r->func(httpReq, httpRsp);
 
             //回写请求句柄

@@ -19,8 +19,12 @@ namespace lysutil{
          * 访问静态资源的常用方法
          */
         void staticResourceFunc(httpRequest &req, httpResponse &rsp){
+            std::string uri = req.uri;
+            if (!req.redirect_file.empty()){
+                uri = req.redirect_file;
+            }
             //如果不是以/static/开头的话，直接返回404
-            if (!lysutil::comutils::strUtils::hasPrefix(req.uri, "/static/")){
+            if (!lysutil::comutils::strUtils::hasPrefix(uri, "/static/")){
                 rsp.setStatus(NOT_FOUND);
                 rsp.setBody(httpStatusDesc.find(NOT_FOUND)->second);
                 return;
@@ -29,7 +33,7 @@ namespace lysutil{
 
             //文件名称
             std::shared_ptr< globalConf > gconf = globalConf::get_instance();
-            std::string filepath = gconf->static_resource_dir + "/.." + req.uri;
+            std::string filepath = gconf->static_resource_dir + "/.." + uri;
             filepath = lysutil::comutils::fileUtils::getRealPath(filepath);
             if (!lysutil::comutils::fileUtils::isFileExist(filepath)){
                 rsp.setStatus(NOT_FOUND);

@@ -67,6 +67,11 @@ namespace lysutil{
             std::string uri;
 
             /**
+             * 针对静态资源改写的路径
+             */
+            std::string redirect_file;
+
+            /**
              * 请求时的客户端IP
              */
             std::string client_ip;
