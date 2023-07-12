@@ -4,8 +4,8 @@
  * Time:	2023-06-27 11:56
  ************************************************************************/
 #include<iostream>
-#include "rune_utils.h"
-#include "pcre_utils.h"
+#include "comutils/rune_utils.h"
+#include "comutils/pcre_utils.h"
 
 #define TABLE_LEN(a) ( (sizeof(a)) / (sizeof(a[0])) )
 namespace lysutil{

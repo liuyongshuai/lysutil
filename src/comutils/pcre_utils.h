@@ -10,7 +10,7 @@
 #include<vector>
 #include<map>
 #include<pcre.h>
-#include "str_utils.h"
+#include "comutils/str_utils.h"
 
 namespace lysutil{
     namespace comutils{

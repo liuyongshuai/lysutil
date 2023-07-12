@@ -9,11 +9,11 @@
 #include<string>
 #include<vector>
 #include<map>
-#include "str_utils.h"
-#include "color_utils.h"
-#include "sys_utils.h"
-#include "rune_utils.h"
-#include "pcre_utils.h"
+#include "comutils/str_utils.h"
+#include "comutils/color_utils.h"
+#include "comutils/sys_utils.h"
+#include "comutils/rune_utils.h"
+#include "comutils/pcre_utils.h"
 
 namespace lysutil{
     namespace comutils{
