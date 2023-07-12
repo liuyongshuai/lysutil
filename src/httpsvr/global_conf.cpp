@@ -36,7 +36,7 @@ namespace lysutil{
             tmpdirs[tmpdirs.size() - 2] = staticname;
             this->static_resource_dir = "/" + lysutil::comutils::strUtils::strJoin(tmpdirs, "/");
             lysutil::comutils::strUtils::trimRightSpace(this->static_resource_dir);
-            lysutil::comutils::strUtils::trimChar(this->static_resource_dir, '/');
+            lysutil::comutils::strUtils::trimRightChar(this->static_resource_dir, '/');
             std::cout << "static_resource_dir=" << this->static_resource_dir << std::endl;
 
             int64_t wcount64;
