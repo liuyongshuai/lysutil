@@ -50,6 +50,10 @@ namespace lysutil{
         //要执行的方法
         typedef void (*httpFunc)(httpRequest &req, httpResponse &rsp);
 
+
+        //访问静态资源的常用方法
+        void staticResourceFunc(httpRequest &req, httpResponse &rsp);
+
         //POST配置相关
         const static std::string NORMAL_POST_CONTENT_TYPE = "application/x-www-form-urlencoded";
         const static std::string UPLOAD_POST_CONTENT_TYPE = "multipart/form-data";
