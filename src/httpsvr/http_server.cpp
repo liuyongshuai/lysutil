@@ -175,7 +175,12 @@ namespace lysutil{
          * 释放资源
          */
         httpServer::~httpServer(){
-
+            if (this->listenfd_ > 0){
+                close(this->listenfd_);
+            }
+            if (this->epollfd_ > 0){
+                close(this->epollfd_);
+            }
         }
     }
 } //namespace Project
