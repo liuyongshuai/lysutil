@@ -33,9 +33,9 @@ int main(int argc, char *argv[]) {
     std::map<std::string, std::string> args;
     std::shared_ptr<lysutil::httpsvr::httpRouter> routers = lysutil::httpsvr::httpRouter::get_instance();
     const lysutil::httpsvr::routerItem *rItem;
-    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/abc/:aaaa:/:dddd", httpFunc1, "");
-    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/abc/aaaa/dddd", httpFunc1, "");
-    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "/abcd/(\\d+)/(\\w+)", httpFunc2, "a=$1&b=$2");
+    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/abc/:aaaa:/:dddd", httpFunc1);
+    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/abc/aaaa/dddd", httpFunc1);
+    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "/abcd/(\\d+)/(\\w+)", httpFunc2, "", "a=$1&b=$2");
     std::string uri = "/abc/wendao/444444";
     rItem = routers->matchRouter(uri, args);
     std::cout << uri << "\tmatch\t" << (rItem == nullptr ? "failed" : rItem->config) << std::endl;

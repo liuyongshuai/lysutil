@@ -37,13 +37,8 @@ namespace lysutil{
              * @param f         执行的回调函数
              * @param extParam  额外的参数
              */
-            void addRouter(
-                    ROUTER_TYPE t,
-                    const std::string &c,
-                    httpFunc f,
-                    const std::string &redirect_file = "",
-                    const std::string &extParam = ""
-            );
+            void addRouter(ROUTER_TYPE t,const std::string &c,httpFunc f,const std::string &redirect_file = "",const std::string &extParam = "");
+            void addRouter(const routerItem &router);
 
             /**
              * 根据请求的url匹配路由规则
