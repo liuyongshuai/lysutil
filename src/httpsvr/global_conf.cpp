@@ -8,7 +8,7 @@
 
 namespace lysutil{
     namespace httpsvr{
-        std::shared_ptr <globalConf> globalConf::instance_ = nullptr;
+        std::shared_ptr< globalConf > globalConf::instance_ = nullptr;
 
         /**
          * 解析配置文件
@@ -34,7 +34,7 @@ namespace lysutil{
             lysutil::comutils::strUtils::strSplit(realPath, '/', tmpdirs);
             tmpdirs[tmpdirs.size() - 1] = "";
             tmpdirs[tmpdirs.size() - 2] = staticname;
-            this->static_resource_dir = "/" + lysutil::comutils::strUtils::strJoin(tmpdirs, "/");
+            this->static_resource_dir = lysutil::comutils::strUtils::strJoin(tmpdirs, "/");
             lysutil::comutils::strUtils::trimRightSpace(this->static_resource_dir);
             lysutil::comutils::strUtils::trimRightChar(this->static_resource_dir, '/');
             std::cout << "static_resource_dir=" << this->static_resource_dir << std::endl;
