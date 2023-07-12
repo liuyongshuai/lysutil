@@ -34,8 +34,12 @@
 #include<sys/stat.h>
 #include<sys/time.h>
 #include<sys/shm.h>
+#include "thriftconcurrency/ThreadManager.h"
 
 #define HTTP_HEADER_BUF_SIZE  10240
+#define MAX_EVENTS 1024
+#define LISTEN_BACKLOG_SIZE 16
+#define MAX_SOCK_BUF_SIZE 8192
 
 namespace lysutil{
     namespace httpsvr{
@@ -124,7 +128,7 @@ namespace lysutil{
         } HTTP_STATUS;
 
         //各个状态对应的说明
-        const static std::map <HTTP_STATUS, std::string> httpStatusDesc = {
+        const static std::map< HTTP_STATUS, std::string > httpStatusDesc = {
                 {CONTINUE,                        "Continue"},
                 {SWITCHING_PROTOCOLS,             "Switching Protocols"},
                 {OK,                              "OK"},

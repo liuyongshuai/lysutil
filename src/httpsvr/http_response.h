@@ -26,7 +26,7 @@ namespace lysutil{
 
             void addHeader(const std::string &k, const std::string &v);
 
-            void getHeader(const std::string &k, std::vector <std::string> &vs);
+            void getHeader(const std::string &k, std::vector< std::string > &vs);
 
             //设置cookie信息
             void setCookie(
@@ -42,17 +42,16 @@ namespace lysutil{
             //设置响应的body信息
             void setBody(const std::string &body);
 
-            //返回html响应信息
-            void renderHTML(std::string &rsp);
-
             //返回json信息
-            void renderJson(std::string &rsp);
+            void setJsonHeader();
+
+            //获取要返回的响应信息
+            void getRsp(std::string &rsp);
 
         private:
-            HTTP_STATUS status;
-            std::map <std::string, std::vector< std::string>> headers;
-            std::string body;
-            std::string rsp;
+            HTTP_STATUS status_;
+            std::map< std::string, std::vector< std::string>> headers_;
+            std::string body_;
 
             //生成header信息
             void genHeader(std::string &h);

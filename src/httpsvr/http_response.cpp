@@ -47,37 +47,37 @@ namespace lysutil{
             this->setHeader("Cache-Control", "max-age=86400");
             this->setHeader("Expires", genCurData(86400));
             this->setHeader("Date", genCurData(0));
-            this->status = HTTP_STATUS::OK;
+            this->status_ = HTTP_STATUS::OK;
             this->setHeader("Content-Type", "text/html; charset=utf-8");
         }
 
         //设置响应值
         void httpResponse::setStatus(HTTP_STATUS status){
-            this->status = status;
+            this->status_ = status;
         }
 
         //设置头信息
         void httpResponse::setHeader(const std::string &k, const std::string &v){
             std::string headerKey = k;
             comutils::httpUtils::canonicalHeaderKey(headerKey);
-            std::vector <std::string> tmp;
+            std::vector< std::string > tmp;
             tmp.push_back(v);
-            this->headers[headerKey] = tmp;
+            this->headers_[headerKey] = tmp;
         }
 
         void httpResponse::addHeader(const std::string &k, const std::string &v){
             std::string headerKey = k;
             comutils::httpUtils::canonicalHeaderKey(headerKey);
-            this->headers[headerKey].push_back(v);
+            this->headers_[headerKey].push_back(v);
         }
 
-        void httpResponse::getHeader(const std::string &k, std::vector <std::string> &vs){
+        void httpResponse::getHeader(const std::string &k, std::vector< std::string > &vs){
             std::string headerKey = k;
             comutils::httpUtils::canonicalHeaderKey(headerKey);
-            std::vector <std::string> tmp;
-            std::map < std::string, std::vector < std::string > > ::const_iterator
-            iter;
-            if ((iter = this->headers.find(headerKey)) == this->headers.end()){
+            std::vector< std::string > tmp;
+            std::map< std::string, std::vector< std::string > >::const_iterator
+                    iter;
+            if ((iter = this->headers_.find(headerKey)) == this->headers_.end()){
                 return;
             }
             vs = iter->second;
@@ -85,7 +85,7 @@ namespace lysutil{
 
         //设置cookie信息
         void httpResponse::setCookie(const std::string &k, const std::string &v, uint32_t maxAgeTime, const std::string &path, const std::string &domain, bool secure, bool httponly){
-            if (k.size() <= 0){
+            if (k.empty()){
                 return;
             }
             std::string ckBuf;
@@ -133,39 +133,35 @@ namespace lysutil{
 
         //设置响应的body信息
         void httpResponse::setBody(const std::string &body){
-            this->body = body;
-        }
-
-        //返回html响应信息
-        void httpResponse::renderHTML(std::string &rsp){
-            this->genHeader(rsp);
-            rsp += "\r\n";
-            rsp += body;
+            this->body_ = body;
         }
 
         //返回json信息
-        void httpResponse::renderJson(std::string &rsp){
+        void httpResponse::setJsonHeader(){
             this->setHeader("Content-Type", "application/json; charset=utf-8");
-            this->genHeader(rsp);
-            rsp += "\r\n";
-            rsp += body;
         }
 
         //生成header信息
         void httpResponse::genHeader(std::string &h){
-            std::string statusStr = getHttpStatusDesc(this->status);
+            std::string statusStr = getHttpStatusDesc(this->status_);
             char r[64] = {0};
-            sprintf(r, "HTTP/1.1 %d %s\r\n", this->status, statusStr.c_str());
+            sprintf(r, "HTTP/1.1 %d %s\r\n", this->status_, statusStr.c_str());
             h = r;
-            std::map < std::string, std::vector < std::string >> ::const_iterator
-            mapIter;
+            std::map< std::string, std::vector< std::string >>::const_iterator mapIter;
             std::vector< std::string >::const_iterator vecIter;
-            for (mapIter = this->headers.begin(); mapIter != this->headers.end(); mapIter++){
+            for (mapIter = this->headers_.begin(); mapIter != this->headers_.end(); mapIter++){
                 std::string hkey = mapIter->first;
                 for (vecIter = mapIter->second.begin(); vecIter != mapIter->second.end(); vecIter++){
                     h.append(hkey + ": " + *vecIter + "\r\n");
                 }
             }
+        }
+
+        //获取要返回的响应信息
+        void httpResponse::getRsp(std::string &rsp){
+            this->genHeader(rsp);
+            rsp += "\r\n";
+            rsp += this->body_;
         }
     }
 }

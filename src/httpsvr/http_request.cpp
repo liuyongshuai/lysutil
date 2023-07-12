@@ -8,6 +8,10 @@
 
 namespace lysutil{
     namespace httpsvr{
+        httpRequest::httpRequest(const char *body, size_t bodyLen){
+            this->parseBody(body, bodyLen);
+        }
+
         /**
          * 提取header中的信息
          */
@@ -24,7 +28,7 @@ namespace lysutil{
          * 提取单个请求参数
          */
         void httpRequest::getArg(const std::string &key, std::string &val){
-            std::vector <std::string> vals;
+            std::vector< std::string > vals;
             this->getArg(key, vals);
             if (vals.empty()){
                 return;
@@ -35,9 +39,9 @@ namespace lysutil{
         /**
          * 提取请求参数的数组
          */
-        void httpRequest::getArg(const std::string &key, std::vector <std::string> &vals){
-            std::map < std::string, std::vector < std::string >> ::const_iterator
-            iter;
+        void httpRequest::getArg(const std::string &key, std::vector< std::string > &vals){
+            std::map< std::string, std::vector< std::string >>::const_iterator
+                    iter;
             if ((iter = this->args.find(key)) != this->args.end()){
                 vals = iter->second;
             }
@@ -75,8 +79,7 @@ namespace lysutil{
             //开始打印请求参数
             if (!args.empty()){
                 std::cout << std::endl;
-                std::map < std::string, std::vector < std::string > > ::const_iterator
-                mapVecIter;
+                std::map< std::string, std::vector< std::string > >::const_iterator mapVecIter;
                 comutils::terminalTable tArgs;
                 tArgs.addHeadData(2, "key", "value");
                 for (mapVecIter = this->args.begin(); mapVecIter != this->args.end(); mapVecIter++){
@@ -112,7 +115,7 @@ namespace lysutil{
             const char *sepChar2 = "\r\n\r\n";
             char tmpBuf[HTTP_HEADER_BUF_SIZE];
             std::string tmpStr;
-            std::vector <std::string> tmpVec;
+            std::vector< std::string > tmpVec;
             size_t sz, pos;
             std::vector< std::string >::const_iterator vecStrIter;
             const char *tmpReqBody = (char *) body;
@@ -283,7 +286,7 @@ namespace lysutil{
                 if (tmpPart.empty() || tmpPart.find("Content-Disposition") == std::string::npos){
                     return;
                 }
-                std::vector <std::string> tmpVec;
+                std::vector< std::string > tmpVec;
                 comutils::strUtils::strSplit(tmpPart, ';', tmpVec);
                 if (tmpVec.empty()){
                     return;
@@ -338,7 +341,7 @@ namespace lysutil{
 //                std::cout << "tmpBoundary.size()=" << tmpBoundary.size() << "\ttmpBoundary=" << tmpBoundary << std::endl;
                 while (next < rawBody + rawBodyLen){
                     next++;
-                    if ((size_t)(next - tmpPtr) < tmpBoundary.size()){
+                    if ((size_t) (next - tmpPtr) < tmpBoundary.size()){
                         continue;
                     }
                     //分找分界符了，回退到上一个\r\n
@@ -377,7 +380,7 @@ namespace lysutil{
          * 简单的解析KV参数
          */
         void httpRequest::parseArgs(const std::string &str){
-            std::vector <std::string> tmpArgVec;
+            std::vector< std::string > tmpArgVec;
             size_t pos = 0;
             comutils::strUtils::strSplit(str, '&', tmpArgVec);
             std::vector< std::string >::const_iterator vecStrIter;

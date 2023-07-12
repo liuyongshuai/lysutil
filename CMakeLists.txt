@@ -75,6 +75,7 @@ set(SRC_SOURCE_LIST
         ${src_home}/httpsvr/http_response.cpp
         ${src_home}/httpsvr/http_router.cpp
         ${src_home}/httpsvr/http_server.cpp
+        ${src_home}/httpsvr/http_task.cpp
 
         #thriftconcurrency
         ${src_home}/thriftconcurrency/Monitor.cpp
