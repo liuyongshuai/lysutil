@@ -43,7 +43,7 @@ namespace lysutil{
          */
         void strUtils::keepNormChar(std::string &str){
             //先转为unicode
-            std::vector <int32_t> unicodes;
+            std::vector< int32_t > unicodes;
             utf8ToUnicodes(str, unicodes);
             for (size_t i = 0; i < unicodes.size(); i++){
                 int32_t unicode = unicodes[i];
@@ -59,7 +59,7 @@ namespace lysutil{
                 }
             }
             //将多个相邻空格替换为一个
-            std::vector <int32_t> newUnicodes;
+            std::vector< int32_t > newUnicodes;
             for (int unicode: unicodes){
                 //如果newUnicodes最后一个是空格，当前这个又是空格，则忽略之
                 if (unicode == 32 && !newUnicodes.empty() && newUnicodes[newUnicodes.size() - 1] == 32){
@@ -76,7 +76,7 @@ namespace lysutil{
         //str里是否包含中文
         bool strUtils::isContainChinese(const std::string &str){
             //先转为unicode
-            std::vector <int32_t> unicodes;
+            std::vector< int32_t > unicodes;
             utf8ToUnicodes(str, unicodes);
             for (int unicode: unicodes){
                 if (isCnChar(unicode)){
@@ -140,23 +140,14 @@ namespace lysutil{
 
         //md5加密
         std::string strUtils::md5sum(const std::string &str){
-            std::string md5;
-            MD5_CTX ctx;
-            MD5_Init(&ctx);
-            MD5_Update(&ctx, str.c_str(), str.size());
-            unsigned char digest[MD5_DIGEST_LENGTH];
-            MD5_Final(digest, &ctx);
-            char hex[35];
-            memset(hex, 0, sizeof(hex));
-            for (int i = 0; i < MD5_DIGEST_LENGTH; ++i){
-                sprintf(hex + i * 2, "%02x", digest[i]);
-            }
-            md5 = std::string(hex);
-            return md5;
+            md5Utils md5{};
+            char buf[32] = {0};
+            md5.MD5Str(str.c_str(), str.size(), buf, 32);
+            return buf;
         }
 
         //vec1是否完全包含vec2
-        bool strUtils::isVecContainAll(const std::vector <std::string> &vec1, const std::vector <std::string> &vec2){
+        bool strUtils::isVecContainAll(const std::vector< std::string > &vec1, const std::vector< std::string > &vec2){
             if (vec1.size() < vec2.size() || vec1.empty() || vec2.empty()){
                 return false;
             }
@@ -205,7 +196,7 @@ namespace lysutil{
         }
 
         //简简单单的连接
-        void strUtils::strJoin(const std::vector <std::string> &in, const std::string &j, std::string &out){
+        void strUtils::strJoin(const std::vector< std::string > &in, const std::string &j, std::string &out){
             size_t i, len = in.size();
             for (i = 0; i < len; i++){
                 out.append(in[i]);
@@ -216,8 +207,8 @@ namespace lysutil{
         }
 
         //简简单单的连接
-        void strUtils::strJoin(const std::set <std::string> &in, const std::string &j, std::string &out){
-            std::vector <std::string> inVec;
+        void strUtils::strJoin(const std::set< std::string > &in, const std::string &j, std::string &out){
+            std::vector< std::string > inVec;
             inVec.reserve(in.size());
             for (const std::string &v: in){
                 inVec.push_back(v);
@@ -226,7 +217,7 @@ namespace lysutil{
         }
 
         //简简单单的连接
-        std::string strUtils::strJoin(const std::vector <std::string> &in, const std::string &j){
+        std::string strUtils::strJoin(const std::vector< std::string > &in, const std::string &j){
             std::string ret;
             strJoin(in, j, ret);
             return ret;
@@ -357,7 +348,7 @@ namespace lysutil{
         }
 
         //简简单单的切割
-        void strUtils::strSplit(const std::string &in, char c, std::vector <std::string> &out){
+        void strUtils::strSplit(const std::string &in, char c, std::vector< std::string > &out){
             size_t prev_pos = 0, pos = 0;
             while ((pos = in.find(c, prev_pos)) != std::string::npos){
                 std::string tmp(in, prev_pos, pos - prev_pos);
@@ -411,7 +402,7 @@ namespace lysutil{
          * 5字节 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
          * 6字节 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
          */
-        int strUtils::utf8ToUnicodes(const std::string &str, std::vector <int32_t> &unicodes){
+        int strUtils::utf8ToUnicodes(const std::string &str, std::vector< int32_t > &unicodes){
             if (str.empty()){
                 return -1;
             }
@@ -436,8 +427,8 @@ namespace lysutil{
                     uint8_t char2 = *(strStartPtr + 1);
                     UTF8_CHAR_CHECK(char2)
 
-                    int32_t t1 = (int32_t)(char1 & 0x1F) << 6;
-                    int32_t t2 = (int32_t)(char2 & 0x3F);
+                    int32_t t1 = (int32_t) (char1 & 0x1F) << 6;
+                    int32_t t2 = (int32_t) (char2 & 0x3F);
                     unicode = t1 | t2;
                     strStartPtr += 2;
                 }
@@ -451,9 +442,9 @@ namespace lysutil{
                     uint8_t char3 = *(strStartPtr + 2);
                     UTF8_CHAR_CHECK(char3)
 
-                    int32_t t1 = (int32_t)(char1 & 0x0F) << 12;
-                    int32_t t2 = (int32_t)(char2 & 0x3F) << 6;
-                    int32_t t3 = (int32_t)(char3 & 0x3F);
+                    int32_t t1 = (int32_t) (char1 & 0x0F) << 12;
+                    int32_t t2 = (int32_t) (char2 & 0x3F) << 6;
+                    int32_t t3 = (int32_t) (char3 & 0x3F);
                     unicode = t1 | t2 | t3;
                     strStartPtr += 3;
                 }
@@ -469,10 +460,10 @@ namespace lysutil{
                     uint8_t char4 = *(strStartPtr + 3);
                     UTF8_CHAR_CHECK(char4)
 
-                    int32_t t1 = (int32_t)(char1 & 0x07) << 18;
-                    int32_t t2 = (int32_t)(char2 & 0x3F) << 12;
-                    int32_t t3 = (int32_t)(char3 & 0x3F) << 6;
-                    int32_t t4 = (int32_t)(char4 & 0x3F);
+                    int32_t t1 = (int32_t) (char1 & 0x07) << 18;
+                    int32_t t2 = (int32_t) (char2 & 0x3F) << 12;
+                    int32_t t3 = (int32_t) (char3 & 0x3F) << 6;
+                    int32_t t4 = (int32_t) (char4 & 0x3F);
                     unicode = t1 | t2 | t3 | t4;
                     strStartPtr += 4;
                 }
@@ -490,11 +481,11 @@ namespace lysutil{
                     uint8_t char5 = *(strStartPtr + 4);
                     UTF8_CHAR_CHECK(char5)
 
-                    int32_t t1 = (int32_t)(char1 & 0x03) << 24;
-                    int32_t t2 = (int32_t)(char2 & 0x3F) << 18;
-                    int32_t t3 = (int32_t)(char3 & 0x3F) << 12;
-                    int32_t t4 = (int32_t)(char4 & 0x3F) << 6;
-                    int32_t t5 = (int32_t)(char5 & 0x3F);
+                    int32_t t1 = (int32_t) (char1 & 0x03) << 24;
+                    int32_t t2 = (int32_t) (char2 & 0x3F) << 18;
+                    int32_t t3 = (int32_t) (char3 & 0x3F) << 12;
+                    int32_t t4 = (int32_t) (char4 & 0x3F) << 6;
+                    int32_t t5 = (int32_t) (char5 & 0x3F);
                     unicode = t1 | t2 | t3 | t4 | t5;
                     strStartPtr += 5;
                 }
@@ -514,12 +505,12 @@ namespace lysutil{
                     uint8_t char6 = *(strStartPtr + 5);
                     UTF8_CHAR_CHECK(char6)
 
-                    int32_t t1 = (int32_t)(char1 & 0x01) << 30;
-                    int32_t t2 = (int32_t)(char2 & 0x3F) << 24;
-                    int32_t t3 = (int32_t)(char3 & 0x3F) << 18;
-                    int32_t t4 = (int32_t)(char4 & 0x3F) << 12;
-                    int32_t t5 = (int32_t)(char5 & 0x3F) << 6;
-                    int32_t t6 = (int32_t)(char6 & 0x3F);
+                    int32_t t1 = (int32_t) (char1 & 0x01) << 30;
+                    int32_t t2 = (int32_t) (char2 & 0x3F) << 24;
+                    int32_t t3 = (int32_t) (char3 & 0x3F) << 18;
+                    int32_t t4 = (int32_t) (char4 & 0x3F) << 12;
+                    int32_t t5 = (int32_t) (char5 & 0x3F) << 6;
+                    int32_t t6 = (int32_t) (char6 & 0x3F);
                     unicode = t1 | t2 | t3 | t4 | t5 | t6;
                     strStartPtr += 6;
                 }
@@ -536,7 +527,7 @@ namespace lysutil{
         }
 
         //将unicode再转为utf8字符串
-        int strUtils::unicodesToUTF8(const std::vector <int32_t> &unicodes, std::string &str){
+        int strUtils::unicodesToUTF8(const std::vector< int32_t > &unicodes, std::string &str){
             if (unicodes.empty()){
                 return -1;
             }
@@ -585,7 +576,7 @@ namespace lysutil{
         }
 
         //将unicode再转为utf8字符串
-        std::string strUtils::unicodesToUTF8(const std::vector <int32_t> &unicodes){
+        std::string strUtils::unicodesToUTF8(const std::vector< int32_t > &unicodes){
             std::string ret;
             unicodesToUTF8(unicodes, ret);
             return ret;
@@ -593,7 +584,7 @@ namespace lysutil{
 
         //单个unicode码转utf8
         int strUtils::unicodeToUTF8(const int32_t &unicode, std::string &str){
-            std::vector <int32_t> tmpRune;
+            std::vector< int32_t > tmpRune;
             tmpRune.push_back(unicode);
             return unicodesToUTF8(tmpRune, str);
         }
@@ -607,7 +598,7 @@ namespace lysutil{
 
         //单个utf8转unicode
         int strUtils::utf8ToUnicode(const std::string &str, int32_t &unicode){
-            std::vector <int32_t> unicodes;
+            std::vector< int32_t > unicodes;
             utf8ToUnicodes(str, unicodes);
             if (unicodes.empty()){
                 return -1;
@@ -625,7 +616,7 @@ namespace lysutil{
 
         //string 转为 wstring，要求 input 必须为utf8编码
         int strUtils::string2wstring(const std::string &input, std::wstring &output){
-            std::vector <int32_t> unicodes;
+            std::vector< int32_t > unicodes;
             int ret = utf8ToUnicodes(input, unicodes);
             if (ret != 0){
                 return ret;
@@ -645,7 +636,7 @@ namespace lysutil{
 
         //wstring 转为 string，要求 input 必须为utf8编码
         int strUtils::wstring2string(const std::wstring &input, std::string &output){
-            std::vector <int32_t> unicodes;
+            std::vector< int32_t > unicodes;
             for (wchar_t wch: input){
                 unicodes.push_back((int32_t) wch);
             }

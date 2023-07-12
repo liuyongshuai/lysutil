@@ -36,7 +36,6 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
-#include <openssl/md5.h>
 
 #define xisspace(c) isspace((unsigned char)c)
 

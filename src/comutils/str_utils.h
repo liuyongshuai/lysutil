@@ -9,7 +9,8 @@
 #include<string>
 #include<vector>
 #include<map>
-#include "common.h"
+#include "comutils/md5_utils.h"
+#include "comutils/common.h"
 
 namespace lysutil{
     namespace comutils{

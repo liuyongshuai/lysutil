@@ -177,11 +177,11 @@ namespace lysutil{
                 memcpy(&this->buffer_[used], data, free);
                 data = (unsigned char *) data + free;
                 size -= free;
-                body(this->buffer_, 64);
+                this->body(this->buffer_, 64);
             }
 
             if (size >= 64){
-                data = body(data, size & ~(size_t) 0x3f);
+                data = this->body(data, size & ~(size_t) 0x3f);
                 size &= 0x3f;
             }
             memcpy(this->buffer_, data, size);
@@ -194,7 +194,7 @@ namespace lysutil{
             free = 64 - used;
             if (free < 8){
                 memset(&this->buffer_[used], 0, free);
-                body(this->buffer_, 64);
+                this->body(this->buffer_, 64);
                 used = 0;
                 free = 64;
             }
@@ -211,7 +211,7 @@ namespace lysutil{
             this->buffer_[62] = this->hi_ >> 16;
             this->buffer_[63] = this->hi_ >> 24;
 
-            body(this->buffer_, 64);
+            this->body(this->buffer_, 64);
 
             result[0] = this->a_;
             result[1] = this->a_ >> 8;
@@ -237,8 +237,8 @@ namespace lysutil{
                 return -1;
             }
             unsigned char digest[16];
-            MD5Raw(input, inputLen, digest, 16);
-            make_digest(output, digest);
+            this->MD5Raw(input, inputLen, digest, 16);
+            this->make_digest(output, digest);
             if (outputLen > 32){
                 output[32] = '\0';
             }
@@ -250,9 +250,9 @@ namespace lysutil{
             if (outputLen < 16){
                 return -1;
             }
-            init();
-            MD5Update(input, inputLen);
-            MD5Final(output);
+            this->init();
+            this->MD5Update(input, inputLen);
+            this->MD5Final(output);
             return 0;
         }
 
@@ -262,8 +262,8 @@ namespace lysutil{
                 return -1;
             }
             unsigned char digest[16];
-            MD5FileRaw(file, digest, 16);
-            make_digest(output, digest);
+            this->MD5FileRaw(file, digest, 16);
+            this->make_digest(output, digest);
             if (outputLen > 32){
                 output[32] = '\0';
             }
@@ -275,7 +275,7 @@ namespace lysutil{
             if (outputLen < 16){
                 return -1;
             }
-            init();
+            this->init();
             FILE *fp = fopen(file, "rb");
             if (fp == nullptr){
                 perror("open file failed\n");
@@ -284,7 +284,7 @@ namespace lysutil{
             char buf[4096] = {0};
             while (!feof(fp)){
                 fread(buf, 4096, 1, fp);
-                MD5Update(buf, strlen(buf));
+                this->MD5Update(buf, strlen(buf));
                 bzero(buf, 4096);
             }
             if (ferror(fp)){
@@ -293,7 +293,7 @@ namespace lysutil{
                 return -1;
             }
             fclose(fp);
-            MD5Final(output);
+            this->MD5Final(output);
             return 0;
         }
     }
