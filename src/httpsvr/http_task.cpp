@@ -55,6 +55,7 @@ namespace lysutil{
 
             //解析请求
             httpRequest httpReq(rcvBuf.c_str(), rcvBuf.size());
+            httpReq.client_ip = this->clientip_;
             std::cout << "receive uri = " << httpReq.uri << std::endl;
 
             //响应信息
