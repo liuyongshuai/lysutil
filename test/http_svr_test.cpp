@@ -32,6 +32,7 @@ int main(int argc, char *argv[]){
 
     //启动server
     std::shared_ptr< lysutil::httpsvr::httpServer > server = lysutil::httpsvr::httpServer::get_instance();
+    server->setPort(5000);
     server->start();
     return 0;
 }
