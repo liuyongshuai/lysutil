@@ -92,7 +92,7 @@ set(SRC_SOURCE_LIST
 add_executable(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST})
 target_link_libraries(${project_name} ${library_list})
 install(TARGETS ${project_name} DESTINATION ${work_home}/output)
-#install(DIRECTORY ${work_home}/conf DESTINATION ${work_home}/output)
+install(DIRECTORY ${work_home}/conf DESTINATION ${work_home}/output)
 #install(FILES ${work_home}/inf/control.sh DESTINATION ${work_home}/output)
 
 #遍历./test下所有的.cpp文件
