@@ -9,7 +9,7 @@
 #include<string>
 #include<vector>
 #include<map>
-#include "http_common.h"
+#include "httpsvr/http_common.h"
 #include "comutils/http_utils.h"
 
 namespace lysutil{
