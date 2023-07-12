@@ -179,7 +179,7 @@ namespace lysutil{
             char buf[512] = {0};
             sprintf(buf, "%s", filePath.c_str());
             char *bname = strrchr(buf, '/');
-            if (bname == NULL){
+            if (bname == nullptr){
                 bname = buf;
             }
             else if (bname < buf + strlen(buf)){

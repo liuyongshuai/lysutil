@@ -73,6 +73,7 @@ set(SRC_SOURCE_LIST
         ${src_home}/comutils/toml_parser.cpp
 
         #httpsvr
+        ${src_home}/httpsvr/global_conf.cpp
         ${src_home}/httpsvr/http_common.cpp
         ${src_home}/httpsvr/http_request.cpp
         ${src_home}/httpsvr/http_response.cpp

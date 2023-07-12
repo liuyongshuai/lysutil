@@ -1,6 +1,6 @@
 [http]
 port = 8080
-static_dir = "./static/"
+static_dir = "static"
 
 [thread]
 worker_count = 32
