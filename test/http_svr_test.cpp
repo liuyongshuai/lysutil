@@ -27,7 +27,7 @@ void getJson(lysutil::httpsvr::httpRequest &req, lysutil::httpsvr::httpResponse 
 int main(int argc, char *argv[]){
     //添加路由信息
     std::shared_ptr< lysutil::httpsvr::httpRouter > routers = lysutil::httpsvr::httpRouter::get_instance();
-    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "/?", index);
+    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "\\/\\?", index);
     routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/getjson", getJson);
 
     //启动server
