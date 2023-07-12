@@ -40,6 +40,7 @@ namespace lysutil{
 
             rsp.setHeader("age", "110827400");
             rsp.setHeader("cache-control", "max-age=31536000");
+            rsp.setHeader("Expires", lysutil::comutils::httpUtils::genRespDate(31536000));
 
             //提取文件扩展名，再根据其设置相应的响应头信息
             size_t dot = filepath.find_last_of(".");

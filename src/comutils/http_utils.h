@@ -27,6 +27,8 @@ namespace lysutil{
             //切割原始的头信息
             static void splitRawHeaders(const std::string &header, std::map <std::string, std::string> &rspHeader);
 
+            //http响应中用的日期格式
+            static std::string genRespDate(uint32_t maxAgeTime);
         private:
             httpUtils() = delete;
             httpUtils(const httpUtils &) = delete;

@@ -9,7 +9,7 @@
 namespace lysutil{
     namespace comutils{
 
-        std::unordered_set <uint8_t> httpUtils::isTokenTable = {
+        std::unordered_set< uint8_t > httpUtils::isTokenTable = {
                 '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '0', '1', '2', '3', '4',
                 '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
                 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'W', 'V', 'X', 'Y', 'Z', '^',
@@ -76,8 +76,8 @@ namespace lysutil{
 
 
         //切割cookie信息
-        void httpUtils::splitRawCookie(const std::string &rawCookie, std::map <std::string, std::string> &cookies){
-            std::vector <std::string> kvs;
+        void httpUtils::splitRawCookie(const std::string &rawCookie, std::map< std::string, std::string > &cookies){
+            std::vector< std::string > kvs;
             strUtils::strSplit(rawCookie, ';', kvs);
             if (kvs.size() <= 0){
                 return;
@@ -102,7 +102,7 @@ namespace lysutil{
         }
 
         //合并cookie
-        void httpUtils::joinRawCookie(const std::map <std::string, std::string> &cookie, std::string &rawCookie){
+        void httpUtils::joinRawCookie(const std::map< std::string, std::string > &cookie, std::string &rawCookie){
             std::map< std::string, std::string >::const_iterator iter;
             for (iter = cookie.begin(); iter != cookie.end(); iter++){
                 rawCookie.append(iter->first).append("=").append(iter->second).append("; ");
@@ -112,8 +112,8 @@ namespace lysutil{
         }
 
         //切割原始的头信息
-        void httpUtils::splitRawHeaders(const std::string &header, std::map <std::string, std::string> &rspHeader){
-            std::vector <std::string> sublist;
+        void httpUtils::splitRawHeaders(const std::string &header, std::map< std::string, std::string > &rspHeader){
+            std::vector< std::string > sublist;
             strUtils::strSplit(header, '\n', sublist);
             std::vector< std::string >::const_iterator iter;
             for (iter = sublist.begin(); iter != sublist.end(); iter++){
@@ -133,6 +133,16 @@ namespace lysutil{
                 strUtils::trimSpace(v);
                 rspHeader.insert(std::pair< std::string, std::string >(k, v));
             }
+        }
+
+        //http响应中用的日期格式
+        std::string httpUtils::genRespDate(uint32_t maxAgeTime){
+            char expire_time[128] = {0};
+            time_t expire;
+            time(&expire);
+            expire += maxAgeTime;
+            strftime(expire_time, sizeof(expire_time), "%a, %d %b %Y %H:%M:%S GMT", localtime(&expire));
+            return expire_time;
         }
     }
 } //namespace Project

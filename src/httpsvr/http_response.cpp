@@ -8,14 +8,6 @@
 
 namespace lysutil{
     namespace httpsvr{
-        std::string genCurData(uint32_t maxAgeTime){
-            char expire_time[128] = {0};
-            time_t expire;
-            time(&expire);
-            expire += maxAgeTime;
-            strftime(expire_time, sizeof(expire_time), "%a, %d %b %Y %H:%M:%S GMT", localtime(&expire));
-            return expire_time;
-        }
 
         /**
          * 获取http状态的描述信息
@@ -45,8 +37,8 @@ namespace lysutil{
             this->setHeader("X-Powered-By", "transtopic");
             this->setHeader("Server", "transtopic");
             this->setHeader("Cache-Control", "max-age=86400");
-            this->setHeader("Expires", genCurData(86400));
-            this->setHeader("Date", genCurData(0));
+            this->setHeader("Expires", lysutil::comutils::httpUtils::genRespDate(86400));
+            this->setHeader("Date", lysutil::comutils::httpUtils::genRespDate(0));
             this->status_ = HTTP_STATUS::OK;
             this->setHeader("Content-Type", "text/html; charset=utf-8");
         }
@@ -93,7 +85,7 @@ namespace lysutil{
 
             //过期时间
             if (maxAgeTime > 0){
-                std::string date = genCurData(maxAgeTime);
+                std::string date = lysutil::comutils::httpUtils::genRespDate(maxAgeTime);
                 char exp[256] = {0};
                 sprintf(exp, "; Expires=%s; Max-Age=%u", date.c_str(), maxAgeTime);
                 ckBuf.append(exp);
