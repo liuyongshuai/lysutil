@@ -14,6 +14,8 @@
 #include "httpsvr/http_router.h"
 #include "httpsvr/http_server.h"
 #include "httpsvr/http_common.h"
+#include "comutils/file_utils.h"
+#include "httpsvr/global_conf.h"
 
 void index(lysutil::httpsvr::httpRequest &req, lysutil::httpsvr::httpResponse &resp){
     resp.setBody("Welcome:" + req.client_ip);
@@ -25,9 +27,22 @@ void getJson(lysutil::httpsvr::httpRequest &req, lysutil::httpsvr::httpResponse 
 }
 
 int main(int argc, char *argv[]){
+    std::string absbin = lysutil::comutils::fileUtils::getRealPath(argv[0]);
+    std::cout << "absbin=" << absbin << std::endl;
+
+    std::vector< std::string > tmpdirs;
+    lysutil::comutils::strUtils::strSplit(absbin, '/', tmpdirs);
+    tmpdirs[tmpdirs.size() - 1] = "server.toml";
+    tmpdirs[tmpdirs.size() - 2] = "conf";
+    std::string confdir = "/" + lysutil::comutils::strUtils::strJoin(tmpdirs, "/");
+    std::cout << "confdir=" << confdir << std::endl;
+
+    std::shared_ptr< lysutil::httpsvr::globalConf > gconf = lysutil::httpsvr::globalConf::get_instance();
+    gconf->parseConf(confdir);
+
     //添加路由信息
     std::shared_ptr< lysutil::httpsvr::httpRouter > routers = lysutil::httpsvr::httpRouter::get_instance();
-    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "/static/.*", lysutil::httpsvr::staticResourceFunc);
+    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "/static/\\.\\+", lysutil::httpsvr::staticResourceFunc);
     routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/", index);
     routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/getjson", getJson);
 
