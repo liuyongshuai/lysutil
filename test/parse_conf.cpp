@@ -13,5 +13,15 @@
 int main(int argc, char *argv[]){
     std::string absbin = lysutil::comutils::fileUtils::getRealPath(argv[0]);
     std::cout << "absbin=" << absbin << std::endl;
+
+    std::vector< std::string > tmpdirs;
+    lysutil::comutils::strUtils::strSplit(absbin, '/', tmpdirs);
+    tmpdirs[tmpdirs.size() - 1] = "server.toml";
+    tmpdirs[tmpdirs.size() - 2] = "conf";
+    std::string confdir = "/" + lysutil::comutils::strUtils::strJoin(tmpdirs, "/");
+    std::cout << "confdir=" << confdir << std::endl;
+
+    std::shared_ptr< lysutil::httpsvr::globalConf > gconf = lysutil::httpsvr::globalConf::get_instance();
+    gconf->parseConf(confdir);
     return 0;
 }
