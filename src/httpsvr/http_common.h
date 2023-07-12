@@ -179,8 +179,8 @@ namespace lysutil{
 
         //不同的文件扩展名对应的content-type信息
         const static std::map< std::string, std::string > contentTypeList = {
-                {"js", "application/javascript"},
-                {"css", "text/css"},
+                {"js", "application/javascript;charset=utf-8"},
+                {"css", "text/css;charset=utf-8"},
                 {"html", "text/html;charset=utf-8"},
                 {"json", "application/json"},
                 {"png", "image/png"},
