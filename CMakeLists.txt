@@ -56,7 +56,7 @@ include_directories(${include_list})
 
 # library file list
 set(library_list "-L${work_home}/lib")
-list(APPEND library_list -lpthread -lz -lcrypto -lssl -lrt -ldl -lbz2 -lpcre)
+list(APPEND library_list -lpthread -lpcre)
 
 set(SRC_SOURCE_LIST
         #comutils
