@@ -84,6 +84,7 @@ namespace lysutil{
                 close(this->epollfd_);
                 exit(1);
             }
+            std::cout << "success listen " << this->port_ << std::endl;
         }
 
         /**
