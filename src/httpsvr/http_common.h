@@ -82,7 +82,8 @@ namespace lysutil{
         typedef struct _router_item{
             ROUTER_TYPE type;//路由匹配类型
             std::string config;//规则信息
-            httpFunc func;//控制层
+            std::string rewrite_config;//改写后的规则信息
+            httpFunc func;//执行函数
             std::string extParam;//额外的参数
         } routerItem;
 
