@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
 
     //添加路由信息
     std::shared_ptr< lysutil::httpsvr::httpRouter > routers = lysutil::httpsvr::httpRouter::get_instance();
-    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "\\/static/\\.\\+", lysutil::httpsvr::staticResourceFunc);
+    routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_REGEXP, "static/\\.\\+", lysutil::httpsvr::staticResourceFunc);
     routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/", index);
     routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/getjson", getJson);
 
