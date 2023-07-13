@@ -104,6 +104,7 @@ namespace lysutil{
          * bodyBin
          */
         int httpRequest::parseBody(const void *body, size_t bodyLen){
+            std::cout << "start parseBody,bodyLen=" << bodyLen << std::endl;
             if (bodyLen == 0){
                 return -1;
             }
