@@ -12,47 +12,43 @@ namespace lysutil{
             std::shared_ptr< httpRouter > routers_ = httpRouter::get_instance();
             std::string rcvBuf;
 
-
-            char buf[MAX_SOCK_BUF_SIZE];
-            //读到的字节数
-            int nread;
-            do{
-                bzero(buf, MAX_SOCK_BUF_SIZE);
-                nread = read(this->sockfd_, buf, MAX_SOCK_BUF_SIZE);
-                if (nread > 0){//读到数据
-                    rcvBuf.append(buf, nread);
-                    //此处的数据读取方式较为暴力，假设所有的数据一次性到达
-                    if (nread < MAX_SOCK_BUF_SIZE){
-                        break;
-                    }
-                }
-                else if (nread < 0){//读取失败
-                    if (errno == EAGAIN){//没有数据了
-                        std::cout << "[EAGAIN]read:" << nread << ",errno:" << errno << ",no data" << std::endl;
-                        break;
-                    }
-                    else if (errno == EINTR){//可能被内部中断信号打断,经过验证对非阻塞socket并未收到此错误,应该可以省掉该步判断
-                        std::cout << "[EINTR]read:" << nread << ",errno:" << errno << ",interrupt" << std::endl;
-                        break;
-                    }
-                    else{//客户端主动关闭
-                        std::cout << "[other]read:" << nread << ",errno:" << errno << ",peer error" << std::endl;
-                        break;
-                    }
-                }
-                else if (nread == 0){//客户端主动关闭
-                    std::cout << "ReadThread, read:" << nread << ",errno:" << errno << ",peer close" << std::endl;
-                    break;
-                }
-            }while (true);
+            //开始读数据
+            this->readData(rcvBuf);
 
             //解析请求
-            httpRequest httpReq(rcvBuf.c_str(), rcvBuf.size());
-            httpReq.client_ip = this->clientip_;
+            httpRequest httpReq;
+            httpReq.parseBody(rcvBuf.c_str(), rcvBuf.size());
 
             //响应信息
             httpResponse httpRsp;
             std::string rspStr;
+
+
+            //如果header里有expect：100-continue表示后续还有数据，server端要返回一个响应给client才会继续发送下面的数据
+            std::string expect;
+            std::string contentLengthStr;
+            httpReq.getHeader("expect", expect);
+            httpReq.getHeader("content-length", contentLengthStr);
+            uint64_t contentLength = lysutil::comutils::strUtils::safe_strtoull(contentLengthStr.c_str());
+            if (expect == "100-continue"){
+                httpRsp.setStatus(CONTINUE);
+                httpRsp.setBody(httpStatusDesc.find(CONTINUE)->second);
+                httpRsp.getRsp(rspStr);
+                write(this->sockfd_, rspStr.c_str(), rspStr.size());
+
+                //此时后续还有 contentLength 大小的数据，等一段时间即可
+                size_t haveRead = 0;
+                do{
+                    haveRead += this->readData(rcvBuf);
+                }while (haveRead >= contentLength);
+
+                httpReq.reset();
+                httpReq.parseBody(rcvBuf.c_str(), rcvBuf.size());
+            }
+
+
+            httpReq.client_ip = this->clientip_;
+
 
             //匹配路由信息
             std::map< std::string, std::string > args;
@@ -86,6 +82,44 @@ namespace lysutil{
             httpRsp.getRsp(rspStr);
             write(this->sockfd_, rspStr.c_str(), rspStr.size());
             close(this->sockfd_);
+        }
+
+        size_t httpTask::readData(std::string &data) const{
+            size_t total = 0;
+            char buf[MAX_SOCK_BUF_SIZE];
+            //读到的字节数
+            size_t nread;
+            do{
+                bzero(buf, MAX_SOCK_BUF_SIZE);
+                nread = read(this->sockfd_, buf, MAX_SOCK_BUF_SIZE);
+                total += nread;
+                if (nread > 0){//读到数据
+                    data.append(buf, nread);
+                    //此处的数据读取方式较为暴力，假设所有的数据一次性到达
+                    if (nread < MAX_SOCK_BUF_SIZE){
+                        break;
+                    }
+                }
+                else if (nread < 0){//读取失败
+                    if (errno == EAGAIN){//没有数据了
+                        std::cout << "[EAGAIN]read:" << nread << ",errno:" << errno << ",no data" << std::endl;
+                        break;
+                    }
+                    else if (errno == EINTR){//可能被内部中断信号打断,经过验证对非阻塞socket并未收到此错误,应该可以省掉该步判断
+                        std::cout << "[EINTR]read:" << nread << ",errno:" << errno << ",interrupt" << std::endl;
+                        break;
+                    }
+                    else{//客户端主动关闭
+                        std::cout << "[other]read:" << nread << ",errno:" << errno << ",peer error" << std::endl;
+                        break;
+                    }
+                }
+                else if (nread == 0){//客户端主动关闭
+                    std::cout << "ReadThread, read:" << nread << ",errno:" << errno << ",peer close" << std::endl;
+                    break;
+                }
+            }while (true);
+            return total;
         }
     }
 } //namespace lysutil

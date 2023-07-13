@@ -8,9 +8,6 @@
 
 namespace lysutil{
     namespace httpsvr{
-        httpRequest::httpRequest(const char *body, size_t bodyLen){
-            this->parseBody(body, bodyLen);
-        }
 
         /**
          * 提取header中的信息
@@ -250,7 +247,7 @@ namespace lysutil{
             }
 
             //解析以multipart/form-data上传的字段或文件
-            this->parseMultiPartFormDataArgs(upBoundary.c_str(), rawBody, rawBodyLen);
+            this->parseMultiPartFormDataArgs(upBoundary, rawBody, rawBodyLen);
             free(rawBody);
             return 0;
         }
@@ -394,10 +391,19 @@ namespace lysutil{
         }
 
         /**
+         * 重置所有的数据
+         */
+        void httpRequest::reset(){
+            this->headers.clear();
+            this->args.clear();
+            this->uploadFiles.clear();
+        }
+
+        /**
          * 释放资源
          */
         httpRequest::~httpRequest(){
-
+            this->reset();
         }
     }
 } //namespace pfsm_logsim

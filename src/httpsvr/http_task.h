@@ -29,6 +29,8 @@ namespace lysutil{
         private:
             int sockfd_;
             std::string clientip_;
+
+            size_t readData(std::string &data) const;
         };
     }
 } //namespace lysutil

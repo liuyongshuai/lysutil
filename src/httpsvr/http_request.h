@@ -18,7 +18,14 @@ namespace lysutil{
     namespace httpsvr{
         class httpRequest{
         public:
-            httpRequest(const char *body, size_t bodyLen);
+            /**
+             * 解析http请求的body，会填充请求参数、上传文件等各种信息，基本格式：
+             * GET /abc.....
+             * Key: Value
+             *
+             * bodyBin
+             */
+            int parseBody(const void *body, size_t bodyLen);
 
             /**
              * 提取header中的信息
@@ -33,7 +40,7 @@ namespace lysutil{
             /**
              * 提取请求参数的数组
              */
-            void getArg(const std::string &key, std::vector <std::string> &vals);
+            void getArg(const std::string &key, std::vector< std::string > &vals);
 
             /**
              * 是否为ajax请求
@@ -44,6 +51,11 @@ namespace lysutil{
              * 打印请求的信息
              */
             void printReq();
+
+            /**
+             * 重置所有的数据
+             */
+            void reset();
 
             /**
              * 释放资源
@@ -89,28 +101,19 @@ namespace lysutil{
             /**
              * 请求的头信息
              */
-            std::map <std::string, std::string> headers;
+            std::map< std::string, std::string > headers;
 
             /**
              * 请求时带的KV参数
              */
-            std::map <std::string, std::vector< std::string >> args;
+            std::map< std::string, std::vector< std::string >> args;
 
             /**
              * 上传的文件列表
              */
-            std::map <std::string, uploadFile> uploadFiles;
+            std::map< std::string, uploadFile > uploadFiles;
 
         private:
-            /**
-             * 解析http请求的body，会填充请求参数、上传文件等各种信息，基本格式：
-             * GET /abc.....
-             * Key: Value
-             *
-             * bodyBin
-             */
-            int parseBody(const void *body, size_t bodyLen);
-
             /**
              * 简单的解析参数，请求的Content-Type必须是multipart/form-data，如：
              *      此类请求中，一个参数的开始是 "--" + boundary
