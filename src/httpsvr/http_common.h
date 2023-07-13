@@ -62,9 +62,8 @@ namespace lysutil{
         //上传的文件类型
         typedef struct _upload_file{
             std::string fileName;
-            std::string contentType;
-            char *fileBuf;
-            size_t fileLen;
+            std::string type;
+            std::string content;
         } uploadFile;
 
         //请求方法类型

@@ -95,7 +95,7 @@ namespace lysutil{
             //打印上传文件信息
             std::map< std::string, uploadFile >::const_iterator fileIter;
             for (fileIter = this->uploadFiles.begin(); fileIter != this->uploadFiles.end(); fileIter++){
-                std::cout << "fileName=" << fileIter->second.fileName << "\tfileLen=" << fileIter->second.fileLen << std::endl;
+                std::cout << "fileName=" << fileIter->second.fileName << "\ttype=" << fileIter->second.type << "\tfileLen=" << fileIter->second.content.size() << std::endl;
             }
         }
 
@@ -267,6 +267,7 @@ namespace lysutil{
             std::string tmpBoundary = boundary;
             tmpBoundary.append("\r\n");
             size_t i, pos;
+
             //寻找分界符
             while ((cur = strstr(tmpBuf, tmpBoundary.c_str())) != nullptr){
                 std::string fieldName, fieldValue, fileName, fileContentType;
@@ -303,6 +304,7 @@ namespace lysutil{
                         continue;
                     }
                 }
+
                 //字段
                 if (fileName.empty()){
                     //跳过\r\n\r\n
@@ -318,6 +320,7 @@ namespace lysutil{
                     this->args[fieldName].push_back(fieldValue);
                     continue;
                 }
+
                 //如果是文件的话，下一行是Content-Type
                 tmpPtr += 2;
                 std::string tmpFileContentType;
@@ -360,16 +363,12 @@ namespace lysutil{
                     }
                 }
                 if (next == nullptr){
-//                    std::cout << "next is NULL" << std::endl;
                     return;
                 }
                 uploadFile upF;
-                upF.contentType = fileContentType;
-                upF.fileLen = next - tmpPtr;
-//                std::cout << "upF.fileLen=" << upF.fileLen << std::endl;
+                upF.type = fileContentType;
                 upF.fileName = fileName;
-                upF.fileBuf = (char *) malloc(sizeof(char) * upF.fileLen);
-                memcpy(upF.fileBuf, tmpPtr, upF.fileLen);
+                upF.content.append(tmpPtr, next - tmpPtr);
                 this->uploadFiles[fileName] = upF;
                 tmpBuf = next;
             }
