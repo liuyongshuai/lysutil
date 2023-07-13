@@ -287,14 +287,12 @@ namespace lysutil{
                 if (tmpPart.empty() || tmpPart.find("Content-Disposition") == std::string::npos){
                     return;
                 }
-                std::cout << "tmpPart=" << tmpPart << std::endl;
                 std::vector< std::string > tmpVec;
                 comutils::strUtils::strSplit(tmpPart, ';', tmpVec);
                 if (tmpVec.empty()){
                     return;
                 }
                 for (i = 0; i < tmpVec.size(); i++){
-                    std::cout << "tmpVec[i]=" << tmpVec[i] << std::endl;
                     comutils::strUtils::trimSpace(tmpVec[i]);
                     if (tmpVec[i].find("filename=") == 0){
                         fileName = tmpVec[i].substr(9);
