@@ -46,7 +46,7 @@ namespace lysutil{
              * @param args  从url里提取的参数信息
              * @return
              */
-            const routerItem *matchRouter(const std::string &uri, std::map< std::string, std::string > &args) const;
+            std::shared_ptr< routerItem > matchRouter(const std::string &uri, std::map< std::string, std::string > &args) const;
 
             /**
              * 析构
@@ -77,14 +77,14 @@ namespace lysutil{
              *          /ggtest/abc
              *          /ggtest/44444
              **/
-            bool matchPathInfoRouter(const std::string &uri, const routerItem *router, std::map< std::string, std::string > &args) const;
+            bool matchPathInfoRouter(const std::string &uri, const std::shared_ptr< routerItem > &router, std::map< std::string, std::string > &args) const;
 
             /**
              * 匹配正则路由，直接用正则表达式去匹配请求的URL，并把捕获的参数回传到Param配置里,如
              * conf 为 `^ggtest/aid(\w+?)/cid(\d+)$`，Param 为 aid=$1&cid=$2
              * 则将请求中aid后面的字符串挑出来赋给aid，cid后面的字符串挑出来赋给cid
              */
-            bool matchRegexpRouter(const std::string &uri, const routerItem *router, std::map< std::string, std::string > &args) const;
+            bool matchRegexpRouter(const std::string &uri, const std::shared_ptr< routerItem > &router, std::map< std::string, std::string > &args) const;
         };
     }
 } //namespace Project

@@ -38,19 +38,18 @@ namespace lysutil{
          * @param args  从url里提取的参数信息
          * @return
          */
-        const routerItem *httpRouter::matchRouter(const std::string &uri, std::map< std::string, std::string > &args) const{
+        std::shared_ptr< routerItem > httpRouter::matchRouter(const std::string &uri, std::map< std::string, std::string > &args) const{
             std::string tmpUri = uri;
             comutils::strUtils::trimChar(tmpUri, '/');
-            std::vector< routerItem * >::const_iterator iter;
-            for (iter = routerList.begin(); iter != routerList.end(); iter++){
-                if ((*iter)->type == ROUTER_TYPE_PATH_INFO){
-                    if (this->matchPathInfoRouter(tmpUri, *iter, args)){
-                        return *iter;
+            for (const auto &iter: this->routerList){
+                if (iter->type == ROUTER_TYPE_PATH_INFO){
+                    if (this->matchPathInfoRouter(tmpUri, iter, args)){
+                        return iter;
                     }
                 }
-                else if ((*iter)->type == ROUTER_TYPE_REGEXP){
-                    if (this->matchRegexpRouter(tmpUri, *iter, args)){
-                        return *iter;
+                else if (iter->type == ROUTER_TYPE_REGEXP){
+                    if (this->matchRegexpRouter(tmpUri, iter, args)){
+                        return iter;
                     }
                 }
             }
@@ -70,7 +69,7 @@ namespace lysutil{
          *          /ggtest/abc
          *          /ggtest/44444
          **/
-        bool httpRouter::matchPathInfoRouter(const std::string &uri, const routerItem *router, std::map< std::string, std::string > &args) const{
+        bool httpRouter::matchPathInfoRouter(const std::string &uri, const std::shared_ptr< routerItem > &router, std::map< std::string, std::string > &args) const{
             if (router->config.find(":") == std::string::npos && router->config == uri){
                 return true;
             }
@@ -115,7 +114,7 @@ namespace lysutil{
          * conf 为 `^ggtest/aid(\w+?)/cid(\d+)$`，Param 为 aid=$1&cid=$2
          * 则将请求中aid后面的字符串挑出来赋给aid，cid后面的字符串挑出来赋给cid
          */
-        bool httpRouter::matchRegexpRouter(const std::string &uri, const routerItem *router, std::map< std::string, std::string > &args) const{
+        bool httpRouter::matchRegexpRouter(const std::string &uri, const std::shared_ptr< routerItem > &router, std::map< std::string, std::string > &args) const{
             std::map< std::string, std::string > tmpArgs;
             comutils::pcreUtils reg(router->config);
             if (reg.reg_match(uri) != 0){
@@ -126,9 +125,8 @@ namespace lysutil{
             reg.reg_match_all(uri, subList);
             std::string argStr = router->extParam;
             size_t i = 1;
-            if (subList.size() > 0){
-                std::vector< std::vector< std::string >>::const_iterator
-                        iter;
+            if (!subList.empty()){
+                std::vector< std::vector< std::string >>::const_iterator iter;
                 for (iter = subList.begin(); iter != subList.end(); iter++){
                     std::vector< std::string >::const_iterator iter1;
                     for (iter1 = iter->begin(); iter1 != iter->end(); iter1++){
@@ -166,10 +164,7 @@ namespace lysutil{
         }
 
         httpRouter::~httpRouter(){
-            std::vector< routerItem * >::iterator iter;
-            for (iter = routerList.begin(); iter != routerList.end(); iter++){
-                delete *iter;
-            }
+
         }
     }
 } //namespace Project
