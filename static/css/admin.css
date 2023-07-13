@@ -121,7 +121,7 @@ div.sidebar-menu .nav-list>li>a:hover{background:#e0e0e8}
 div.sidebar-menu .nav-list>.active>a,div.sidebar-menu .nav-list>.active>a:hover{background:#d2d2dd;color:#555;text-shadow:none}
 div.sidebar-menu .nav-list>.active>a:hover{background:#c3c3d2}
 div.sidebar-menu .nav-list>li>a{padding:.5em 1em;color:#444}
-div.sidebar-menu .nav-list.collapse.in{border-bottom:1px solid #ccc;border-right:1px solid #ccc}
+div.sidebar-menu .nav-list.collapse.in{border-bottom:1px solid #ccc;border-right:1px solid #ccc;margin-bottom:50px}
 div.sidebar-menu .no-menu{text-align: center;  padding: 15px 0 15px 0;color: #a94442;background-color: #f2dede;margin-bottom: 20px;border: 1px solid #ebccd1;border-radius: 4px;}
 div.sidebar-menu .nav-list>li>span{position: absolute;top: 6px;left: 34px;}
 .editor-toolbar{position: fixed;top:2px;z-index: 5000;border: 1px solid blue!important;}
