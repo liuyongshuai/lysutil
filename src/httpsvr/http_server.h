@@ -12,6 +12,7 @@
 #include "httpsvr/http_common.h"
 #include "httpsvr/http_router.h"
 #include "httpsvr/http_task.h"
+#include "global_conf.h"
 
 namespace lysutil{
     namespace httpsvr{
@@ -23,7 +24,8 @@ namespace lysutil{
                 }
                 instance_ = std::shared_ptr< httpServer >(new httpServer);
                 instance_->routers_ = httpRouter::get_instance();
-                instance_->threadManager_ = apache::thrift::concurrency::ThreadManager::newSimpleThreadManager(64, 4);
+                std::shared_ptr< lysutil::httpsvr::globalConf > gconf = lysutil::httpsvr::globalConf::get_instance();
+                instance_->threadManager_ = apache::thrift::concurrency::ThreadManager::newSimpleThreadManager(gconf->thread_worker_count, gconf->max_pending_worker_count);
                 std::shared_ptr< apache::thrift::concurrency::ThreadFactory > threadFactory = std::make_shared< apache::thrift::concurrency::ThreadFactory >();
                 instance_->threadManager_->threadFactory(threadFactory);
                 instance_->threadManager_->start();
@@ -45,8 +47,11 @@ namespace lysutil{
 
         private:
             httpServer(){};
+
             httpServer(const httpServer &) = delete;
+
             httpServer &operator=(const httpServer &) = delete;
+
             static std::shared_ptr< httpServer > instance_;
 
             //端口号
