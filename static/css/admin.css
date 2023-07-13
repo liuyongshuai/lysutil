@@ -107,7 +107,7 @@ div.navbar[role=navigation] .dropdown-menu a{padding-left:10px!important;}
 div.navbar[role=navigation] .dropdown-menu a:hover{background:0 0;color:#000;padding-left:10px!important;}
 div.navbar[role=navigation] .nav li.dropdown.open>.dropdown-toggle{background-color:#444;color:#fff}
 div.main-content{position:relative;margin-left:10pc;min-width:25pc;min-height:35pc;border-left:1px solid #ccc;border-left:3px solid #999;background:#fff}
-div.sidebar-menu{position:absolute;float:left;margin:0;width:10pc;border-top:none;border-left:none}
+div.sidebar-menu{position:absolute;float:left;margin:0;width:15pc;border-top:none;border-left:none}
 div.sidebar-menu a{text-decoration:none}
 div.sidebar-menu .nav-header{display:block;margin-bottom:0;padding:0 .25em;border-top:1px solid #fff;border-bottom:1px solid #c8c8cb;border-left:none;background:#efeff0;background:-webkit-gradient(linear,left bottom,left top,color-stop(0,#efeff0),color-stop(1,#fff));background:-o-linear-gradient(bottom,#efeff0,#fff);color:#333;text-transform:none;text-shadow:none;font-weight:400;font-size:1em;line-height:2.5em;filter:progid:dximagetransform.microsoft.gradient(startColorStr='#4d5b76', EndColorStr='#6c7a95');-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#efeff0')"}
 div.sidebar-menu .nav-header .label{float:right;margin-top:.5em;margin-right:.25em;line-height:1.5em}
@@ -121,7 +121,7 @@ div.sidebar-menu .nav-list>li>a:hover{background:#e0e0e8}
 div.sidebar-menu .nav-list>.active>a,div.sidebar-menu .nav-list>.active>a:hover{background:#d2d2dd;color:#555;text-shadow:none}
 div.sidebar-menu .nav-list>.active>a:hover{background:#c3c3d2}
 div.sidebar-menu .nav-list>li>a{padding:.5em 1em;color:#444}
-div.sidebar-menu .nav-list.collapse.in{border-bottom:1px solid #ccc}
+div.sidebar-menu .nav-list.collapse.in{border-bottom:1px solid #ccc;border-right:1px solid #ccc}
 div.sidebar-menu .no-menu{text-align: center;  padding: 15px 0 15px 0;color: #a94442;background-color: #f2dede;margin-bottom: 20px;border: 1px solid #ebccd1;border-radius: 4px;}
 div.sidebar-menu .nav-list>li>span{position: absolute;top: 6px;left: 34px;}
 .editor-toolbar{position: fixed;top:2px;z-index: 5000;border: 1px solid blue!important;}
