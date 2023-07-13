@@ -19,13 +19,13 @@ namespace lysutil{
         /**
          * 添加路由信息
          */
-        void httpRouter::addRouter(ROUTER_TYPE t, const std::string &c, httpFunc f, const std::string &redirect_file ,const std::string &extParam){
+        void httpRouter::addRouter(ROUTER_TYPE t, const std::string &c, httpFunc f, const std::string &static_file ,const std::string &extParam){
             std::string tmpUri = c;
             comutils::strUtils::trimChar(tmpUri, '/');
             routerItem *ritem = new routerItem;
             ritem->type = t;
             ritem->config = tmpUri;
-            ritem->redirect_file = redirect_file;
+            ritem->static_file = static_file;
             ritem->func = f;
             ritem->extParam = extParam;
             this->routerList.push_back(ritem);
@@ -37,7 +37,7 @@ namespace lysutil{
             routerItem *ritem = new routerItem;
             ritem->type = router.type;
             ritem->config = tmpUri;
-            ritem->redirect_file = router.redirect_file;
+            ritem->static_file = router.static_file;
             ritem->func = router.func;
             ritem->extParam = router.extParam;
             this->routerList.push_back(ritem);

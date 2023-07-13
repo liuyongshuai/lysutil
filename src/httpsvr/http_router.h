@@ -37,7 +37,8 @@ namespace lysutil{
              * @param f         执行的回调函数
              * @param extParam  额外的参数
              */
-            void addRouter(ROUTER_TYPE t,const std::string &c,httpFunc f,const std::string &redirect_file = "",const std::string &extParam = "");
+            void addRouter(ROUTER_TYPE t, const std::string &c, httpFunc f, const std::string &static_file = "", const std::string &extParam = "");
+
             void addRouter(const routerItem &router);
 
             /**
@@ -55,11 +56,8 @@ namespace lysutil{
 
         private:
             httpRouter(){};
-
             httpRouter(const httpRouter &) = delete;
-
             httpRouter &operator=(const httpRouter &) = delete;
-
             static std::shared_ptr< httpRouter > instance_;
 
             /**
