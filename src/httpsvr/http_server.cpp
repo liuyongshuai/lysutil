@@ -102,7 +102,6 @@ namespace lysutil{
             //等待epoll事件的发生,如果当前有信号的句柄数大于输出事件数组的最大大小,
             //超过部分会在下次epoll_wait时输出,事件不会丢
             nfds = epoll_wait(this->epollfd_, this->events_, MAX_EVENTS, 500);
-            std::cout << "[" << __FUNCTION__ << "]nfds=" << nfds << std::endl;
 
             //处理所发生的所有事件
             for (i = 0; i < nfds; ++i){
