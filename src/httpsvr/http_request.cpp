@@ -335,10 +335,10 @@ namespace lysutil{
                 //跳过\r\n\r\n
                 tmpPtr += 4;
                 next = tmpPtr;
-//                std::cout << "fileName=" << fileName << "\tfieldName=" << fieldName << "\tfileContentType=" << fileContentType << std::endl;
-//                std::cout << "remain size=" << rawBody + rawBodyLen - tmpPtr << "\trawBodyLen=" << rawBodyLen << std::endl;
+                std::cout << "fileName=" << fileName << "\tfieldName=" << fieldName << "\tfileContentType=" << fileContentType << std::endl;
+                std::cout << "remain size=" << rawBody + rawBodyLen - tmpPtr << "\trawBodyLen=" << rawBodyLen << std::endl;
                 //搜索\r，下一个字符必须是\n，前面的字符串必须是分界符
-//                std::cout << "tmpBoundary.size()=" << tmpBoundary.size() << "\ttmpBoundary=" << tmpBoundary << std::endl;
+                std::cout << "tmpBoundary.size()=" << tmpBoundary.size() << "\ttmpBoundary=" << tmpBoundary << std::endl;
                 while (next < rawBody + rawBodyLen){
                     next++;
                     if ((size_t) (next - tmpPtr) < tmpBoundary.size()){
