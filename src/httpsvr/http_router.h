@@ -38,7 +38,6 @@ namespace lysutil{
              * @param extParam  额外的参数
              */
             void addRouter(ROUTER_TYPE t, const std::string &c, httpFunc f, const std::string &static_file = "", const std::string &extParam = "");
-
             void addRouter(const routerItem &router);
 
             /**
@@ -63,7 +62,7 @@ namespace lysutil{
             /**
              * 注册的路由列表
              */
-            std::vector< routerItem * > routerList;
+            std::vector< std::shared_ptr< routerItem > > routerList;
 
             /**
              * 匹配全路径路由

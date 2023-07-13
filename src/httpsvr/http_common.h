@@ -7,6 +7,7 @@
 #define _TRANSTOPIC_COMMON_H_202306271124_
 
 #include<string>
+#include <utility>
 #include<vector>
 #include<map>
 #include<memory>
@@ -85,6 +86,14 @@ namespace lysutil{
             std::string static_file;//针对静态资源的改写后的规则信息
             httpFunc func;//执行函数
             std::string extParam;//额外的参数
+            _router_item(ROUTER_TYPE type_, std::string config_,  std::string static_file_, httpFunc func_,  std::string extParam_)
+                    : type(type_),
+                      config(std::move(config_)),
+                      static_file(std::move(static_file_)),
+                      func(func_),
+                      extParam(std::move(extParam_)){
+
+            }
         } routerItem;
 
         //http的状态

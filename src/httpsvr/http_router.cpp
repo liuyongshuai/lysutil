@@ -8,7 +8,7 @@
 
 namespace lysutil{
     namespace httpsvr{
-        std::shared_ptr <httpRouter> httpRouter::instance_ = nullptr;
+        std::shared_ptr< httpRouter > httpRouter::instance_ = nullptr;
 
         //添加一条路由信息
         void httpRouter::addRouter(const routerItem *r){
@@ -19,28 +19,17 @@ namespace lysutil{
         /**
          * 添加路由信息
          */
-        void httpRouter::addRouter(ROUTER_TYPE t, const std::string &c, httpFunc f, const std::string &static_file ,const std::string &extParam){
+        void httpRouter::addRouter(ROUTER_TYPE t, const std::string &c, httpFunc f, const std::string &static_file, const std::string &extParam){
             std::string tmpUri = c;
             comutils::strUtils::trimChar(tmpUri, '/');
-            routerItem *ritem = new routerItem;
-            ritem->type = t;
-            ritem->config = tmpUri;
-            ritem->static_file = static_file;
-            ritem->func = f;
-            ritem->extParam = extParam;
-            this->routerList.push_back(ritem);
+            this->routerList.push_back(std::make_shared< routerItem >(t, tmpUri, static_file, f, extParam));
         }
 
+        /**
+         * 添加路由信息
+         */
         void httpRouter::addRouter(const routerItem &router){
-            std::string tmpUri = router.config;
-            comutils::strUtils::trimChar(tmpUri, '/');
-            routerItem *ritem = new routerItem;
-            ritem->type = router.type;
-            ritem->config = tmpUri;
-            ritem->static_file = router.static_file;
-            ritem->func = router.func;
-            ritem->extParam = router.extParam;
-            this->routerList.push_back(ritem);
+            this->addRouter(router.type, router.config, router.func, router.static_file, router.extParam);
         }
 
         /**
@@ -49,7 +38,7 @@ namespace lysutil{
          * @param args  从url里提取的参数信息
          * @return
          */
-        const routerItem *httpRouter::matchRouter(const std::string &uri, std::map <std::string, std::string> &args) const{
+        const routerItem *httpRouter::matchRouter(const std::string &uri, std::map< std::string, std::string > &args) const{
             std::string tmpUri = uri;
             comutils::strUtils::trimChar(tmpUri, '/');
             std::vector< routerItem * >::const_iterator iter;
@@ -81,16 +70,16 @@ namespace lysutil{
          *          /ggtest/abc
          *          /ggtest/44444
          **/
-        bool httpRouter::matchPathInfoRouter(const std::string &uri, const routerItem *router, std::map <std::string, std::string> &args) const{
+        bool httpRouter::matchPathInfoRouter(const std::string &uri, const routerItem *router, std::map< std::string, std::string > &args) const{
             if (router->config.find(":") == std::string::npos && router->config == uri){
                 return true;
             }
-            std::map <std::string, std::string> tmpArgs;
+            std::map< std::string, std::string > tmpArgs;
             //请求的URL的切片
-            std::vector <std::string> pathInfo;
+            std::vector< std::string > pathInfo;
             comutils::strUtils::strSplit(uri, '/', pathInfo);
             //事先配置好的路由的切片，要和URL逐个比对，若有:arg、:arg:这样的还要替换
-            std::vector <std::string> confInfo;
+            std::vector< std::string > confInfo;
             comutils::strUtils::strSplit(router->config, '/', confInfo);
             if (pathInfo.size() > confInfo.size()){
                 return false;
@@ -126,20 +115,20 @@ namespace lysutil{
          * conf 为 `^ggtest/aid(\w+?)/cid(\d+)$`，Param 为 aid=$1&cid=$2
          * 则将请求中aid后面的字符串挑出来赋给aid，cid后面的字符串挑出来赋给cid
          */
-        bool httpRouter::matchRegexpRouter(const std::string &uri, const routerItem *router, std::map <std::string, std::string> &args) const{
-            std::map <std::string, std::string> tmpArgs;
+        bool httpRouter::matchRegexpRouter(const std::string &uri, const routerItem *router, std::map< std::string, std::string > &args) const{
+            std::map< std::string, std::string > tmpArgs;
             comutils::pcreUtils reg(router->config);
             if (reg.reg_match(uri) != 0){
                 std::cout << "httpRouter::matchRegexpRouter:regexp not match\t" << router->config << "\t" << uri << std::endl;
                 return false;
             }
-            std::vector <std::vector< std::string >> subList;
+            std::vector< std::vector< std::string >> subList;
             reg.reg_match_all(uri, subList);
             std::string argStr = router->extParam;
             size_t i = 1;
             if (subList.size() > 0){
-                std::vector < std::vector < std::string >> ::const_iterator
-                iter;
+                std::vector< std::vector< std::string >>::const_iterator
+                        iter;
                 for (iter = subList.begin(); iter != subList.end(); iter++){
                     std::vector< std::string >::const_iterator iter1;
                     for (iter1 = iter->begin(); iter1 != iter->end(); iter1++){
@@ -155,7 +144,7 @@ namespace lysutil{
                 }
             }
 
-            std::vector <std::string> tmpArgVec;
+            std::vector< std::string > tmpArgVec;
             size_t pos;
             comutils::strUtils::strSplit(argStr, '&', tmpArgVec);
             std::vector< std::string >::const_iterator vecStrIter;
