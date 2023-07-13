@@ -7,10 +7,46 @@
     <link rel="Bookmark" href="/static/images/favicon.ico"/>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/base.css" />
-    <link rel="stylesheet" href="/static/css/admin.css" />
+    <link rel="stylesheet" href="/static/css/base.css"/>
+    <link rel="stylesheet" href="/static/css/admin.css?t=13"/>
     <script type="text/javascript" defer src="/static/js/base.js"></script>
 </head>
 <body>
+<!--顶部的导航栏-->
+<div class="navbar" role="navigation">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="javascript:void(0);">
+                <span class="first">状态机测试小工具</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--左边的topic列表-->
+<div class="sidebar-menu">
+    <ul class="nav nav-list collapse in">
+        <li id="topic_alarm_data" data-value="alarm_data" data-attr="topic">
+            <a href="javascript:void(0);"><span class="glyphicon glyphicon-plus"></span></a>
+            <span>alarm_data</span>
+        </li>
+        <li id="topic_avp_ctrl_2_soc_data" data-value="avp_ctrl_2_soc_data" data-attr="topic">
+            <a href="javascript:void(0);"><span class="glyphicon glyphicon-plus"></span></a>
+            <span>avp_ctrl_2_soc_data</span>
+        </li>
+        <li id="topic_ble_data" data-value="ble_data" data-attr="topic">
+            <a href="javascript:void(0);"><span class="glyphicon glyphicon-plus"></span></a>
+            <span>ble_data</span>
+        </li>
+        <li id="topic_break_rx" data-value="break_rx" data-attr="topic">
+            <a href="javascript:void(0);"><span class="glyphicon glyphicon-plus"></span></a>
+            <span>break_rx</span>
+        </li>
+        <li id="topic_camera_rtk_bundle" data-value="camera_rtk_bundle" data-attr="topic">
+            <a href="javascript:void(0);"><span class="glyphicon glyphicon-plus"></span></a>
+            <span>camera_rtk_bundle</span>
+        </li>
+    </ul>
+</div>
 </body>
 </html>
