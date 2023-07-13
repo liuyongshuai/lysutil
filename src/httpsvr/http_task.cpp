@@ -57,9 +57,9 @@ namespace lysutil{
                         close(this->sockfd_);
                         return;
                     }
-                    std::cout << "haveRead=" << haveRead << "\tread_size=" << read_size << "\tcontentLength=" << contentLength << std::endl;
                     haveRead += read_size;
-                }while (haveRead >= contentLength);
+                    std::cout << "haveRead=" << haveRead << "\tread_size=" << read_size << "\tcontentLength=" << contentLength << std::endl;
+                }while (haveRead < contentLength);
 
                 httpReq.reset();
                 httpReq.parseBody(rcvBuf.c_str(), rcvBuf.size());
