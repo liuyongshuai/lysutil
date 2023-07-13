@@ -46,6 +46,7 @@ namespace lysutil{
             rsp.setHeader("last-modified", lysutil::comutils::httpUtils::genFixedRespDate(lastModifyTime));
             rsp.setHeader("cache-control", "max-age=31536000");
             rsp.setHeader("Expires", lysutil::comutils::httpUtils::genRespDate(31536000));
+            rsp.setHeader("access-control-allow-origin", "*");
 
             //提取文件扩展名，再根据其设置相应的响应头信息
             size_t dot = filepath.find_last_of(".");
