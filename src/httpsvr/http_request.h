@@ -69,7 +69,7 @@ namespace lysutil{
             /**
              * 针对静态资源改写的路径
              */
-            std::string redirect_file;
+            std::string static_file;
 
             /**
              * 请求时的客户端IP

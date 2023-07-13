@@ -20,8 +20,8 @@ namespace lysutil{
          */
         void staticResourceFunc(httpRequest &req, httpResponse &rsp){
             std::string uri = req.uri;
-            if (!req.redirect_file.empty()){
-                uri = req.redirect_file;
+            if (!req.static_file.empty()){
+                uri = req.static_file;
             }
             //如果不是以/static/开头的话，直接返回404
             if (!lysutil::comutils::strUtils::hasPrefix(uri, "/static/")){
