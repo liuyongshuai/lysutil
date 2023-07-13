@@ -48,9 +48,8 @@ namespace lysutil{
                 //此时后续还有 contentLength 大小的数据，等一段时间即可
                 size_t haveRead = 0;
                 do{
-                    int ret = this->readData(rcvBuf, &read_size);
                     //读数据时意外终止
-                    if (ret > 0){
+                    if (this->readData(rcvBuf, &read_size) > 0){
                         httpRsp.setStatus(NOT_IMPLEMENTED);
                         httpRsp.setBody(httpStatusDesc.find(NOT_IMPLEMENTED)->second);
                         httpRsp.getRsp(rspStr);
