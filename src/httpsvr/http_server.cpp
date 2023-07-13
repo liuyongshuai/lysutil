@@ -107,7 +107,6 @@ namespace lysutil{
             for (i = 0; i < nfds; ++i){
                 //是本监听socket上的事件
                 if (this->events_[i].data.fd == this->listenfd_){
-                    std::cout << "events:" << this->events_[i].events << ",errno:" << errno << std::endl;
                     //有连接到来
                     if (this->events_[i].events & EPOLLIN){
                         do{
@@ -116,12 +115,11 @@ namespace lysutil{
                             if (connfd > 0){
                                 //this->setNonBlocking(connfd);
                                 char *clientIP = inet_ntoa(cliaddr.sin_addr);
-                                std::cout << "accept:" << connfd << ",errno:" << errno << ",connect:" << clientIP << ":" << ntohs(cliaddr.sin_port) << std::endl;
+                                //std::cout << "accept:" << connfd << ",errno:" << errno << ",connect:" << clientIP << ":" << ntohs(cliaddr.sin_port) << std::endl;
                                 std::shared_ptr< apache::thrift::concurrency::Runnable > task = std::shared_ptr< apache::thrift::concurrency::Runnable >(new httpTask(connfd, clientIP));
                                 this->threadManager_->add(task);
                             }
                             else{
-                                std::cout << "accept:" << connfd << ",errno:" << errno << std::endl;
                                 //没有连接需要接收了
                                 if (errno == EAGAIN){
                                     break;

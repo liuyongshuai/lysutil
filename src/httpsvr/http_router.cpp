@@ -118,7 +118,7 @@ namespace lysutil{
             std::map< std::string, std::string > tmpArgs;
             comutils::pcreUtils reg(router->config);
             if (reg.reg_match(uri) != 0){
-                std::cout << "httpRouter::matchRegexpRouter:regexp not match\t" << router->config << "\t" << uri << std::endl;
+                //std::cout << "httpRouter::matchRegexpRouter:regexp not match\t" << router->config << "\t" << uri << std::endl;
                 return false;
             }
             std::vector< std::vector< std::string >> subList;
