@@ -23,6 +23,7 @@ namespace lysutil{
                     return instance_;
                 }
                 instance_ = std::shared_ptr< globalConf >(new globalConf);
+                instance_->startup_second_timestamp = time(nullptr);
                 return instance_;
             }
 
@@ -50,6 +51,11 @@ namespace lysutil{
              * 最多允许的空闲worker
              */
             uint16_t max_pending_worker_count;
+
+            /**
+             * 启动时的时间戳
+             */
+            uint64_t startup_second_timestamp;
         private:
             globalConf(){};
             globalConf(const globalConf &) = delete;
