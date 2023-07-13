@@ -62,10 +62,9 @@ namespace lysutil{
             httpResponse httpRsp;
             std::string rspStr;
 
-            const routerItem *r = nullptr;
 
             std::map< std::string, std::string > args;
-            r = routers_->matchRouter(httpReq.uri, args);
+            std::shared_ptr< routerItem > r = routers_->matchRouter(httpReq.uri, args);
             if (r == nullptr){
                 httpRsp.setStatus(NOT_FOUND);
                 httpRsp.setBody(httpStatusDesc.find(NOT_FOUND)->second);
