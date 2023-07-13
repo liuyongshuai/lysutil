@@ -110,7 +110,7 @@ namespace lysutil{
             do{
                 bzero(buf, MAX_SOCK_BUF_SIZE);
                 nread = read(this->sockfd_, buf, MAX_SOCK_BUF_SIZE);
-                read_size += nread;
+                *read_size += nread;
                 if (nread > 0){//读到数据
                     data.append(buf, nread);
                     //此处的数据读取方式较为暴力，假设所有的数据一次性到达
