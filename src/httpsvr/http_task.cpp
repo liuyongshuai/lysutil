@@ -86,7 +86,6 @@ namespace lysutil{
             httpRsp.getRsp(rspStr);
             write(this->sockfd_, rspStr.c_str(), rspStr.size());
             close(this->sockfd_);
-            std::cout << "end task:" << this->sockfd_ << std::endl;
         }
     }
 } //namespace lysutil
