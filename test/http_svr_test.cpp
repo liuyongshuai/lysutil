@@ -48,8 +48,8 @@ int main(int argc, char *argv[]){
             lysutil::httpsvr::ROUTER_TYPE_PATH_INFO,
             "/ipc",
             "/static/html/ipc.html",
-            lysutil::httpsvr::staticResourceFunc
-
+            lysutil::httpsvr::staticResourceFunc,
+            ""
     });
     routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/", index);
     routers->addRouter(lysutil::httpsvr::ROUTER_TYPE_PATH_INFO, "/getjson", getJson);
