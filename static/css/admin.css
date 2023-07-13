@@ -106,7 +106,7 @@ div.navbar[role=navigation] .dropdown-menu span.glyphicon{margin-right: 5px;}
 div.navbar[role=navigation] .dropdown-menu a{padding-left:10px!important;}
 div.navbar[role=navigation] .dropdown-menu a:hover{background:0 0;color:#000;padding-left:10px!important;}
 div.navbar[role=navigation] .nav li.dropdown.open>.dropdown-toggle{background-color:#444;color:#fff}
-div.main-content{position:relative;margin-left:10pc;min-width:25pc;min-height:35pc;border-left:1px solid #ccc;border-left:3px solid #999;background:#fff}
+div.main-content{position:relative;margin-left:15pc;min-width:25pc;min-height:35pc;border-left:1px solid #ccc;border-left:3px solid #999;background:#fff}
 div.sidebar-menu{position:absolute;float:left;margin:0;width:15pc;border-top:none;border-left:none}
 div.sidebar-menu a{text-decoration:none}
 div.sidebar-menu .nav-header{display:block;margin-bottom:0;padding:0 .25em;border-top:1px solid #fff;border-bottom:1px solid #c8c8cb;border-left:none;background:#efeff0;background:-webkit-gradient(linear,left bottom,left top,color-stop(0,#efeff0),color-stop(1,#fff));background:-o-linear-gradient(bottom,#efeff0,#fff);color:#333;text-transform:none;text-shadow:none;font-weight:400;font-size:1em;line-height:2.5em;filter:progid:dximagetransform.microsoft.gradient(startColorStr='#4d5b76', EndColorStr='#6c7a95');-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#efeff0')"}
