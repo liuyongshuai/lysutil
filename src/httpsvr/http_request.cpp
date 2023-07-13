@@ -220,6 +220,9 @@ namespace lysutil{
             std::string cntType;
             std::string upBoundary;
             this->getHeader("Content-Type", cntType);
+
+            std::cout << "cntType=" << cntType << std::endl;
+
             if (cntType.find_first_of(";", 0) != std::string::npos){
                 tmpVec.clear();
                 comutils::strUtils::strSplit(cntType, ';', tmpVec);
@@ -248,6 +251,7 @@ namespace lysutil{
             }
 
             //解析以multipart/form-data上传的字段或文件
+            std::cout << "start parseMultiPartFormDataArgs" << std::endl;
             this->parseMultiPartFormDataArgs(upBoundary, rawBody, rawBodyLen);
             free(rawBody);
             return 0;
