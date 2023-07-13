@@ -13,7 +13,8 @@ namespace lysutil{
             std::string rcvBuf;
 
             //开始读数据
-            this->readData(rcvBuf);
+            size_t read_size;
+            this->readData(rcvBuf, &read_size);
 
             //解析请求
             httpRequest httpReq;
@@ -39,7 +40,17 @@ namespace lysutil{
                 //此时后续还有 contentLength 大小的数据，等一段时间即可
                 size_t haveRead = 0;
                 do{
-                    haveRead += this->readData(rcvBuf);
+                    int ret = this->readData(rcvBuf, &read_size);
+                    //读数据时意外终止
+                    if (ret > 0){
+                        httpRsp.setStatus(NOT_IMPLEMENTED);
+                        httpRsp.setBody(httpStatusDesc.find(NOT_IMPLEMENTED)->second);
+                        httpRsp.getRsp(rspStr);
+                        write(this->sockfd_, rspStr.c_str(), rspStr.size());
+                        close(this->sockfd_);
+                        return;
+                    }
+                    haveRead += read_size;
                 }while (haveRead >= contentLength);
 
                 httpReq.reset();
@@ -84,15 +95,14 @@ namespace lysutil{
             close(this->sockfd_);
         }
 
-        size_t httpTask::readData(std::string &data) const{
-            size_t total = 0;
+        int httpTask::readData(std::string &data, size_t *read_size) const{
             char buf[MAX_SOCK_BUF_SIZE];
             //读到的字节数
             size_t nread;
             do{
                 bzero(buf, MAX_SOCK_BUF_SIZE);
                 nread = read(this->sockfd_, buf, MAX_SOCK_BUF_SIZE);
-                total += nread;
+                read_size += nread;
                 if (nread > 0){//读到数据
                     data.append(buf, nread);
                     //此处的数据读取方式较为暴力，假设所有的数据一次性到达
@@ -111,15 +121,15 @@ namespace lysutil{
                     }
                     else{//客户端主动关闭
                         std::cout << "[other]read:" << nread << ",errno:" << errno << ",peer error" << std::endl;
-                        break;
+                        return 1;
                     }
                 }
                 else if (nread == 0){//客户端主动关闭
                     std::cout << "ReadThread, read:" << nread << ",errno:" << errno << ",peer close" << std::endl;
-                    break;
+                    return 1;
                 }
             }while (true);
-            return total;
+            return 0;
         }
     }
 } //namespace lysutil

@@ -30,7 +30,7 @@ namespace lysutil{
             int sockfd_;
             std::string clientip_;
 
-            size_t readData(std::string &data) const;
+            int readData(std::string &data, size_t *read_size) const;
         };
     }
 } //namespace lysutil
