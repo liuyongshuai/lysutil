@@ -47,11 +47,8 @@ namespace lysutil{
 
         private:
             httpServer(){};
-
             httpServer(const httpServer &) = delete;
-
             httpServer &operator=(const httpServer &) = delete;
-
             static std::shared_ptr< httpServer > instance_;
 
             //端口号
