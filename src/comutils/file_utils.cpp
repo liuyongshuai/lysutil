@@ -130,9 +130,10 @@ namespace lysutil{
         }
 
         int fileUtils::getRawFileContent(const std::string &filePath, std::string &content){
-            FILE *fp = fopen(filePath.c_str(), "b");
+            FILE *fp = fopen(filePath.c_str(), "rb");
             if (fp == nullptr){
-                perror("open file failed\n");
+                std::string e = "open file failed: " + filePath;
+                perror(e.c_str());
                 return -1;
             }
             char buf[4096] = {0};
@@ -158,7 +159,7 @@ namespace lysutil{
             std::string realFilePath = backupFile(filePath, needBackup);
 
             //开始写文件
-            FILE *fp = fopen(realFilePath.c_str(), "b");
+            FILE *fp = fopen(realFilePath.c_str(), "wb");
             if (fp == nullptr){
                 perror("open file failed");
                 return -1;
