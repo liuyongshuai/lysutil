@@ -58,7 +58,7 @@ namespace lysutil{
 
             //设置相应的内容
             std::string filebody;
-            lysutil::comutils::fileUtils::getTxtFileContent(filepath, filebody);
+            lysutil::comutils::fileUtils::getRawFileContent(filepath, filebody);
             rsp.setHeader("Content-Length", std::to_string(filebody.size()));
             rsp.setBody(filebody);
         }

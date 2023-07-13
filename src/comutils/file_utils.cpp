@@ -22,7 +22,7 @@ namespace lysutil{
         }
 
         //读取目录下所有的文件列表，包括隐藏的
-        int fileUtils::getDirFileList(const std::string &dir, std::list <std::string> &filelList){
+        int fileUtils::getDirFileList(const std::string &dir, std::list< std::string > &filelList){
             std::string realDir = getRealPath(dir);
             if (!isFileExist(realDir)){
                 return -1;
@@ -85,8 +85,8 @@ namespace lysutil{
         }
 
         //读取文件全部内容
-        int fileUtils::getTxtFileContent(const std::string &filePath, std::vector <std::string> &lines){
-            std::vector <std::string> tmp;
+        int fileUtils::getTxtFileContent(const std::string &filePath, std::vector< std::string > &lines){
+            std::vector< std::string > tmp;
             std::string content;
             getTxtFileContent(filePath, content);
             strUtils::strSplit(content, '\n', tmp);
@@ -102,27 +102,7 @@ namespace lysutil{
 
         //写内容入文件
         int fileUtils::putTxtFileContent(const std::string &filePath, const std::string &content, bool needBackup){
-            std::string realFilePath;
-            getRealPath(filePath, realFilePath);
-
-            //如果已存在的文件需要备份的话
-            if (isFileExist(realFilePath) && needBackup){
-                std::string newFile = realFilePath + "." + std::to_string(time(nullptr));
-                int ret = rename(realFilePath.c_str(), newFile.c_str());
-                if (ret != 0){
-                    perror("rename file failed");
-                    return ret;
-                }
-            }
-
-            //提取dirname确保已经创建
-            std::vector <std::string> vec;
-            strUtils::strSplit(realFilePath, '/', vec);
-            std::string dirName;
-            for (size_t i = 0; i < vec.size() - 1; i++){
-                dirName.append("/").append(vec[i]);
-            }
-            mkDirsAll(dirName);
+            std::string realFilePath = backupFile(filePath, needBackup);
 
             //开始写文件
             FILE *fp = fopen(realFilePath.c_str(), "w");
@@ -143,10 +123,80 @@ namespace lysutil{
         }
 
         //写内容入文件
-        int fileUtils::putTxtFileContent(const std::string &filePath, const std::vector <std::string> &content, bool needBackup){
+        int fileUtils::putTxtFileContent(const std::string &filePath, const std::vector< std::string > &content, bool needBackup){
             std::string newContent;
             strUtils::strJoin(content, "\n", newContent);
             return putTxtFileContent(filePath, newContent, needBackup);
+        }
+
+        int fileUtils::getRawFileContent(const std::string &filePath, std::string &content){
+            FILE *fp = fopen(filePath.c_str(), "br");
+            if (fp == nullptr){
+                perror("open file failed\n");
+                return -1;
+            }
+            char buf[4096] = {0};
+            size_t bsize = 4096;
+            size_t rnum = 0;
+            while (!feof(fp)){
+                memset(buf, 0, 4096);
+                rnum = fread(buf, 1, bsize, fp);
+                if (rnum == 0){
+                    break;
+                }
+                content.append(buf, rnum);
+            }
+            fclose(fp);
+            return 0;
+        }
+
+        int fileUtils::putRawFileContent(const std::string &filePath, const std::string &content, bool needBackup){
+            putRawFileContent(filePath, content.c_str(), content.size(), needBackup);
+        }
+
+        int fileUtils::putRawFileContent(const std::string &filePath, const char *content, size_t content_len, bool needBackup){
+            std::string realFilePath = backupFile(filePath, needBackup);
+
+            //开始写文件
+            FILE *fp = fopen(realFilePath.c_str(), "bw");
+            if (fp == nullptr){
+                perror("open file failed");
+                return -1;
+            }
+            int n = fwrite(content, content_len, 1, fp);
+            if (n <= 0){
+                perror("fwrite file failed");
+                std::cerr << "fwrite failed,n=" << n << "\tfsize=" << content_len << std::endl;
+                fclose(fp);
+                return -1;
+            }
+            fclose(fp);
+            return 0;
+        }
+
+        std::string fileUtils::backupFile(const std::string &filePath, bool needBackup){
+            std::string realFilePath;
+            getRealPath(filePath, realFilePath);
+
+            //如果已存在的文件需要备份的话
+            if (isFileExist(realFilePath) && needBackup){
+                std::string newFile = realFilePath + "." + std::to_string(time(nullptr));
+                int ret = rename(realFilePath.c_str(), newFile.c_str());
+                if (ret != 0){
+                    perror("rename file failed");
+                    return realFilePath;
+                }
+            }
+
+            //提取dirname确保已经创建
+            std::vector< std::string > vec;
+            strUtils::strSplit(realFilePath, '/', vec);
+            std::string dirName;
+            for (size_t i = 0; i < vec.size() - 1; i++){
+                dirName.append("/").append(vec[i]);
+            }
+            mkDirsAll(dirName);
+            return realFilePath;
         }
 
         //创建目录
@@ -160,7 +210,7 @@ namespace lysutil{
                 return true;
             }
             std::string tmp;
-            std::vector <std::string> vec;
+            std::vector< std::string > vec;
             strUtils::strSplit(realpath, '/', vec);
             for (auto &i: vec){
                 tmp.append("/").append(i);
@@ -204,7 +254,7 @@ namespace lysutil{
             else{
                 curPath = path;
             }
-            std::vector <std::string> tmp;
+            std::vector< std::string > tmp;
             int idx = 0;
             strUtils::strSplit(curPath, '/', tmp);
             for (size_t i = 0; i < tmp.size(); i++){

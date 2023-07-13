@@ -24,9 +24,13 @@ namespace lysutil{
             static int getTxtFileContent(const std::string &filePath, std::vector< std::string > &lines);
             static int putTxtFileContent(const std::string &filePath, const std::string &content, bool needBackup = false);
             static int putTxtFileContent(const std::string &filePath, const std::vector< std::string > &content, bool needBackup = false);
+            static int getRawFileContent(const std::string &filePath, std::string &content);
+            static int putRawFileContent(const std::string &filePath, const std::string &content, bool needBackup = false);
+            static int putRawFileContent(const std::string &filePath, const char *content, size_t content_len, bool needBackup = false);
 
             //创建目录
             static bool mkDirsAll(const std::string &dirNAme);
+            static std::string backupFile(const std::string &filePath, bool needBackup = false);
 
             //获取目录的规范的路径
             static bool getRealPath(const std::string &path, std::string &realPath);
