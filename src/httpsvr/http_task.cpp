@@ -57,7 +57,7 @@ namespace lysutil{
                         close(this->sockfd_);
                         return;
                     }
-                    std::cout << "read_size=" << read_size << std::endl;
+                    std::cout << "haveRead=" << haveRead << "\tread_size=" << read_size << "\tcontentLength=" << contentLength << std::endl;
                     haveRead += read_size;
                 }while (haveRead >= contentLength);
 
