@@ -44,7 +44,8 @@ namespace lysutil{
 
             uint32_t lastModifyTime = lysutil::comutils::fileUtils::getFileLastModifyTime(filepath);
             rsp.setHeader("last-modified", lysutil::comutils::httpUtils::genFixedRespDate(lastModifyTime));
-            rsp.setHeader("cache-control", "max-age=31536000");
+            //rsp.setHeader("cache-control", "max-age=31536000");
+            rsp.setHeader("cache-control", "no-cache");
             rsp.setHeader("Expires", lysutil::comutils::httpUtils::genRespDate(31536000));
             rsp.setHeader("access-control-allow-origin", "*");
 
