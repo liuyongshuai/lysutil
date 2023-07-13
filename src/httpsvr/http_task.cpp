@@ -12,17 +12,25 @@ namespace lysutil{
             std::shared_ptr< httpRouter > routers_ = httpRouter::get_instance();
             std::string rcvBuf;
 
+            //响应信息
+            httpResponse httpRsp;
+            std::string rspStr;
+
             //开始读数据
             size_t read_size;
-            this->readData(rcvBuf, &read_size);
+            if (this->readData(rcvBuf, &read_size) > 0){
+                httpRsp.setStatus(NOT_IMPLEMENTED);
+                httpRsp.setBody(httpStatusDesc.find(NOT_IMPLEMENTED)->second);
+                httpRsp.getRsp(rspStr);
+                write(this->sockfd_, rspStr.c_str(), rspStr.size());
+                close(this->sockfd_);
+                return;
+            }
 
             //解析请求
             httpRequest httpReq;
             httpReq.parseBody(rcvBuf.c_str(), rcvBuf.size());
 
-            //响应信息
-            httpResponse httpRsp;
-            std::string rspStr;
 
 
             //如果header里有expect：100-continue表示后续还有数据，server端要返回一个响应给client才会继续发送下面的数据
