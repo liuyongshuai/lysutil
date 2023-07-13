@@ -104,7 +104,7 @@ namespace lysutil{
          * bodyBin
          */
         int httpRequest::parseBody(const void *body, size_t bodyLen){
-            std::cout << "start parseBody,bodyLen=" << bodyLen << std::endl;
+//            std::cout << "start parseBody,bodyLen=" << bodyLen << std::endl;
             if (bodyLen == 0){
                 return -1;
             }
@@ -221,7 +221,7 @@ namespace lysutil{
             std::string upBoundary;
             this->getHeader("Content-Type", cntType);
 
-            std::cout << "cntType=" << cntType << std::endl;
+//            std::cout << "cntType=" << cntType << std::endl;
 
             if (cntType.find_first_of(";", 0) != std::string::npos){
                 tmpVec.clear();
@@ -251,7 +251,6 @@ namespace lysutil{
             }
 
             //解析以multipart/form-data上传的字段或文件
-            std::cout << "start parseMultiPartFormDataArgs" << std::endl;
             this->parseMultiPartFormDataArgs(upBoundary, rawBody, rawBodyLen);
             free(rawBody);
             return 0;
@@ -339,10 +338,10 @@ namespace lysutil{
                 //跳过\r\n\r\n
                 tmpPtr += 4;
                 next = tmpPtr;
-                std::cout << "fileName=" << fileName << "\tfieldName=" << fieldName << "\tfileContentType=" << fileContentType << std::endl;
-                std::cout << "remain size=" << rawBody + rawBodyLen - tmpPtr << "\trawBodyLen=" << rawBodyLen << std::endl;
-                //搜索\r，下一个字符必须是\n，前面的字符串必须是分界符
-                std::cout << "tmpBoundary.size()=" << tmpBoundary.size() << "\ttmpBoundary=" << tmpBoundary << std::endl;
+//                std::cout << "fileName=" << fileName << "\tfieldName=" << fieldName << "\tfileContentType=" << fileContentType << std::endl;
+//                std::cout << "remain size=" << rawBody + rawBodyLen - tmpPtr << "\trawBodyLen=" << rawBodyLen << std::endl;
+//                //搜索\r，下一个字符必须是\n，前面的字符串必须是分界符
+//                std::cout << "tmpBoundary.size()=" << tmpBoundary.size() << "\ttmpBoundary=" << tmpBoundary << std::endl;
                 while (next < rawBody + rawBodyLen){
                     next++;
                     if ((size_t) (next - tmpPtr) < tmpBoundary.size()){
