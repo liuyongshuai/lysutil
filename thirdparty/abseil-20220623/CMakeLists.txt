@@ -67,7 +67,6 @@ set(ABSEIL_SOURCE_LIST
         ${absl_home}/synchronization/notification.cc
         ${absl_home}/hash/internal/low_level_hash.cc
         ${absl_home}/hash/internal/hash.cc
-        ${absl_home}/hash/internal/print_hash_of.cc
         ${absl_home}/hash/internal/city.cc
         ${absl_home}/debugging/symbolize.cc
         ${absl_home}/debugging/failure_signal_handler.cc
@@ -124,7 +123,6 @@ set(ABSEIL_SOURCE_LIST
         ${absl_home}/random/internal/randen.cc
         ${absl_home}/random/internal/randen_detect.cc
         ${absl_home}/random/internal/randen_round_keys.cc
-        ${absl_home}/random/internal/randen_benchmarks.cc
         ${absl_home}/random/internal/randen_hwaes.cc
         ${absl_home}/random/internal/pool_urbg.cc
         ${absl_home}/random/seed_sequences.cc
