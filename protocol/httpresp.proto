@@ -1,0 +1,8 @@
+syntax = "proto3";
+package lysutil.httpresp;
+
+message getTopicListResp{
+    uint64 error = 1;               //错误码
+    string msg = 2;                 //错误信息
+    repeated string topic_list =3;  //topic列表
+}
