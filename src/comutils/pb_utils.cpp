@@ -8,26 +8,29 @@
 
 namespace lysutil {
     namespace comutils {
-        google::protobuf::util::JsonPrintOptions pbUtils::printOptions_ = {false, true, true, true};
-
-        void pbUtils::pb2json(const google::protobuf::util::Message &message, std::string &output) {
-            bool ok = google::protobuf::util::MessageToJsonString(message, &output, printOptions_).ok();
+        void pbUtils::pb2json(const google::protobuf::Message &message, std::string &output) {
+            google::protobuf::util::JsonPrintOptions options;
+            options.add_whitespace = false;
+            options.always_print_primitive_fields = true;
+            options.always_print_enums_as_ints = false;
+            options.preserve_proto_field_names = true;
+            bool ok = google::protobuf::util::MessageToJsonString(message, &output, options).ok();
             if (!ok) {
                 output = "";
             }
         }
 
-        std::string pbUtils::pb2json(const google::protobuf::util::Message &message) {
+        std::string pbUtils::pb2json(const google::protobuf::Message &message) {
             std::string ret;
             pb2json(message, ret);
             return ret;
         }
 
-        void pbUtils::pb2json(const google::protobuf::util::Message *message, std::string &output) {
+        void pbUtils::pb2json(const google::protobuf::Message *message, std::string &output) {
             pb2json(*message, output);
         }
 
-        std::string pbUtils::pb2json(const google::protobuf::util::Message *message) {
+        std::string pbUtils::pb2json(const google::protobuf::Message *message) {
             std::string ret;
             pb2json(message, ret);
             return ret;

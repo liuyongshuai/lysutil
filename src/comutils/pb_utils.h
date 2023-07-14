@@ -16,17 +16,15 @@ namespace lysutil {
     namespace comutils {
         class pbUtils {
         public:
-            static void pb2json(const google::protobuf::util::Message &message, std::string &output);
-            static std::string pb2json(const google::protobuf::util::Message &message);
-            static void pb2json(const google::protobuf::util::Message *message, std::string &output);
-            static std::string pb2json(const google::protobuf::util::Message *message);
+            static void pb2json(const google::protobuf::Message &message, std::string &output);
+            static std::string pb2json(const google::protobuf::Message &message);
+            static void pb2json(const google::protobuf::Message *message, std::string &output);
+            static std::string pb2json(const google::protobuf::Message *message);
 
         private:
             pbUtils() = delete;
             pbUtils(const pbUtils &) = delete;
             pbUtils &operator=(const pbUtils &) = delete;
-            static google::protobuf::util::JsonPrintOptions printOptions_;
-
         };
     }
 } //namespace lysutil
