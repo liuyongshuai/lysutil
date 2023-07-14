@@ -117,7 +117,7 @@ set(ABSEIL_SOURCE_LIST
         ${absl_home}/random/gaussian_distribution.cc
         ${absl_home}/random/discrete_distribution.cc
         ${absl_home}/random/seed_gen_exception.cc
-        ${absl_home}/random/internal/gaussian_distribution_gentables.cc
+        ${absl_home}/random/internal/distribution_test_util.cc
         ${absl_home}/random/internal/seed_material.cc
         ${absl_home}/random/internal/randen_slow.cc
         ${absl_home}/random/internal/chi_square.cc
