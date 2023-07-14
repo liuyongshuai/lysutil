@@ -24,4 +24,23 @@ $(function () {
             }
         });
     });
+
+    /**
+     * 左侧的topic前的加号点击
+     */
+    $("#sidebar_menu_list").delegate("li[data-attr=\"topic\"] > a","click",function () {
+        var topic_name = $(this).parent().attr("data-value");
+        $("#selected_topic_list").append("<div class=\"panel panel-info panel-topic\" topic=\""+topic_name+"\"><div class=\"panel-heading\">"+topic_name+"<span class=\"glyphicon glyphicon-edit\"></span><span class=\"glyphicon glyphicon-remove\"></span></div></div>");
+        $(this).parent().hide();
+    });
+
+    /**
+     * 清理topic
+     */
+    $("#selected_topic_list").delegate("div[topic] > div.panel-heading > span.glyphicon-remove","click",function () {
+        var parentObj = $(this).parent().parent();
+        var topic_name = parentObj.attr("topic");
+        $("#sidebar_topic_"+topic_name).show();
+        parentObj.remove();
+    });
 });

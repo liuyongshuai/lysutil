@@ -128,7 +128,7 @@ div.sidebar-menu .nav-list>li>span{position: absolute;top: 6px;left: 34px;}
 .preview-pre{white-space: pre-wrap;word-wrap: break-word;font-size: 16px;padding: 0;position: relative;margin: 0;border: 0;background-color: white;border-radius: 0;}
 .resizer {position:absolute;top: 0;right:-8px;bottom:0;left:auto;width:16px;cursor:col-resize;}
 /**********topic相关的**********/
-.panel-topic{width:20%;position:relative}
+.panel-topic{width:23%;position:relative;float:left;margin-right:22px;}
 .panel-topic span.glyphicon-remove{position:absolute;right:-5px;top:-5px;color:red;cursor:pointer;}
 .panel-topic span.glyphicon-edit{float:right;;cursor:pointer;}
 .panel-topic div.panel-heading{font-weight:bold}
