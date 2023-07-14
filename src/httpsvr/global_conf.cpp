@@ -54,7 +54,7 @@ namespace lysutil{
             tomlParser.getStringList("topic.topic_list", tmpTopicList);
             for (std::string &topic: tmpTopicList){
                 lysutil::comutils::strUtils::trimSpace(topic);
-                this->topic_set.emplace(topic)
+                this->topic_set.insert(topic);
             }
             for (const std::string &topic: this->topic_set){
                 this->topic_list.push_back(topic);
