@@ -25,10 +25,20 @@ set(ABSEIL_SOURCE_LIST
         ${absl_home}/flags/commandlineflag.cc
         ${absl_home}/flags/usage.cc
         ${absl_home}/flags/parse.cc
+        ${absl_home}/debugging/symbolize.cc
+        ${absl_home}/debugging/failure_signal_handler.cc
+        ${absl_home}/debugging/internal/examine_stack.cc
+        ${absl_home}/debugging/internal/vdso_support.cc
+        ${absl_home}/debugging/internal/stack_consumption.cc
+        ${absl_home}/debugging/internal/address_is_readable.cc
+        ${absl_home}/debugging/internal/elf_mem_image.cc
+        ${absl_home}/debugging/internal/demangle.cc
+        ${absl_home}/debugging/symbolize_test.cc
+        ${absl_home}/debugging/leak_check.cc
+        ${absl_home}/debugging/stacktrace.cc
         ${absl_home}/status/statusor.cc
         ${absl_home}/status/status_payload_printer.cc
         ${absl_home}/status/status.cc
-        ${absl_home}/random/benchmarks.cc
         ${absl_home}/random/seed_gen_exception.cc
         ${absl_home}/random/discrete_distribution.cc
         ${absl_home}/random/internal/gaussian_distribution_gentables.cc
