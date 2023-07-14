@@ -30,7 +30,8 @@ int main(int argc, char *argv[]) {
     resp.set_error(43);
     resp.set_msg("safasdfasdfasdf");
     for (const std::string &topic: gconf->topic_list) {
-        resp.add_topic_list(topic);
+        std::string *t = resp.add_topic_list();
+        t->append(topic);
     }
 
     //转成json
