@@ -3,7 +3,6 @@ message(STATUS "absl_home=${absl_home}")
 
 set(ABSEIL_SOURCE_LIST
         ${absl_home}/hash/internal/hash.cc
-        ${absl_home}/hash/internal/print_hash_of.cc
         ${absl_home}/hash/internal/low_level_hash.cc
         ${absl_home}/hash/internal/city.cc
         ${absl_home}/types/bad_variant_access.h
