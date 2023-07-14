@@ -116,7 +116,6 @@ set(ABSEIL_SOURCE_LIST
         ${absl_home}/profiling/internal/exponential_biased.cc
         ${absl_home}/random/gaussian_distribution.cc
         ${absl_home}/random/discrete_distribution.cc
-        ${absl_home}/random/benchmarks.cc
         ${absl_home}/random/seed_gen_exception.cc
         ${absl_home}/random/internal/gaussian_distribution_gentables.cc
         ${absl_home}/random/internal/seed_material.cc
