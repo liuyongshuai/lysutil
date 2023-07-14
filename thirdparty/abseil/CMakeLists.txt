@@ -1,6 +1,6 @@
 set(abseil_home ${CMAKE_CURRENT_SOURCE_DIR})
 set(absl_home ${CMAKE_CURRENT_SOURCE_DIR}/absl)
-message("abseil_home=${abseil_home}")
+message(STATUS "abseil_home=${abseil_home}")
 
 set(ABSEIL_SOURCE_LIST
         ${absl_home}/hash/internal/hash.cc

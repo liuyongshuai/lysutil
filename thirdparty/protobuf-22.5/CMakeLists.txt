@@ -1,5 +1,5 @@
 set(protobuf_home ${CMAKE_CURRENT_SOURCE_DIR}/google/protobuf)
-message("protobuf_home=${protobuf_home}")
+message(STATUS "protobuf_home=${protobuf_home}")
 set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/descriptor.pb.cc
         ${protobuf_home}/any_lite.cc
