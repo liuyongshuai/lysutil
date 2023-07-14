@@ -39,7 +39,7 @@ namespace lysutil{
             if (gTable == nullptr){
                 return nullptr;
             }
-            std::string tKey = formatKey(key);
+            std::string tKey = this->formatKey(key);
             if (tKey.empty()){
                 return nullptr;
             }
@@ -76,7 +76,7 @@ namespace lysutil{
         }
 
         int TomlParser::getBool(const std::string &key, bool &out){
-            std::string lastk = lastKey(key);
+            std::string lastk = this->lastKey(key);
             auto t = getTable(key);
             if (t == nullptr){
                 return -1;
@@ -88,7 +88,7 @@ namespace lysutil{
 
 
         int TomlParser::getInt64(const std::string &key, int64_t &out){
-            std::string lastk = lastKey(key);
+            std::string lastk = this->lastKey(key);
             auto t = getTable(key);
             if (t == nullptr){
                 return -1;
@@ -119,7 +119,7 @@ namespace lysutil{
         }
 
         int TomlParser::getDouble(const std::string &key, double &out){
-            std::string lastk = lastKey(key);
+            std::string lastk = this->lastKey(key);
             auto t = getTable(key);
             if (t == nullptr){
                 return -1;
@@ -130,7 +130,7 @@ namespace lysutil{
         }
 
         int TomlParser::getString(const std::string &key, std::string &out){
-            std::string lastk = lastKey(key);
+            std::string lastk = this->lastKey(key);
             auto t = getTable(key);
             if (t == nullptr){
                 return -1;
@@ -141,7 +141,7 @@ namespace lysutil{
         }
 
         int TomlParser::getStringList(const std::string &key, std::vector< std::string > &out){
-            std::string lastk = lastKey(key);
+            std::string lastk = this->lastKey(key);
             auto t = getTable(key);
             if (t == nullptr){
                 return -1;
@@ -154,7 +154,7 @@ namespace lysutil{
         }
 
         int TomlParser::getInt64List(const std::string &key, std::vector< int64_t > &out){
-            std::string lastk = lastKey(key);
+            std::string lastk = this->lastKey(key);
             auto t = getTable(key);
             if (t == nullptr){
                 return -1;
@@ -167,7 +167,7 @@ namespace lysutil{
         }
 
         int TomlParser::getDoubleList(const std::string &key, std::vector< double > &out){
-            std::string lastk = lastKey(key);
+            std::string lastk = this->lastKey(key);
             auto t = getTable(key);
             if (t == nullptr){
                 return -1;
