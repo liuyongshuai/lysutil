@@ -54,14 +54,13 @@ namespace lysutil{
             tomlParser.getStringList("topic.topic_list", tmpTopicList);
             for (std::string &topic: tmpTopicList){
                 lysutil::comutils::strUtils::trimSpace(topic);
-                this->topic_set.insert(topic);
+                this->topic_set.emplace(topic)
             }
             for (const std::string &topic: this->topic_set){
                 this->topic_list.push_back(topic);
             }
             std::sort(this->topic_list.begin(), this->topic_list.end());
-            std::string sortedTopicStr;
-            lysutil::comutils::strUtils::strJoin(this->topic_list, ", ");
+            std::string sortedTopicStr = lysutil::comutils::strUtils::strJoin(this->topic_list, ", ");
             std::cout << "topic_list=" << sortedTopicStr << std::endl;
             return true;
         }
