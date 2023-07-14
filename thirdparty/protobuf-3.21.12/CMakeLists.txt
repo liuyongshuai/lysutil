@@ -2,6 +2,7 @@ set(protobuf_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/protobuf-3.21.12/google
 message(STATUS "protobuf_home=${protobuf_home}")
 set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/any.cc
+        ${protobuf_home}/stubs/bytestream.cc
         ${protobuf_home}/stubs/int128.cc
         ${protobuf_home}/stubs/structurally_valid.cc
         ${protobuf_home}/stubs/status.cc
