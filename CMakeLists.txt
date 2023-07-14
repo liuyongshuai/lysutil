@@ -79,6 +79,7 @@ SET(SRC_SOURCE_LIST
         ${src_home}/protocol/httpresp.pb.cc
 
         #comutils
+        ${src_home}/comutils/pb_utils.cpp
         ${src_home}/comutils/color_utils.cpp
         ${src_home}/comutils/file_utils.cpp
         ${src_home}/comutils/http_utils.cpp
