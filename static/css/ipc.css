@@ -127,3 +127,5 @@ div.sidebar-menu .nav-list>li>span{position: absolute;top: 6px;left: 34px;}
 .editor-toolbar{position: fixed;top:2px;z-index: 5000;border: 1px solid blue!important;}
 .preview-pre{white-space: pre-wrap;word-wrap: break-word;font-size: 16px;padding: 0;position: relative;margin: 0;border: 0;background-color: white;border-radius: 0;}
 .resizer {position:absolute;top: 0;right:-8px;bottom:0;left:auto;width:16px;cursor:col-resize;}
+/**********topic相关的**********/
+.panel-topic{width:33%}
