@@ -8,7 +8,6 @@ set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/service.cc
         ${protobuf_home}/compiler/zip_writer.cc
         ${protobuf_home}/compiler/plugin.cc
-        #${protobuf_home}/compiler/main.cc
         ${protobuf_home}/compiler/scc.h
         ${protobuf_home}/compiler/retention.cc
         ${protobuf_home}/compiler/importer.cc
@@ -102,3 +101,8 @@ set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/map_field.cc
         ${protobuf_home}/arena.cc
         )
+
+add_executable(protoc ${protobuf_home}/compiler/main.cc  ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
+target_link_libraries(protoc ${library_list})
+install(TARGETS protoc DESTINATION ${work_home}/output/bin)
+

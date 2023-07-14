@@ -62,8 +62,8 @@ list(APPEND library_list -lpthread -lpcre)
 
 
 #test
-INCLUDE(${work_home}/thirdparty/protobuf-22.5/CMakeLists.txt)
 INCLUDE(${work_home}/thirdparty/abseil/CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/protobuf-22.5/CMakeLists.txt)
 
 set(SRC_SOURCE_LIST
         #comutils
@@ -97,12 +97,16 @@ set(SRC_SOURCE_LIST
         ${src_home}/thriftconcurrency/TimerManager.cpp
         )
 
+
+#工程的二进制文件
 add_executable(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST} ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
 target_link_libraries(${project_name} ${library_list})
-install(TARGETS ${project_name} DESTINATION ${work_home}/output)
+install(TARGETS ${project_name} DESTINATION ${work_home}/output/bin)
 install(DIRECTORY ${work_home}/conf DESTINATION ${work_home}/output)
 install(DIRECTORY ${work_home}/static DESTINATION ${work_home}/output)
 #install(FILES ${work_home}/inf/control.sh DESTINATION ${work_home}/output)
+
+
 
 #遍历./test下所有的.cpp文件
 if (WITH_TEST)
