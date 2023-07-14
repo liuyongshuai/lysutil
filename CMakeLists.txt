@@ -51,7 +51,7 @@ message("src_home=${src_home}")
 # include file list
 set(include_list "")
 list(APPEND include_list ${src_home})
-list(APPEND include_list ${work_home}/thirdparty/protobuf-22.5)
+list(APPEND include_list ${work_home}/thirdparty/protobuf-3.22.5)
 list(APPEND include_list ${work_home}/thirdparty/abseil)
 include_directories(${include_list})
 
@@ -63,7 +63,7 @@ list(APPEND library_list -lpthread -lpcre)
 
 #test
 INCLUDE(${work_home}/thirdparty/abseil/CMakeLists.txt)
-INCLUDE(${work_home}/thirdparty/protobuf-22.5/CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/protobuf-3.22.5/CMakeLists.txt)
 
 set(SRC_SOURCE_LIST
         #comutils
