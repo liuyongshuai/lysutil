@@ -75,6 +75,9 @@ LIST(APPEND library_list -lpthread -lpcre)
 INCLUDE(${ABSEIL_PATH}/CMakeLists.txt)
 INCLUDE(${PROTOBUF_PATH}/CMakeLists.txt)
 SET(SRC_SOURCE_LIST
+        #protocol
+        ${src_home}/protocol/httpresp.pb.cc
+
         #comutils
         ${src_home}/comutils/color_utils.cpp
         ${src_home}/comutils/file_utils.cpp
