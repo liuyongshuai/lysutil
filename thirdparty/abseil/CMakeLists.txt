@@ -33,7 +33,6 @@ set(ABSEIL_SOURCE_LIST
         ${absl_home}/debugging/internal/address_is_readable.cc
         ${absl_home}/debugging/internal/elf_mem_image.cc
         ${absl_home}/debugging/internal/demangle.cc
-        ${absl_home}/debugging/symbolize_test.cc
         ${absl_home}/debugging/leak_check.cc
         ${absl_home}/debugging/stacktrace.cc
         ${absl_home}/status/statusor.cc
