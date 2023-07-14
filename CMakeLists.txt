@@ -51,9 +51,14 @@ message("src_home=${src_home}")
 # include file list
 set(include_list "")
 list(APPEND include_list ${src_home})
+
+#要求最低C++14，参数加 -std=c++14
 #list(APPEND include_list ${work_home}/thirdparty/protobuf-3.22.5)
+#list(APPEND include_list ${work_home}/thirdparty/abseil-20230125)
+
+#支持C++11的最后一版
 list(APPEND include_list ${work_home}/thirdparty/protobuf-3.21.12)
-list(APPEND include_list ${work_home}/thirdparty/abseil)
+list(APPEND include_list ${work_home}/thirdparty/abseil-20220623)
 include_directories(${include_list})
 
 
@@ -62,10 +67,14 @@ set(library_list "-L${work_home}/lib")
 list(APPEND library_list -lpthread -lpcre)
 
 
-#test
-INCLUDE(${work_home}/thirdparty/abseil/CMakeLists.txt)
-INCLUDE(${work_home}/thirdparty/protobuf-3.21.12/CMakeLists.txt)
+#要求最低C++14，参数加 -std=c++14
+#INCLUDE(${work_home}/thirdparty/abseil-20230125/CMakeLists.txt)
 #INCLUDE(${work_home}/thirdparty/protobuf-3.22.5/CMakeLists.txt)
+
+#支持C++11的最后一版
+INCLUDE(${work_home}/thirdparty/abseil-20220623/CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/protobuf-3.21.12/CMakeLists.txt)
+
 
 set(SRC_SOURCE_LIST
         #comutils
