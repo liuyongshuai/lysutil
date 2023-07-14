@@ -51,12 +51,19 @@ message("src_home=${src_home}")
 # include file list
 set(include_list "")
 list(APPEND include_list ${src_home})
+list(APPEND include_list ${work_home}/thirdparty/protobuf-22.5)
+list(APPEND include_list ${work_home}/thirdparty/abseil)
 include_directories(${include_list})
 
 
 # library file list
 set(library_list "-L${work_home}/lib")
 list(APPEND library_list -lpthread -lpcre)
+
+
+#test
+ADD_SUBDIRECTORY(${work_home}/thirdparty/protobuf-22.5)
+ADD_SUBDIRECTORY(${work_home}/thirdparty/abseil)
 
 set(SRC_SOURCE_LIST
         #comutils
