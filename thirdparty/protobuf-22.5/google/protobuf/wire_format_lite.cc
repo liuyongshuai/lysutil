@@ -44,7 +44,7 @@
 #include "absl/strings/cord.h"
 #include "absl/strings/str_cat.h"
 #include "absl/strings/str_format.h"
-#include "utf8_validity.h"
+#include "google/protobuf/utf8_validity.h"
 
 
 // Must be included last.

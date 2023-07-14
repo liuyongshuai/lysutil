@@ -54,7 +54,7 @@
 #include "google/protobuf/port.h"
 #include "google/protobuf/util/type_resolver.h"
 #include "google/protobuf/wire_format_lite.h"
-#include "utf8_validity.h"
+#include "google/protobuf/utf8_validity.h"
 #include "google/protobuf/stubs/status_macros.h"
 
 // Must be included last.

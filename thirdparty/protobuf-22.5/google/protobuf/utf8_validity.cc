@@ -15,7 +15,7 @@
  *
  * For API see the utf8_validity.h header.
  */
-#include "utf8_validity.h"
+#include "google/protobuf/utf8_validity.h"
 
 #include <cstddef>
 #include <cstdint>

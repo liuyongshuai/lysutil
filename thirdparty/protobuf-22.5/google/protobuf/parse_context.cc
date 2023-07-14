@@ -38,7 +38,7 @@
 #include "google/protobuf/message_lite.h"
 #include "google/protobuf/repeated_field.h"
 #include "google/protobuf/wire_format_lite.h"
-#include "utf8_validity.h"
+#include "google/protobuf/utf8_validity.h"
 
 
 // Must be included last.
