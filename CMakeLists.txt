@@ -63,7 +63,8 @@ list(APPEND library_list -lpthread -lpcre)
 
 #test
 INCLUDE(${work_home}/thirdparty/abseil/CMakeLists.txt)
-INCLUDE(${work_home}/thirdparty/protobuf-3.22.5/CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/protobuf-3.21.12/CMakeLists.txt)
+#INCLUDE(${work_home}/thirdparty/protobuf-3.22.5/CMakeLists.txt)
 
 set(SRC_SOURCE_LIST
         #comutils
