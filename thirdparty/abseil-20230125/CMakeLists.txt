@@ -1,7 +1,7 @@
-set(absl_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/abseil-20230125/absl)
-message(STATUS "absl_home=${absl_home}")
+SET(absl_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/abseil-20230125/absl)
+MESSAGE(STATUS "absl_home=${absl_home}")
 
-set(ABSEIL_SOURCE_LIST
+SET(ABSEIL_SOURCE_LIST
         ${absl_home}/hash/internal/hash.cc
         ${absl_home}/hash/internal/low_level_hash.cc
         ${absl_home}/hash/internal/city.cc

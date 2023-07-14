@@ -1,7 +1,7 @@
-set(absl_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/abseil-20220623/absl)
-message(STATUS "absl_home=${absl_home}")
+SET(absl_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/abseil-20220623/absl)
+MESSAGE(STATUS "absl_home=${absl_home}")
 
-set(ABSEIL_SOURCE_LIST
+SET(ABSEIL_SOURCE_LIST
         ${absl_home}/strings/cord_analysis.cc
         ${absl_home}/strings/match.cc
         ${absl_home}/strings/cord_buffer.cc

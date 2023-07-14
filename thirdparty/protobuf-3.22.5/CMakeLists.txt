@@ -1,6 +1,6 @@
-set(protobuf_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/protobuf-3.22.5/google/protobuf)
-message(STATUS "protobuf_home=${protobuf_home}")
-set(PROTOBUF_SOURCE_LIST
+SET(protobuf_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/protobuf-3.22.5/google/protobuf)
+MESSAGE(STATUS "protobuf_home=${protobuf_home}")
+SET(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/descriptor.pb.cc
         ${protobuf_home}/any_lite.cc
         ${protobuf_home}/api.pb.cc
@@ -102,7 +102,7 @@ set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/arena.cc
         )
 
-add_executable(protoc ${protobuf_home}/compiler/main.cc  ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
-target_link_libraries(protoc ${library_list})
-install(TARGETS protoc DESTINATION ${work_home}/output/bin)
+ADD_EXECUTABLE(protoc ${protobuf_home}/compiler/main.cc  ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
+TARGET_LINK_LIBRARIES(protoc ${library_list})
+INSTALL(TARGETS protoc DESTINATION ${work_home}/output/bin)
 
