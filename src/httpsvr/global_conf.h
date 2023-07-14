@@ -11,6 +11,7 @@
 #include<map>
 #include<memory>
 #include<libgen.h>
+#include<algorithm>
 #include "comutils/toml_parser.h"
 #include "comutils/file_utils.h"
 
@@ -56,6 +57,16 @@ namespace lysutil{
              * 启动时的时间戳
              */
             uint64_t startup_second_timestamp;
+
+            /**
+             * 所有的topic列表
+             */
+             std::set<std::string> topic_set;
+
+             /**
+              * 有顺序的topic列表
+              */
+             std::vector<std::string> topic_list;
         private:
             globalConf(){};
             globalConf(const globalConf &) = delete;

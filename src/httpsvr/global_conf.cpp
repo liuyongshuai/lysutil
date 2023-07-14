@@ -48,6 +48,21 @@ namespace lysutil{
             tomlParser.getInt64("thread.max_pending_count", wpendingcount64);
             this->max_pending_worker_count = (uint16_t) wpendingcount64;
             std::cout << "max_pending_worker_count=" << this->max_pending_worker_count << std::endl;
+
+            //topic相关配置
+            std::vector< std::string > tmpTopicList;
+            tomlParser.getStringList("topic.topiclist", tmpTopicList);
+            for (std::string &topic: tmpTopicList){
+                lysutil::comutils::strUtils::trimSpace(topic);
+                this->topic_set.insert(topic);
+            }
+            for (const std::string &topic: this->topic_set){
+                this->topic_list.push_back(topic);
+            }
+            std::sort(this->topic_list.begin(), this->topic_list.end());
+            std::string sortedTopicStr;
+            lysutil::comutils::strUtils::strJoin(this->topic_list, ", ");
+            std::cout << "topic_list=" << sortedTopicStr << std::endl;
             return true;
         }
     }
