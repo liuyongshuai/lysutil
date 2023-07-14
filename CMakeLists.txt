@@ -130,7 +130,7 @@ if (WITH_TEST)
         #不带后缀的名称
         STRING(REGEX REPLACE "(.*).cpp$" "\\1" target ${b})
         #每个文件生成一个同名的二进制文件
-        ADD_EXECUTABLE(${target} ${originFile} ${SRC_SOURCE_LIST})
+        ADD_EXECUTABLE(${target} ${originFile} ${SRC_SOURCE_LIST} ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
         #跟上面的一堆动态、静态库链接起来
         TARGET_LINK_LIBRARIES(${target} ${library_list})
         INSTALL(TARGETS ${target} DESTINATION ${work_home}/output/test)
