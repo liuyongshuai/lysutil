@@ -93,6 +93,7 @@ set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/field_mask.pb.cc
         ${protobuf_home}/descriptor_database.cc
         ${protobuf_home}/type.pb.cc
+        ${protobuf_home}/utf8_validity.cc
         ${protobuf_home}/generated_message_tctable_full.cc
         ${protobuf_home}/arena_align.cc
         ${protobuf_home}/struct.pb.cc
