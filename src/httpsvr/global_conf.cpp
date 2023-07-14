@@ -51,7 +51,7 @@ namespace lysutil{
 
             //topic相关配置
             std::vector< std::string > tmpTopicList;
-            tomlParser.getStringList("topic.topiclist", tmpTopicList);
+            tomlParser.getStringList("topic.topic_list", tmpTopicList);
             for (std::string &topic: tmpTopicList){
                 lysutil::comutils::strUtils::trimSpace(topic);
                 this->topic_set.insert(topic);
