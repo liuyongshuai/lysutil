@@ -1,4 +1,4 @@
-set(protobuf_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/protobuf-22.5/google/protobuf)
+set(protobuf_home ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/protobuf-3.22.5/google/protobuf)
 message(STATUS "protobuf_home=${protobuf_home}")
 set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/descriptor.pb.cc
