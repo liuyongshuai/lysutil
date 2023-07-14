@@ -97,7 +97,7 @@ set(SRC_SOURCE_LIST
         ${src_home}/thriftconcurrency/TimerManager.cpp
         )
 
-add_executable(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST})
+add_executable(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST} ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
 target_link_libraries(${project_name} ${library_list})
 install(TARGETS ${project_name} DESTINATION ${work_home}/output)
 install(DIRECTORY ${work_home}/conf DESTINATION ${work_home}/output)
