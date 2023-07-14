@@ -62,8 +62,8 @@ list(APPEND library_list -lpthread -lpcre)
 
 
 #test
-ADD_SUBDIRECTORY(${work_home}/thirdparty/protobuf-22.5)
-ADD_SUBDIRECTORY(${work_home}/thirdparty/abseil)
+INCLUDE(${work_home}/thirdparty/protobuf-22.5/CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/abseil/CMakeLists.txt)
 
 set(SRC_SOURCE_LIST
         #comutils
