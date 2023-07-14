@@ -77,7 +77,6 @@ set(PROTOBUF_SOURCE_LIST
         ${protobuf_home}/wire_format.cc
         ${protobuf_home}/dynamic_message.cc
         ${protobuf_home}/map_field.cc
-        ${protobuf_home}/compiler/main.cc
         ${protobuf_home}/compiler/command_line_interface.cc
         ${protobuf_home}/compiler/code_generator.cc
         ${protobuf_home}/compiler/zip_writer.cc
