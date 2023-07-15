@@ -9,14 +9,15 @@
 #include<string>
 #include<vector>
 #include<map>
+#include<limits>
+#include<stdint.h>
 #include "comutils/cpptoml.h"
-#include <stdint.h>
 
 namespace lysutil{
     namespace comutils{
         class TomlParser{
         public:
-            TomlParser(const std::string &toml_file) throw(cpptoml::parse_exception);
+            TomlParser(const std::string &toml_file);
 
             int getInt64(const std::string &key, int64_t &out);
 

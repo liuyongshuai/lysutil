@@ -79,7 +79,7 @@ namespace lysutil{
         void httpUtils::splitRawCookie(const std::string &rawCookie, std::map< std::string, std::string > &cookies){
             std::vector< std::string > kvs;
             strUtils::strSplit(rawCookie, ';', kvs);
-            if (kvs.size() <= 0){
+            if (kvs.empty()){
                 return;
             }
             size_t i;
@@ -94,7 +94,7 @@ namespace lysutil{
                 std::string v(kv, pos + 1, kv.size());
                 strUtils::trimSpace(k);
                 strUtils::trimSpace(v);
-                if (k.size() <= 0){
+                if (k.empty()){
                     continue;
                 }
                 cookies[k] = v;
@@ -125,7 +125,7 @@ namespace lysutil{
                 }
                 std::string k = kv.substr(0, pos);
                 strUtils::trimSpace(k);
-                if (k.size() <= 0){
+                if (k.empty()){
                     continue;
                 }
                 strUtils::toLower(k);

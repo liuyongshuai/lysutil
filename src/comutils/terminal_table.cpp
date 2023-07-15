@@ -344,7 +344,7 @@ namespace lysutil{
             iterRow;
 
             //先补齐表头的数据
-            if (rawheadData.size() > 0 && rawheadData.size() < maxColumnNum){
+            if (!rawheadData.empty() && rawheadData.size() < maxColumnNum){
                 for (i = rawheadData.size(); i < maxColumnNum; i++){
                     rawheadData.emplace_back(" ");
                 }

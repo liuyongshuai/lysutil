@@ -8,7 +8,7 @@
 
 namespace lysutil{
     namespace comutils{
-        TomlParser::TomlParser(const std::string &f) throw(cpptoml::parse_exception){
+        TomlParser::TomlParser(const std::string &f){
             gTable = cpptoml::parse_file(f);
         }
 
