@@ -48,16 +48,12 @@ SET(test_home ${work_home}/test/)
 MESSAGE("src_home=${src_home}")
 
 
-#第三方库,支持C++11的最后的版本
-SET(PROTOBUF_PATH ${work_home}/thirdparty/protobuf)
-SET(ABSEIL_PATH ${work_home}/thirdparty/abseil)
-
-
 # include file list
 SET(include_list "")
 LIST(APPEND include_list ${src_home})
-LIST(APPEND include_list ${PROTOBUF_PATH})
-LIST(APPEND include_list ${ABSEIL_PATH})
+LIST(APPEND include_list ${work_home}/thirdparty/protobuf)
+LIST(APPEND include_list ${work_home}/thirdparty/abseil)
+LIST(APPEND include_list ${work_home}/thirdparty/websocketpp/include)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -67,8 +63,8 @@ LIST(APPEND library_list -lpthread -lpcre)
 
 
 #引入其他文件
-INCLUDE(${ABSEIL_PATH}/CMakeLists.txt)
-INCLUDE(${PROTOBUF_PATH}/CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/abseil//CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/protobuf/CMakeLists.txt)
 SET(SRC_SOURCE_LIST
         #protocol
         ${src_home}/protocol/httpresp.pb.cc
