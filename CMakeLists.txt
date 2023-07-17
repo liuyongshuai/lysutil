@@ -48,14 +48,9 @@ SET(test_home ${work_home}/test/)
 MESSAGE("src_home=${src_home}")
 
 
-#第三方库
-#要求最低C++14，参数加 -std=c++14
-#set(PROTOBUF_PATH ${work_home}/thirdparty/protobuf-3.22.5)
-#set(ABSEIL_PATH ${work_home}/thirdparty/abseil-20230125)
-
-#支持C++11的最后的版本
-SET(PROTOBUF_PATH ${work_home}/thirdparty/protobuf-3.21.12)
-SET(ABSEIL_PATH ${work_home}/thirdparty/abseil-20220623)
+#第三方库,支持C++11的最后的版本
+SET(PROTOBUF_PATH ${work_home}/thirdparty/protobuf)
+SET(ABSEIL_PATH ${work_home}/thirdparty/abseil)
 
 
 # include file list
