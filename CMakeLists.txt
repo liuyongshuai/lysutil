@@ -63,7 +63,7 @@ LIST(APPEND library_list -lpthread -lpcre)
 
 
 #引入其他文件
-INCLUDE(${work_home}/thirdparty/abseil//CMakeLists.txt)
+INCLUDE(${work_home}/thirdparty/abseil/CMakeLists.txt)
 INCLUDE(${work_home}/thirdparty/protobuf/CMakeLists.txt)
 SET(SRC_SOURCE_LIST
         #protocol
