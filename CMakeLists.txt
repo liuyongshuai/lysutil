@@ -22,23 +22,18 @@ ENDIF ()
 
 ##============= 确定编译选项 =============
 OPTION(TARGET_DEBUG_MODE "Build the project with debug mode" OFF)
-SET(CMAKE_CXX_FLAGS "-gdwarf-2 -pipe -std=c++0x -fno-omit-frame-pointer -fPIC  -DSPDLOG_FMT_PRINTF")
+SET(CMAKE_CXX_FLAGS "-gdwarf-2 -pipe -std=c++0x -fno-omit-frame-pointer -fPIC -D_GLIBCXX_USE_CXX11_ABI=1  -DSPDLOG_FMT_PRINTF")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(notdir $<)\"'")
 if (TARGET_DEBUG_MODE)
     SET(GENERATE_TEST "OFF")
     SET(CMAKE_BUILD_TYPE "Debug")
     MESSAGE("debug")
-    SET(CMAKE_CXX_FLAGS_DEBUG "-W -Wall -O0 -g -ftest-coverage -fprofile-arcs -D__DEBUG_MODE__ -DLOG_DEBUG_ENABLE=true")
+    SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -W -Wall -O0 -g -ftest-coverage -fprofile-arcs -D__DEBUG_MODE__ -DLOG_DEBUG_ENABLE=true")
 else (TARGET_DEBUG_MODE)
     SET(CMAKE_BUILD_TYPE "Release")
-    SET(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O2 -DLOG_DEBUG_ENABLE=false")
+    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG -O2 -DLOG_DEBUG_ENABLE=false")
     MESSAGE("not debug")
 endif (TARGET_DEBUG_MODE)
-##取消优化选项
-IF (CMAKE_COMPILER_IS_GNUCC)
-    SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
-    SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
-ENDIF (CMAKE_COMPILER_IS_GNUCC)
 
 
 # work home
