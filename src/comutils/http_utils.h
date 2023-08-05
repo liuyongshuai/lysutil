@@ -29,7 +29,7 @@ namespace lysutil{
 
             //http响应中用的日期格式
             static std::string genRespDate(uint32_t maxAgeTime);
-            static std::string genFixedRespDate(uint32_t time);
+            static std::string genFixedRespDate(time_t time);
         private:
             httpUtils() = delete;
             httpUtils(const httpUtils &) = delete;

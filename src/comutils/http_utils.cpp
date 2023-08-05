@@ -145,9 +145,9 @@ namespace lysutil{
             return expire_time;
         }
 
-        std::string httpUtils::genFixedRespDate(uint32_t time){
+        std::string httpUtils::genFixedRespDate(time_t tm){
             char expire_time[128] = {0};
-            strftime(expire_time, sizeof(expire_time), "%a, %d %b %Y %H:%M:%S GMT", localtime(reinterpret_cast<const time_t *>(&time)));
+            strftime(expire_time, 128, "%a, %d %b %Y %H:%M:%S GMT", localtime(&tm));
             return expire_time;
         }
     }
