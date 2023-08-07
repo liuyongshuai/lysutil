@@ -79,13 +79,14 @@ fi
 detect_make_dir $build_home
 detect_make_dir $output_home
 
+cpunum=$(cat /proc/cpuinfo | grep "core id" | wc -l)
 
 cd $build_home
 # compile this project
 if [ "$mode" == "DEBUG" ]; then
-  cmake -DTARGET_DEBUG_MODE=ON -DWITH_TEST=$with_test -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} .. && make VERBOSE=1 -j 20 && make install
+  cmake -DTARGET_DEBUG_MODE=ON -DWITH_TEST=$with_test -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} .. && make VERBOSE=1 -j ${cpunum} && make install
 else
-  cmake -DTARGET_DEBUG_MODE=OFF -DWITH_TEST=$with_test -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} .. && make -j 20 && make install
+  cmake -DTARGET_DEBUG_MODE=OFF -DWITH_TEST=$with_test -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} .. && make -j ${cpunum} && make install
 fi
 
 make_done_tip $project $? && exit 0
