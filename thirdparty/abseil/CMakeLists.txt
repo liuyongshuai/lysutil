@@ -3,7 +3,6 @@ MESSAGE(STATUS "absl_home=${absl_home}")
 
 SET(ABSEIL_SOURCE_LIST
         ${absl_home}/hash/internal/hash.cc
-        ${absl_home}/hash/internal/print_hash_of.cc
         ${absl_home}/hash/internal/low_level_hash.cc
         ${absl_home}/hash/internal/city.cc
         ${absl_home}/types/bad_variant_access.h
@@ -43,6 +42,7 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/random/internal/gaussian_distribution_gentables.cc
         ${absl_home}/random/internal/randen_hwaes.cc
         ${absl_home}/random/internal/pool_urbg.cc
+        ${absl_home}/random/internal/chi_square.cc
         ${absl_home}/random/internal/randen_round_keys.cc
         ${absl_home}/random/internal/randen_slow.cc
         ${absl_home}/random/internal/seed_material.cc
