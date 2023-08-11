@@ -87,7 +87,7 @@ namespace internal {
 class InternalMetadata;
 
 // Used to store values of type WireFormatLite::FieldType without having to
-// #include wire_format_lite.h.  Also, ensures that we use only one byte to
+// #websocketpp-0.8.2 wire_format_lite.h.  Also, ensures that we use only one byte to
 // store these values, which is important to keep the layout of
 // ExtensionSet::Extension small.
 typedef uint8_t FieldType;
@@ -215,7 +215,7 @@ class PROTOBUF_EXPORT ExtensionSet {
   // =================================================================
   // Accessors
   //
-  // Generated message classes include type-safe templated wrappers around
+  // Generated message classes websocketpp-0.8.2 type-safe templated wrappers around
   // these methods.  Generally you should use those rather than call these
   // directly, unless you are doing low-level memory management.
   //

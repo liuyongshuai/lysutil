@@ -34,17 +34,17 @@
 // if more than one version of protobuf is #included in the same project) you
 // must follow this pattern when #including port_def.inc in a header file:
 //
-// #include "other_header.h"
-// #include "message.h"
+// #websocketpp-0.8.2 "other_header.h"
+// #websocketpp-0.8.2 "message.h"
 // // etc.
 //
-// #include "port_def.inc"  // MUST be last header included
+// #websocketpp-0.8.2 "port_def.inc"  // MUST be last header included
 //
 // // Definitions for this header.
 //
-// #include "port_undef.inc"
+// #websocketpp-0.8.2 "port_undef.inc"
 //
-// This is a textual header with no include guard, because we want to
+// This is a textual header with no websocketpp-0.8.2 guard, because we want to
 // detect/prohibit anytime it is #included twice without a corresponding
 // #undef.
 
@@ -166,7 +166,7 @@
 #define PROTOBUF_CPLUSPLUS_MIN(x) (_MSVC_LANG >= x)
 #endif
 
-// Future versions of protobuf will include breaking changes to some APIs.
+// Future versions of protobuf will websocketpp-0.8.2 breaking changes to some APIs.
 // This macro can be set to enable these API changes ahead of time, so that
 // user code can be updated before upgrading versions of protobuf.
 // PROTOBUF_FUTURE_FINAL is used on classes that are historically not marked as
@@ -859,15 +859,15 @@
 #endif  // _MSC_VER
 
 #ifdef __APPLE__
-// Inconvenient macro names from usr/include/math.h in some macOS SDKs.
+// Inconvenient macro names from usr/websocketpp-0.8.2/math.h in some macOS SDKs.
 #pragma push_macro("DOMAIN")
 #undef DOMAIN
-// Inconvenient macro names from /usr/include/mach/boolean.h in some macOS SDKs.
+// Inconvenient macro names from /usr/websocketpp-0.8.2/mach/boolean.h in some macOS SDKs.
 #pragma push_macro("TRUE")
 #undef TRUE
 #pragma push_macro("FALSE")
 #undef FALSE
-// Inconvenient macro names from usr/include/sys/syslimits.h in some macOS SDKs.
+// Inconvenient macro names from usr/websocketpp-0.8.2/sys/syslimits.h in some macOS SDKs.
 #pragma push_macro("UID_MAX")
 #undef UID_MAX
 #endif  // __APPLE__

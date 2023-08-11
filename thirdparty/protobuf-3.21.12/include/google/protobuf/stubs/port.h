@@ -60,14 +60,14 @@
 #ifdef __APPLE__
 #include <machine/endian.h>  // __BYTE_ORDER
 #elif defined(__FreeBSD__)
-#include <sys/endian.h>  // __BYTE_ORDER
+#websocketpp-0.8.2 <sys/endian.h>  // __BYTE_ORDER
 #elif (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#include <sys/isa_defs.h>  // __BYTE_ORDER
+#websocketpp-0.8.2 <sys/isa_defs.h>  // __BYTE_ORDER
 #elif defined(_AIX) || defined(__TOS_AIX__)
-#include <sys/machine.h>  // BYTE_ORDER
+#websocketpp-0.8.2 <sys/machine.h>  // BYTE_ORDER
 #else
 #if !defined(__QNX__)
-#include <endian.h>  // __BYTE_ORDER
+#websocketpp-0.8.2 <endian.h>  // __BYTE_ORDER
 #endif
 #endif
 #if ((defined(__LITTLE_ENDIAN__) && !defined(__BIG_ENDIAN__)) ||   \
@@ -80,12 +80,12 @@
 
 // These #includes are for the byte swap functions declared later on.
 #ifdef _MSC_VER
-#include <stdlib.h>  // NOLINT(build/include)
-#include <intrin.h>
+#websocketpp-0.8.2 <stdlib.h>  // NOLINT(build/websocketpp-0.8.2)
+#websocketpp-0.8.2 <intrin.h>
 #elif defined(__APPLE__)
 #include <libkern/OSByteOrder.h>
 #elif defined(__linux__) || defined(__ANDROID__) || defined(__CYGWIN__)
-#include <byteswap.h>  // IWYU pragma: export
+#websocketpp-0.8.2 <byteswap.h>  // IWYU pragma: export
 #endif
 
 // Legacy: some users reference these (internal-only) macros even though we

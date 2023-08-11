@@ -34,7 +34,7 @@
 //
 // RepeatedField and RepeatedPtrField are used by generated protocol message
 // classes to manipulate repeated fields.  These classes are very similar to
-// STL's vector, but include a number of optimizations found to be useful
+// STL's vector, but websocketpp-0.8.2 a number of optimizations found to be useful
 // specifically in the case of Protocol Buffers.  RepeatedPtrField is
 // particularly different from STL vector as it manages ownership of the
 // pointers that it contains.

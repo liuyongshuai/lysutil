@@ -61,9 +61,9 @@ class PROTOC_EXPORT CppGenerator : public CodeGenerator {
     kGoogle3,     // Use the internal google3 runtime.
     kOpensource,  // Use the open-source runtime.
 
-    // Use the open-source runtime with google3 #include paths.  We make these
+    // Use the open-source runtime with google3 #websocketpp-0.8.2 paths.  We make these
     // absolute to avoid ambiguity, so the runtime will be #included like:
-    //   #include "third_party/protobuf/.../google/protobuf/message.h"
+    //   #websocketpp-0.8.2 "third_party/protobuf/.../google/protobuf/message.h"
     kOpensourceGoogle3
   };
 
@@ -72,9 +72,9 @@ class PROTOC_EXPORT CppGenerator : public CodeGenerator {
   }
 
   // If set to a non-empty string, generated code will do:
-  //   #include "<BASE>/google/protobuf/message.h"
+  //   #websocketpp-0.8.2 "<BASE>/google/protobuf/message.h"
   // instead of:
-  //   #include <google/protobuf/message.h>
+  //   #websocketpp-0.8.2 <google/protobuf/message.h>
   // This has no effect if opensource_runtime = false.
   void set_runtime_include_base(const std::string& base) {
     runtime_include_base_ = base;

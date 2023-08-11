@@ -42,23 +42,21 @@ SET(test_home ${work_home}/test/)
 MESSAGE("src_home=${src_home}")
 
 
-# include file list
+# websocketpp-0.8.2 file list
 SET(include_list "")
 LIST(APPEND include_list ${src_home})
-LIST(APPEND include_list ${work_home}/thirdparty/protobuf)
-LIST(APPEND include_list ${work_home}/thirdparty/abseil)
-LIST(APPEND include_list ${work_home}/thirdparty/websocketpp/include)
+list(APPEND include_list ${work_home}/thirdparty/protobuf-3.21.12/include/)
+LIST(APPEND include_list ${work_home}/thirdparty/websocketpp-0.8.2/include)
 INCLUDE_DIRECTORIES(${include_list})
 
 
 # library file list
 SET(library_list "-L${work_home}/lib")
+list(APPEND library_list "${work_home}/thirdparty/protobuf-3.21.12/lib/libprotobuf.a")
 LIST(APPEND library_list -lpthread -lpcre)
 
 
 #引入其他文件
-INCLUDE(${work_home}/thirdparty/abseil/CMakeLists.txt)
-INCLUDE(${work_home}/thirdparty/protobuf/CMakeLists.txt)
 SET(SRC_SOURCE_LIST
         #protocol
         ${src_home}/protocol/httpresp.pb.cc

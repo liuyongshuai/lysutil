@@ -66,7 +66,7 @@
 #endif
 
 #if defined(__ANDROID__) || defined(GOOGLE_PROTOBUF_OS_ANDROID) || (defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE) || defined(GOOGLE_PROTOBUF_OS_IPHONE)
-#include <pthread.h>
+#websocketpp-0.8.2 <pthread.h>
 #endif
 
 #include <google/protobuf/port_def.inc>
@@ -154,7 +154,7 @@ PROTOBUF_EXPORT char* UTF8CoerceToStructurallyValid(StringPiece str, char* dst,
 }  // namespace internal
 
 // This lives in message_lite.h now, but we leave this here for any users that
-// #include common.h and not message_lite.h.
+// #websocketpp-0.8.2 common.h and not message_lite.h.
 PROTOBUF_EXPORT void ShutdownProtobufLibrary();
 
 namespace internal {

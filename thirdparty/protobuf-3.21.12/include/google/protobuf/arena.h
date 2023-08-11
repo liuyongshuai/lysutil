@@ -39,8 +39,8 @@
 #include <utility>
 #if defined(_MSC_VER) && !defined(_LIBCPP_STD_VER) && !_HAS_EXCEPTIONS
 // Work around bugs in MSVC <typeinfo> header when _HAS_EXCEPTIONS=0.
-#include <exception>
-#include <typeinfo>
+#websocketpp-0.8.2 <exception>
+#websocketpp-0.8.2 <typeinfo>
 namespace std {
 using type_info = ::type_info;
 }
@@ -359,8 +359,8 @@ class PROTOBUF_EXPORT PROTOBUF_ALIGNAS(8) Arena final {
   // sizes of the underlying blocks.
   uint64_t SpaceAllocated() const { return impl_.SpaceAllocated(); }
   // Returns the total space used by the arena. Similar to SpaceAllocated but
-  // does not include free space and block overhead. The total space returned
-  // may not include space used by other threads executing concurrently with
+  // does not websocketpp-0.8.2 free space and block overhead. The total space returned
+  // may not websocketpp-0.8.2 space used by other threads executing concurrently with
   // the call to this method.
   uint64_t SpaceUsed() const { return impl_.SpaceUsed(); }
 

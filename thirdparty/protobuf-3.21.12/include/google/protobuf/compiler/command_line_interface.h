@@ -168,7 +168,7 @@ class PROTOC_EXPORT CommandLineInterface {
   // command-line; these are the files for which the plugin is expected to
   // generate output code.  Finally, DESCRIPTORS is an encoded FileDescriptorSet
   // (as defined in descriptor.proto).  This is piped to the plugin's stdin.
-  // The set will include descriptors for all the files listed in PROTO_FILES as
+  // The set will websocketpp-0.8.2 descriptors for all the files listed in PROTO_FILES as
   // well as all files that they import.  The plugin MUST NOT attempt to read
   // the PROTO_FILES directly -- it must use the FileDescriptorSet.
   //
@@ -312,7 +312,7 @@ class PROTOC_EXPORT CommandLineInterface {
   // depends on it, so that you can call DescriptorPool::BuildFile() on them
   // in order.  Any files in *already_seen will not be added, and each file
   // added will be inserted into *already_seen.  If include_source_code_info is
-  // true then include the source code information in the FileDescriptorProtos.
+  // true then websocketpp-0.8.2 the source code information in the FileDescriptorProtos.
   // If include_json_name is true, populate the json_name field of
   // FieldDescriptorProto for all fields.
   static void GetTransitiveDependencies(
