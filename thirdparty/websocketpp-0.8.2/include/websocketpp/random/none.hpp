@@ -55,6 +55,6 @@ class int_generator {
 
 } // namespace none
 } // namespace random
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif //WEBSOCKETPP_RANDOM_NONE_HPP

@@ -114,6 +114,6 @@ public:
 };
 
 } // log
-} // websocketpp-0.8.2
+} // websocketpp
 
 #endif // WEBSOCKETPP_LOGGER_STUB_HPP

@@ -198,6 +198,6 @@ struct alevel {
 };
 
 } // logger
-} // websocketpp-0.8.2
+} // websocketpp
 
 #endif //WEBSOCKETPP_LOGGER_LEVELS_HPP

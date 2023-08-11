@@ -173,7 +173,7 @@ std::string to_hex(uint8_t const * input, size_t length);
 std::string to_hex(char const * input, size_t length);
 
 } // namespace utility
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #include <websocketpp/impl/utilities_impl.hpp>
 

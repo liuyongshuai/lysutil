@@ -336,14 +336,14 @@ public:
     /// Translate any security policy specific information about an error code
     /**
      * Translate_ec takes an Asio error code and attempts to convert its value
-     * to an appropriate websocketpp-0.8.2 error code. In the case that the Asio and
+     * to an appropriate websocketpp error code. In the case that the Asio and
      * Websocketpp error types are the same (such as using boost::asio and
      * boost::system_error or using standalone asio and std::system_error the
      * code will be passed through natively.
      *
      * In the case of a mismatch (boost::asio with std::system_error) a
      * translated code will be returned. Any error that is determined to be
-     * related to TLS but does not have a more specific websocketpp-0.8.2 error code
+     * related to TLS but does not have a more specific websocketpp error code
      * is returned under the catch all error `tls_error`. Non-TLS related errors
      * are returned as the transport generic error `pass_through`
      *
@@ -469,6 +469,6 @@ private:
 } // namespace tls_socket
 } // namespace asio
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_TRANSPORT_SECURITY_TLS_HPP

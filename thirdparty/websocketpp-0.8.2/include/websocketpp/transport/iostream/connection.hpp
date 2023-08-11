@@ -368,9 +368,9 @@ public:
      * will be made to the standard write handler.
      *
      * The signature of the handler is
-     * `lib::error_code (connection_hdl, std::vector<websocketpp-0.8.2::transport::buffer>
+     * `lib::error_code (connection_hdl, std::vector<websocketpp::transport::buffer>
      * const & bufs)`. The code returned will be reported and logged by the core
-     * library. The `websocketpp-0.8.2::transport::buffer` type is a struct with two
+     * library. The `websocketpp::transport::buffer` type is a struct with two
      * data members. buf (char const *) and len (size_t).
      *
      * @since 0.6.0
@@ -709,6 +709,6 @@ private:
 
 } // namespace iostream
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_TRANSPORT_IOSTREAM_CON_HPP

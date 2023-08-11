@@ -72,6 +72,6 @@ struct asio_tls_client : public core_client {
 };
 
 } // namespace config
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONFIG_ASIO_TLS_CLIENT_HPP

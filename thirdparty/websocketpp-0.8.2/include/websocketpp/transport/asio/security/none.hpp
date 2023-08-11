@@ -264,7 +264,7 @@ public:
     /// Translate any security policy specific information about an error code
     /**
      * Translate_ec takes an Asio error code and attempts to convert its value 
-     * to an appropriate websocketpp-0.8.2 error code. In the case that the Asio and
+     * to an appropriate websocketpp error code. In the case that the Asio and
      * Websocketpp error types are the same (such as using boost::asio and
      * boost::system_error or using standalone asio and std::system_error the
      * code will be passed through natively.
@@ -367,6 +367,6 @@ private:
 } // namespace basic_socket
 } // namespace asio
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_TRANSPORT_SECURITY_NONE_HPP

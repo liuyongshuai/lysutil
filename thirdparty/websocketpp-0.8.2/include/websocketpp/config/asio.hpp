@@ -72,6 +72,6 @@ struct asio_tls : public core {
 };
 
 } // namespace config
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONFIG_ASIO_TLS_HPP

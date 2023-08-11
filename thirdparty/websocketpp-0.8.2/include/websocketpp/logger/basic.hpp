@@ -171,7 +171,7 @@ protected:
     mutex_type m_lock;
 
 private:
-    // The timestamp does not websocketpp-0.8.2 the time zone, because on Windows with the
+    // The timestamp does not websocketpp the time zone, because on Windows with the
     // default registry settings, the time zone would be written out in full,
     // which would be obnoxiously verbose.
     //
@@ -194,6 +194,6 @@ private:
 };
 
 } // log
-} // websocketpp-0.8.2
+} // websocketpp
 
 #endif // WEBSOCKETPP_LOGGER_BASIC_HPP

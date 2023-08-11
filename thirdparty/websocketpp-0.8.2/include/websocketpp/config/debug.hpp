@@ -281,6 +281,6 @@ struct debug_core {
 };
 
 } // namespace config
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONFIG_CORE_HPP

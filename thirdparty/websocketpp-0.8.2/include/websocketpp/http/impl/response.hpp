@@ -261,6 +261,6 @@ inline size_t response::process_body(char const * buf, size_t len) {
 
 } // namespace parser
 } // namespace http
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // HTTP_PARSER_RESPONSE_IMPL_HPP

@@ -195,6 +195,6 @@ inline std::string parser::raw_headers() const {
 
 } // namespace parser
 } // namespace http
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // HTTP_PARSER_IMPL_HPP

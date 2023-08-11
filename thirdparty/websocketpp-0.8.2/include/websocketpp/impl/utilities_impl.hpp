@@ -82,6 +82,6 @@ inline std::string string_replace_all(std::string subject, std::string const &
 }
 
 } // namespace utility
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_UTILITIES_IMPL_HPP

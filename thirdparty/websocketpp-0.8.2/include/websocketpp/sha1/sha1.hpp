@@ -184,6 +184,6 @@ inline void calc(void const * src, size_t bytelength, unsigned char * hash) {
 }
 
 } // namespace sha1
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // SHA1_DEFINED

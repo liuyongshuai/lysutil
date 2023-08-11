@@ -186,6 +186,6 @@ inline void request::process(std::string::iterator begin, std::string::iterator
 
 } // namespace parser
 } // namespace http
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // HTTP_PARSER_REQUEST_IMPL_HPP

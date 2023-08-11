@@ -37,7 +37,7 @@
 #ifndef _WEBSOCKETPP_NO_THREADING_
 #include <websocketpp/concurrency/basic.hpp>
 #else
-#include <websocketpp-0.8.2/concurrency/none.hpp>
+#include <websocketpp/concurrency/none.hpp>
 #endif
 
 // Transport
@@ -75,7 +75,7 @@ struct core_client {
 #ifndef _WEBSOCKETPP_NO_THREADING_
     typedef websocketpp::concurrency::basic concurrency_type;
 #else
-    typedef websocketpp-0.8.2::concurrency::none concurrency_type;
+    typedef websocketpp::concurrency::none concurrency_type;
 #endif
 
     // HTTP Parser Policies
@@ -289,6 +289,6 @@ struct core_client {
 };
 
 } // namespace config
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONFIG_CORE_CLIENT_HPP

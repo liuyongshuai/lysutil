@@ -481,8 +481,8 @@ inline unsigned int get_masking_key_offset(const basic_header &h) {
  * Copy the basic header h and extended header e into a properly sized
  * contiguous frame header string for the purposes of writing out to the wire.
  *
- * @param h The basic header to websocketpp-0.8.2
- * @param e The extended header to websocketpp-0.8.2
+ * @param h The basic header to websocketpp
+ * @param e The extended header to websocketpp
  *
  * @return A contiguous string containing h and e
  */
@@ -859,6 +859,6 @@ inline size_t byte_mask_circ(uint8_t* data, size_t length, size_t prepared_key){
 }
 
 } // namespace frame
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif //WEBSOCKETPP_FRAME_HPP

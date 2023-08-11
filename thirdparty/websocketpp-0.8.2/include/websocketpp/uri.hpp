@@ -351,6 +351,6 @@ private:
 /// Pointer to a URI
 typedef lib::shared_ptr<uri> uri_ptr;
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_URI_HPP

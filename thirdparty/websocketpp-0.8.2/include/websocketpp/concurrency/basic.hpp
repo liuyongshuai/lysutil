@@ -41,6 +41,6 @@ public:
 };
 
 } // namespace concurrency
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONCURRENCY_BASIC_HPP

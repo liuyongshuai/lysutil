@@ -348,6 +348,6 @@ inline std::string extract_reason(std::string const & payload, lib::error_code
 }
 
 } // namespace close
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CLOSE_HPP

@@ -152,7 +152,7 @@ public:
     category() {}
 
     char const * name() const _WEBSOCKETPP_NOEXCEPT_TOKEN_ {
-        return "websocketpp-0.8.2";
+        return "websocketpp";
     }
 
     std::string message(int value) const {
@@ -237,7 +237,7 @@ inline lib::error_code make_error_code(error::value e) {
 }
 
 } // namespace error
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 _WEBSOCKETPP_ERROR_CODE_ENUM_NS_START_
 template<> struct is_error_code_enum<websocketpp::error::value>
@@ -272,6 +272,6 @@ public:
     lib::error_code m_code;
 };
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_ERROR_HPP

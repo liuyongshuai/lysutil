@@ -173,6 +173,6 @@ inline std::string base64_decode(std::string const & input) {
     return ret;
 }
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // _BASE64_HPP_

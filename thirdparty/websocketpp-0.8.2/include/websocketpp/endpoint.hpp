@@ -162,7 +162,7 @@ public:
      * Returns the user agent string that this endpoint will use when creating
      * new connections.
      *
-     * The default value for this version is stored in websocketpp-0.8.2::user_agent
+     * The default value for this version is stored in websocketpp::user_agent
      *
      * @return The user agent string.
      */
@@ -185,7 +185,7 @@ public:
      *
      * For best results set this before accepting or opening connections.
      *
-     * The default value for this version is stored in websocketpp-0.8.2::user_agent
+     * The default value for this version is stored in websocketpp::user_agent
      *
      * This can be overridden on an individual connection basis by setting a
      * custom "Server" header during the validate handler or "User-Agent"
@@ -693,7 +693,7 @@ private:
     mutable mutex_type          m_mutex;
 };
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #include <websocketpp/impl/endpoint_impl.hpp>
 

@@ -149,6 +149,6 @@ inline bool validate(std::string const & s) {
 }
 
 } // namespace utf8_validator
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // UTF8_VALIDATOR_HPP

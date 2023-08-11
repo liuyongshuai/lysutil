@@ -1192,6 +1192,6 @@ private:
 
 } // namespace asio
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_TRANSPORT_ASIO_CON_HPP

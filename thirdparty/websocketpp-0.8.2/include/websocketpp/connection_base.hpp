@@ -33,6 +33,6 @@ namespace websocketpp {
 /// Stub for user supplied base class.
 class connection_base {};
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONNECTION_BASE_HPP

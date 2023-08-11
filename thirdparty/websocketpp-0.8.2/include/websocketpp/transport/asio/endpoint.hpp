@@ -469,7 +469,7 @@ public:
      * The endpoint must have been initialized by calling init_asio before
      * listening.
      *
-     * Common options websocketpp-0.8.2:
+     * Common options websocketpp:
      * - IPv6 with mapped IPv4 for dual stack hosts lib::asio::ip::tcp::v6()
      * - IPv4 only: lib::asio::ip::tcp::v4()
      *
@@ -491,7 +491,7 @@ public:
      * The endpoint must have been initialized by calling init_asio before
      * listening.
      *
-     * Common options websocketpp-0.8.2:
+     * Common options websocketpp:
      * - IPv6 with mapped IPv4 for dual stack hosts lib::asio::ip::tcp::v6()
      * - IPv4 only: lib::asio::ip::tcp::v4()
      *
@@ -1177,6 +1177,6 @@ private:
 
 } // namespace asio
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_TRANSPORT_ASIO_HPP

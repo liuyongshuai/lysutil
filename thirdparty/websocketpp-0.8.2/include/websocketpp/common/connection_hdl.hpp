@@ -47,6 +47,6 @@ namespace websocketpp {
  */
 typedef lib::weak_ptr<void> connection_hdl;
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_COMMON_CONNECTION_HDL_HPP

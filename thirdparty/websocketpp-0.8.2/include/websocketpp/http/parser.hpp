@@ -513,7 +513,7 @@ public:
      * value. If you want the Content-Length header to be something else, do so
      * via replace_header("Content-Length") after calling set_body()
      *
-     * @param value String data to websocketpp-0.8.2 as the body content.
+     * @param value String data to websocketpp as the body content.
      */
     void set_body(std::string const & value);
 
@@ -622,7 +622,7 @@ protected:
 
 } // namespace parser
 } // namespace http
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #include <websocketpp/http/impl/parser.hpp>
 

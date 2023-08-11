@@ -402,6 +402,6 @@ protected:
 };
 
 } // namespace processor
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif //WEBSOCKETPP_PROCESSOR_HPP

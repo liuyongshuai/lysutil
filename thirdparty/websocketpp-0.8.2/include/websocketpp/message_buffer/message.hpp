@@ -335,6 +335,6 @@ private:
 };
 
 } // namespace message_buffer
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_MESSAGE_BUFFER_MESSAGE_HPP

@@ -224,6 +224,6 @@ class endpoint_msg_manager {
 } // namespace pool
 
 } // namespace message_buffer
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_MESSAGE_BUFFER_ALLOC_HPP

@@ -72,6 +72,6 @@ typedef lib::function<void(lib::error_code const &)> accept_handler;
 typedef lib::function<void(lib::error_code const &)> connect_handler;
 
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_TRANSPORT_BASE_HPP

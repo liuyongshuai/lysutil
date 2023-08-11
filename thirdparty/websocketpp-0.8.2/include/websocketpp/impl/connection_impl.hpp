@@ -2370,6 +2370,6 @@ void connection<config>::log_http_result() {
     m_alog->write(log::alevel::http,s.str());
 }
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONNECTION_IMPL_HPP

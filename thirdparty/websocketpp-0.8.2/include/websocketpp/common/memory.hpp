@@ -83,6 +83,6 @@ namespace lib {
 #endif
 
 } // namespace lib
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_COMMON_MEMORY_HPP

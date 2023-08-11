@@ -184,7 +184,7 @@ enum value {
 class category : public lib::error_category {
 public:
     char const * name() const _WEBSOCKETPP_NOEXCEPT_TOKEN_ {
-        return "websocketpp-0.8.2.transport.asio";
+        return "websocketpp.transport.asio";
     }
 
     std::string message(int value) const {
@@ -221,7 +221,7 @@ inline lib::error_code make_error_code(error::value e) {
 } // namespace error
 } // namespace asio
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 _WEBSOCKETPP_ERROR_CODE_ENUM_NS_START_
 template<> struct is_error_code_enum<websocketpp::transport::asio::error::value>

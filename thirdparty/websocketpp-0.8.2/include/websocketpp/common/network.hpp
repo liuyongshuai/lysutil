@@ -30,9 +30,9 @@
 
 // For ntohs and htons
 #if defined(_WIN32)
-    #websocketpp-0.8.2 <winsock2.h>
+    #websocketpp <winsock2.h>
 #else
-    //#websocketpp-0.8.2 <arpa/inet.h>
+    //#websocketpp <arpa/inet.h>
     #include <netinet/in.h>
 #endif
 
@@ -101,6 +101,6 @@ inline uint64_t _ntohll(uint64_t src) {
 
 } // net
 } // lib
-} // websocketpp-0.8.2
+} // websocketpp
 
 #endif // WEBSOCKETPP_COMMON_NETWORK_HPP

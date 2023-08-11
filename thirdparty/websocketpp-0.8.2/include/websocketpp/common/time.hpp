@@ -51,6 +51,6 @@ inline std::tm localtime(std::time_t const & time) {
 }
 
 } // lib
-} // websocketpp-0.8.2
+} // websocketpp
 
 #endif // WEBSOCKETPP_COMMON_TIME_HPP

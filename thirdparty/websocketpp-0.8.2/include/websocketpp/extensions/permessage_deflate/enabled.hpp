@@ -121,7 +121,7 @@ public:
     category() {}
 
     char const * name() const _WEBSOCKETPP_NOEXCEPT_TOKEN_ {
-        return "websocketpp-0.8.2.extension.permessage-deflate";
+        return "websocketpp.extension.permessage-deflate";
     }
 
     std::string message(int value) const {
@@ -162,7 +162,7 @@ inline lib::error_code make_error_code(error::value e) {
 } // namespace error
 } // namespace permessage_deflate
 } // namespace extensions
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 _WEBSOCKETPP_ERROR_CODE_ENUM_NS_START_
 template<> struct is_error_code_enum
@@ -475,7 +475,7 @@ public:
 
     /// Generate extension offer
     /**
-     * Creates an offer string to websocketpp-0.8.2 in the Sec-WebSocket-Extensions
+     * Creates an offer string to websocketpp in the Sec-WebSocket-Extensions
      * header of outgoing client requests.
      *
      * @return A WebSocket extension offer string for this extension
@@ -812,6 +812,6 @@ private:
 
 } // namespace permessage_deflate
 } // namespace extensions
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_PROCESSOR_EXTENSION_PERMESSAGEDEFLATE_HPP

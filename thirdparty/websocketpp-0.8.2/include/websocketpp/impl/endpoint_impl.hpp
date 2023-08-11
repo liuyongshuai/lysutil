@@ -264,6 +264,6 @@ void endpoint<connection,config>::pong(connection_hdl hdl, std::string const & p
     if (ec) { throw exception(ec); }
 }
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_ENDPOINT_IMPL_HPP

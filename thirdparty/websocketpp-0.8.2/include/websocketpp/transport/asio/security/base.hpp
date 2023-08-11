@@ -110,7 +110,7 @@ namespace error {
 class socket_category : public lib::error_category {
 public:
     char const * name() const _WEBSOCKETPP_NOEXCEPT_TOKEN_ {
-        return "websocketpp-0.8.2.transport.asio.socket";
+        return "websocketpp.transport.asio.socket";
     }
 
     std::string message(int value) const {
@@ -154,6 +154,6 @@ typedef lib::function<void(const lib::error_code&)> init_handler;
 } // namespace socket
 } // namespace asio
 } // namespace transport
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_TRANSPORT_ASIO_SOCKET_BASE_HPP

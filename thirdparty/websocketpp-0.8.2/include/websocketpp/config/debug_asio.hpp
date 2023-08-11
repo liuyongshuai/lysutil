@@ -72,6 +72,6 @@ struct debug_asio_tls : public debug_core {
 };
 
 } // namespace config
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONFIG_ASIO_TLS_DEBUG_HPP

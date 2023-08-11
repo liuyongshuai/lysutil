@@ -36,7 +36,7 @@
   text is available at
     http://www.ietf.org/rfc/rfc1321.txt
   The code is derived from the text of the RFC, including the test suite
-  (section A.5) but excluding the rest of Appendix A.  It does not websocketpp-0.8.2
+  (section A.5) but excluding the rest of Appendix A.  It does not websocketpp
   any code or documentation that is identified in the RFC as being
   copyrighted.
 
@@ -443,6 +443,6 @@ inline std::string md5_hash_hex(std::string const & input) {
 }
 
 } // md5
-} // websocketpp-0.8.2
+} // websocketpp
 
 #endif // WEBSOCKETPP_COMMON_MD5_HPP

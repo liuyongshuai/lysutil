@@ -1008,7 +1008,7 @@ public:
      *
      * @param code Code to set
      * @param msg Message to set
-     * @see websocketpp-0.8.2::http::response::set_status
+     * @see websocketpp::http::response::set_status
      */
     void set_status(http::status_code::value code);
 
@@ -1023,7 +1023,7 @@ public:
      *
      * @param code Code to set
      * @param msg Message to set
-     * @see websocketpp-0.8.2::http::response::set_status
+     * @see websocketpp::http::response::set_status
      */
     void set_status(http::status_code::value code, std::string const & msg);
 
@@ -1037,8 +1037,8 @@ public:
      * This member function is valid only from the http() and validate() handler
      * callbacks.
      *
-     * @param value String data to websocketpp-0.8.2 as the body content.
-     * @see websocketpp-0.8.2::http::response::set_body
+     * @param value String data to websocketpp as the body content.
+     * @see websocketpp::http::response::set_body
      */
     void set_body(std::string const & value);
 
@@ -1054,7 +1054,7 @@ public:
      * @param key Name of the header to set
      * @param val Value to add
      * @see replace_header
-     * @see websocketpp-0.8.2::http::parser::append_header
+     * @see websocketpp::http::parser::append_header
      */
     void append_header(std::string const & key, std::string const & val);
 
@@ -1069,7 +1069,7 @@ public:
      * @param key Name of the header to set
      * @param val Value to set
      * @see append_header
-     * @see websocketpp-0.8.2::http::parser::replace_header
+     * @see websocketpp::http::parser::replace_header
      */
     void replace_header(std::string const & key, std::string const & val);
 
@@ -1081,7 +1081,7 @@ public:
      * callbacks, or to a client connection before connect has been called.
      *
      * @param key The name of the header to remove
-     * @see websocketpp-0.8.2::http::parser::remove_header
+     * @see websocketpp::http::parser::remove_header
      */
     void remove_header(std::string const & key);
 
@@ -1635,7 +1635,7 @@ private:
     bool m_was_clean;
 };
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #include <websocketpp/impl/connection_impl.hpp>
 

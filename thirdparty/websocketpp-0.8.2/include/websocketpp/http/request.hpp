@@ -69,7 +69,7 @@ public:
      * ignored.
      *
      * Consume will throw an http::exception in the case of an error. Typical
-     * error reasons websocketpp-0.8.2 malformed requests, incomplete requests, and max
+     * error reasons websocketpp malformed requests, incomplete requests, and max
      * header size being reached.
      *
      * @param buf Pointer to byte buffer
@@ -117,7 +117,7 @@ private:
 
 } // namespace parser
 } // namespace http
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #include <websocketpp/http/impl/request.hpp>
 

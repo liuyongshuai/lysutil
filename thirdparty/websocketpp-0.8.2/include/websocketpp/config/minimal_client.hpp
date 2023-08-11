@@ -67,6 +67,6 @@ namespace config {
 typedef minimal_server minimal_client;
 
 } // namespace config
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_CONFIG_MINIMAL_CLIENT_HPP

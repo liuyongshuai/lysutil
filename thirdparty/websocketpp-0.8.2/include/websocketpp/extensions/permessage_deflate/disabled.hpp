@@ -91,7 +91,7 @@ public:
 
     /// Generate extension offer
     /**
-     * Creates an offer string to websocketpp-0.8.2 in the Sec-WebSocket-Extensions
+     * Creates an offer string to websocketpp in the Sec-WebSocket-Extensions
      * header of outgoing client requests.
      *
      * @return A WebSocket extension offer string for this extension
@@ -124,6 +124,6 @@ public:
 
 } // namespace permessage_deflate
 } // namespace extensions
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_EXTENSION_PERMESSAGE_DEFLATE_DISABLED_HPP

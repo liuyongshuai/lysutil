@@ -141,6 +141,6 @@ private:
 };
 
 } // log
-} // websocketpp-0.8.2
+} // websocketpp
 
 #endif // WEBSOCKETPP_LOGGER_SYSLOG_HPP

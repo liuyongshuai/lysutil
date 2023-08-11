@@ -56,6 +56,6 @@ static char const prerelease_flag[] = "";
 /// Default user agent string
 static char const user_agent[] = "WebSocket++/0.8.2";
 
-} // namespace websocketpp-0.8.2
+} // namespace websocketpp
 
 #endif // WEBSOCKETPP_VERSION_HPP
