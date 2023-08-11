@@ -3,7 +3,7 @@ MESSAGE(STATUS "absl_home=${absl_home}")
 
 SET(ABSEIL_SOURCE_LIST
         ${absl_home}/hash/internal/hash.cc
-        ${absl_home}/hash/internal/low_level_hash.cc
+        ${absl_home}/hash/internal/wyhash.cc
         ${absl_home}/hash/internal/city.cc
         ${absl_home}/types/bad_variant_access.h
         ${absl_home}/types/bad_any_cast.cc
@@ -39,11 +39,12 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/debugging/stacktrace.cc
         ${absl_home}/random/seed_gen_exception.cc
         ${absl_home}/random/discrete_distribution.cc
-        ${absl_home}/random/internal/distribution_test_util.cc
         ${absl_home}/random/internal/randen_hwaes.cc
         ${absl_home}/random/internal/pool_urbg.cc
+        ${absl_home}/random/internal/distribution_test_util.cc
         ${absl_home}/random/internal/chi_square.cc
         ${absl_home}/random/internal/randen_round_keys.cc
+        ${absl_home}/random/internal/nanobenchmark.cc
         ${absl_home}/random/internal/randen_slow.cc
         ${absl_home}/random/internal/seed_material.cc
         ${absl_home}/random/internal/randen.cc
@@ -76,16 +77,16 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/time/internal/cctz/src/time_zone_fixed.h
         ${absl_home}/time/clock.cc
         ${absl_home}/time/duration.cc
-        ${absl_home}/profiling/internal/periodic_sampler.cc
-        ${absl_home}/profiling/internal/exponential_biased.cc
         ${absl_home}/base/internal/sysinfo.cc
         ${absl_home}/base/internal/thread_identity.cc
         ${absl_home}/base/internal/raw_logging.cc
         ${absl_home}/base/internal/throw_delegate.cc
+        ${absl_home}/base/internal/periodic_sampler.cc
         ${absl_home}/base/internal/spinlock_wait.cc
         ${absl_home}/base/internal/unaligned_access.h
         ${absl_home}/base/internal/scoped_set_env.cc
         ${absl_home}/base/internal/spinlock.cc
+        ${absl_home}/base/internal/exponential_biased.cc
         ${absl_home}/base/internal/strerror.cc
         ${absl_home}/base/internal/unscaledcycleclock.cc
         ${absl_home}/base/internal/cycleclock.cc
@@ -95,18 +96,11 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/strings/substitute.cc
         ${absl_home}/strings/ascii.cc
         ${absl_home}/strings/escaping.cc
-        ${absl_home}/strings/internal/cordz_handle.cc
-        ${absl_home}/strings/internal/cord_rep_btree_reader.cc
         ${absl_home}/strings/internal/cord_internal.cc
         ${absl_home}/strings/internal/escaping.cc
         ${absl_home}/strings/internal/cord_rep_ring.cc
-        ${absl_home}/strings/internal/cord_rep_btree.cc
-        ${absl_home}/strings/internal/cordz_sample_token.cc
         ${absl_home}/strings/internal/charconv_parse.cc
-        ${absl_home}/strings/internal/cord_rep_btree_navigator.cc
-        ${absl_home}/strings/internal/cord_rep_consume.cc
         ${absl_home}/strings/internal/ostringstream.cc
-        ${absl_home}/strings/internal/cordz_functions.cc
         ${absl_home}/strings/internal/str_format/output.cc
         ${absl_home}/strings/internal/str_format/bind.cc
         ${absl_home}/strings/internal/str_format/parser.cc
@@ -116,7 +110,6 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/strings/internal/pow10_helper.cc
         ${absl_home}/strings/internal/utf8.cc
         ${absl_home}/strings/internal/memutil.cc
-        ${absl_home}/strings/internal/cordz_info.cc
         ${absl_home}/strings/internal/charconv_bigint.cc
         ${absl_home}/strings/match.cc
         ${absl_home}/strings/str_cat.cc
@@ -136,5 +129,7 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/numeric/int128.cc
         ${absl_home}/container/internal/raw_hash_set.cc
         ${absl_home}/container/internal/hashtablez_sampler.cc
+        ${absl_home}/container/internal/test_instance_tracker.cc
+        ${absl_home}/container/internal/hash_generator_testing.cc
         ${absl_home}/container/internal/hashtablez_sampler_force_weak_definition.cc
         )
