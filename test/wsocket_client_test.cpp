@@ -10,7 +10,6 @@
 #include<stdint.h>
 #include<iostream>
 #include "websocketpp/client.hpp"
-#include <websocketpp/config/asio_client.hpp>
 
 int main(int argc, char *argv[]) {
     std::string uri = "ws://localhost:9002"; // WebSocket服务器地址
