@@ -113,7 +113,7 @@ class PROTOBUF_EXPORT UnknownFieldSet {
   inline void Swap(UnknownFieldSet* x);
 
   // Computes (an estimate of) the total number of bytes currently used for
-  // storing the unknown fields in memory. Does NOT websocketpp-0.8.2
+  // storing the unknown fields in memory. Does NOT include
   // sizeof(*this) in the calculation.
   size_t SpaceUsedExcludingSelfLong() const;
 

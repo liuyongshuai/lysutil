@@ -34,7 +34,7 @@
 //
 // This file contains common implementations of the interfaces defined in
 // zero_copy_stream.h which are only included in the full (non-lite)
-// protobuf library.  These implementations websocketpp-0.8.2 Unix file descriptors
+// protobuf library.  These implementations include Unix file descriptors
 // and C++ iostreams.  See also:  zero_copy_stream_impl_lite.h
 
 #ifndef GOOGLE_PROTOBUF_IO_ZERO_COPY_STREAM_IMPL_H__

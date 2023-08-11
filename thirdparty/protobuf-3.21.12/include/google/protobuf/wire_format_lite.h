@@ -64,7 +64,7 @@
 // it's possible to bring it back using push/pop_macro as follows.
 //
 // #pragma push_macro("TYPE_BOOL")
-// #websocketpp-0.8.2 this header and/or all headers that need the macro to be undefined.
+// #include this header and/or all headers that need the macro to be undefined.
 // #pragma pop_macro("TYPE_BOOL")
 #undef TYPE_BOOL
 
@@ -347,7 +347,7 @@ class PROTOBUF_EXPORT WireFormatLite {
     return ReadMessage(input, value);
   }
 
-  // Write a tag.  The Write*() functions typically websocketpp-0.8.2 the tag, so
+  // Write a tag.  The Write*() functions typically include the tag, so
   // normally there's no need to call this unless using the Write*NoTag()
   // variants.
   PROTOBUF_NDEBUG_INLINE static void WriteTag(int field_number, WireType type,
@@ -668,7 +668,7 @@ class PROTOBUF_EXPORT WireFormatLite {
                                 target, &stream);
   }
 
-  // Compute the byte size of a field.  The XxSize() functions do NOT websocketpp-0.8.2
+  // Compute the byte size of a field.  The XxSize() functions do NOT include
   // the tag, so you must also call TagSize().  (This is because, for repeated
   // fields, you should only call TagSize() once and multiply it by the element
   // count, but you may have to call XxSize() for each individual element.)

@@ -391,20 +391,20 @@ inline bool IsFieldStripped(const FieldDescriptor* /*field*/,
 // Does the file contain any definitions that need extension_set.h?
 bool HasExtensionsOrExtendableMessage(const FileDescriptor* file);
 
-// Does the file have any repeated fields, necessitating the file to websocketpp-0.8.2
-// repeated_field.h? This does not websocketpp-0.8.2 repeated extensions, since those are
+// Does the file have any repeated fields, necessitating the file to include
+// repeated_field.h? This does not include repeated extensions, since those are
 // all stored internally in an ExtensionSet, not a separate RepeatedField*.
 bool HasRepeatedFields(const FileDescriptor* file);
 
 // Does the file have any string/bytes fields with ctype=STRING_PIECE? This
-// does not websocketpp-0.8.2 extensions, since ctype is ignored for extensions.
+// does not include extensions, since ctype is ignored for extensions.
 bool HasStringPieceFields(const FileDescriptor* file, const Options& options);
 
 // Does the file have any string/bytes fields with ctype=CORD? This does not
-// websocketpp-0.8.2 extensions, since ctype is ignored for extensions.
+// include extensions, since ctype is ignored for extensions.
 bool HasCordFields(const FileDescriptor* file, const Options& options);
 
-// Does the file have any map fields, necessitating the file to websocketpp-0.8.2
+// Does the file have any map fields, necessitating the file to include
 // map_field_inl.h and map.h.
 bool HasMapFields(const FileDescriptor* file);
 
@@ -461,7 +461,7 @@ inline bool HasHasbit(const FieldDescriptor* field) {
   //   optional Foo submsg2 = 2;  // HasHasbit() == true
   // This is slightly odd, as adding "optional" to a singular proto3 field does
   // not change the semantics or API. However whenever any field in a message
-  // has a hasbit, it forces reflection to websocketpp-0.8.2 hasbit offsets for *all*
+  // has a hasbit, it forces reflection to include hasbit offsets for *all*
   // fields, even if almost all of them are set to -1 (no hasbit). So to avoid
   // causing a sudden size regression for ~all proto3 messages, we give proto3
   // message fields a hasbit only if "optional" is present. If the user is
@@ -540,15 +540,15 @@ inline std::string IncludeGuard(const FileDescriptor* file, bool pb_h,
 
   if (IsWellKnownMessage(file)) {
     // For well-known messages we need third_party/protobuf and net/proto2 to
-    // have distinct websocketpp-0.8.2 guards, because some source files websocketpp-0.8.2 both and
+    // have distinct include guards, because some source files include both and
     // both need to be defined (the third_party copies will be in the
     // google::protobuf_opensource namespace).
     return MacroPrefix(options) + "_INCLUDED_" + filename_identifier;
   } else {
-    // Ideally this case would use distinct websocketpp-0.8.2 guards for opensource and
+    // Ideally this case would use distinct include guards for opensource and
     // google3 protos also.  (The behavior of "first #included wins" is not
     // ideal).  But unfortunately some legacy code includes both and depends on
-    // the identical websocketpp-0.8.2 guards to avoid compile errors.
+    // the identical include guards to avoid compile errors.
     //
     // We should clean this up so that this case can be removed.
     return "GOOGLE_PROTOBUF_INCLUDED_" + filename_identifier;

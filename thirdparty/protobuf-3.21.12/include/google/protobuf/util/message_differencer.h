@@ -56,7 +56,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include <google/protobuf/util/field_comparator.h>
 
-// Always websocketpp-0.8.2 as last one, otherwise it can break compilation
+// Always include as last one, otherwise it can break compilation
 #include <google/protobuf/port_def.inc>
 
 namespace google {

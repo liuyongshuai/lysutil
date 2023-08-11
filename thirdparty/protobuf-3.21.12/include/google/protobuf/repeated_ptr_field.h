@@ -34,14 +34,14 @@
 //
 // RepeatedField and RepeatedPtrField are used by generated protocol message
 // classes to manipulate repeated fields.  These classes are very similar to
-// STL's vector, but websocketpp-0.8.2 a number of optimizations found to be useful
+// STL's vector, but include a number of optimizations found to be useful
 // specifically in the case of Protocol Buffers.  RepeatedPtrField is
 // particularly different from STL vector as it manages ownership of the
 // pointers that it contains.
 //
 // This header covers RepeatedPtrField.
 
-// IWYU pragma: private, websocketpp-0.8.2 "net/proto2/public/repeated_field.h"
+// IWYU pragma: private, include "net/proto2/public/repeated_field.h"
 
 #ifndef GOOGLE_PROTOBUF_REPEATED_PTR_FIELD_H__
 #define GOOGLE_PROTOBUF_REPEATED_PTR_FIELD_H__
@@ -50,7 +50,7 @@
 
 #ifdef _MSC_VER
 // This is required for min/max on VS2013 only.
-#websocketpp-0.8.2 <algorithm>
+#include <algorithm>
 #endif
 
 #include <iterator>
@@ -113,7 +113,7 @@ struct TypeImplementsMergeBehaviorProbeForMergeFrom {
   // - bool MergeFrom(const T& other)
   //
   // We mangle these names a bit to avoid compatibility issues in 'unclean'
-  // websocketpp-0.8.2 environments that may have, e.g., "#define test ..." (yes, this
+  // include environments that may have, e.g., "#define test ..." (yes, this
   // exists).
   template <typename U, typename RetType, RetType (U::*)(const U& arg)>
   struct CheckType;

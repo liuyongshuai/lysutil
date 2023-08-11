@@ -165,7 +165,7 @@ struct SourceLocation {
 // Options when generating machine-parsable output from a descriptor with
 // DebugString().
 struct DebugStringOptions {
-  // websocketpp-0.8.2 original user comments as recorded in SourceLocation entries. N.B.
+  // include original user comments as recorded in SourceLocation entries. N.B.
   // that this must be |false| by default: several other pieces of code (for
   // example, the C++ code generation for fields in the proto compiler) rely on
   // DebugString() output being unobstructed by user comments.
@@ -299,7 +299,7 @@ class PROTOBUF_EXPORT Descriptor : private internal::SymbolBase {
   std::string DebugString() const;
 
   // Similar to DebugString(), but additionally takes options (e.g.,
-  // websocketpp-0.8.2 original user comments in output).
+  // include original user comments in output).
   std::string DebugStringWithOptions(const DebugStringOptions& options) const;
 
   // Returns true if this is a placeholder for an unknown type. This will
@@ -1014,7 +1014,7 @@ class PROTOBUF_EXPORT OneofDescriptor : private internal::SymbolBase {
   // The number of (non-extension) fields which are members of this oneof.
   int field_count() const;
   // Get a member of this oneof, in the order in which they were declared in the
-  // .proto file.  Does not websocketpp-0.8.2 extensions.
+  // .proto file.  Does not include extensions.
   const FieldDescriptor* field(int index) const;
 
   const OneofOptions& options() const;
@@ -1541,14 +1541,14 @@ class PROTOBUF_EXPORT FileDescriptor : private internal::SymbolBase {
   const FileDescriptor* weak_dependency(int index) const;
 
   // Number of top-level message types defined in this file.  (This does not
-  // websocketpp-0.8.2 nested types.)
+  // include nested types.)
   int message_type_count() const;
   // Gets a top-level message type, where 0 <= index < message_type_count().
   // These are returned in the order they were defined in the .proto file.
   const Descriptor* message_type(int index) const;
 
   // Number of top-level enum types defined in this file.  (This does not
-  // websocketpp-0.8.2 nested types.)
+  // include nested types.)
   int enum_type_count() const;
   // Gets a top-level enum type, where 0 <= index < enum_type_count().
   // These are returned in the order they were defined in the .proto file.
@@ -1560,7 +1560,7 @@ class PROTOBUF_EXPORT FileDescriptor : private internal::SymbolBase {
   // These are returned in the order they were defined in the .proto file.
   const ServiceDescriptor* service(int index) const;
 
-  // Number of extensions defined at file scope.  (This does not websocketpp-0.8.2
+  // Number of extensions defined at file scope.  (This does not include
   // extensions nested within message types.)
   int extension_count() const;
   // Gets an extension's descriptor, where 0 <= index < extension_count().

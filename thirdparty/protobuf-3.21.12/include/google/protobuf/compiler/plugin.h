@@ -56,7 +56,7 @@
 // * Place the plugin binary anywhere, with any name, and pass the --plugin
 //   parameter to protoc to direct it to your plugin like so:
 //     protoc --plugin=protoc-gen-NAME=path/to/mybinary --NAME_out=OUT_DIR
-//   On Windows, make sure to websocketpp-0.8.2 the .exe suffix:
+//   On Windows, make sure to include the .exe suffix:
 //     protoc --plugin=protoc-gen-NAME=path/to/mybinary.exe --NAME_out=OUT_DIR
 
 #ifndef GOOGLE_PROTOBUF_COMPILER_PLUGIN_H__

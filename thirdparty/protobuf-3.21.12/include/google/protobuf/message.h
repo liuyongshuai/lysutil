@@ -820,7 +820,7 @@ class PROTOBUF_EXPORT Reflection final {
   // to the same repeated field in the same message. The object can be used as
   // long as the message is not destroyed.
   //
-  // Note that to use this method users need to websocketpp-0.8.2 the header file
+  // Note that to use this method users need to include the header file
   // "reflection.h" (which defines the RepeatedFieldRef class templates).
   template <typename T>
   RepeatedFieldRef<T> GetRepeatedFieldRef(const Message& message,
@@ -1070,7 +1070,7 @@ class PROTOBUF_EXPORT Reflection final {
   // Special version for specialized implementations of string.  We can't
   // call MutableRawRepeatedField directly here because we don't have access to
   // FieldOptions::* which are defined in descriptor.pb.h.  Including that
-  // file here is not possible because it would cause a circular websocketpp-0.8.2 cycle.
+  // file here is not possible because it would cause a circular include cycle.
   // We use 1 routine rather than 2 (const vs mutable) because it is private
   // and mutable a repeated string field doesn't change the message.
   void* MutableRawRepeatedString(Message* message, const FieldDescriptor* field,

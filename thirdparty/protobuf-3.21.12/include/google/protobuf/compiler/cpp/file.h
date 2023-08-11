@@ -137,7 +137,7 @@ class FileGenerator {
   void GenerateTopHeaderGuard(io::Printer* printer, bool pb_h);
   void GenerateBottomHeaderGuard(io::Printer* printer, bool pb_h);
 
-  // Generates #websocketpp-0.8.2 directives.
+  // Generates #include directives.
   void GenerateLibraryIncludes(io::Printer* printer);
   void GenerateDependencyIncludes(io::Printer* printer);
 

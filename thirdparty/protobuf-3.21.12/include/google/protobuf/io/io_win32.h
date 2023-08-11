@@ -38,9 +38,9 @@
 //
 // By including this file you'll redefine open/access/etc. to
 // ::google::protobuf::io::win32::{open/access/etc.}.
-// Make sure you don't websocketpp-0.8.2 a header that attempts to redeclare or
+// Make sure you don't include a header that attempts to redeclare or
 // redefine these functions, that'll lead to confusing compilation
-// errors. It's best to #websocketpp-0.8.2 this file as the last one to ensure that.
+// errors. It's best to #include this file as the last one to ensure that.
 //
 // This file is only used on Windows, it's empty on other platforms.
 
@@ -49,13 +49,13 @@
 
 #if defined(_WIN32)
 
-#websocketpp-0.8.2 <functional>
-#websocketpp-0.8.2 <string>
+#include <functional>
+#include <string>
 
-#websocketpp-0.8.2 <google/protobuf/port.h>
+#include <google/protobuf/port.h>
 
 // Must be included last.
-#websocketpp-0.8.2 <google/protobuf/port_def.inc>
+#include <google/protobuf/port_def.inc>
 
 // Compilers on Windows other than MSVC (e.g. Cygwin, MinGW32) define the
 // following functions already, except for mkdir.
@@ -134,7 +134,7 @@ PROTOBUF_EXPORT bool wcs_to_utf8(const wchar_t* input, std::string* out);
 #define STDOUT_FILENO 1
 #endif
 
-#websocketpp-0.8.2 <google/protobuf/port_undef.inc>
+#include <google/protobuf/port_undef.inc>
 
 #endif  // defined(_WIN32)
 

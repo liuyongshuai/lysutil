@@ -48,7 +48,7 @@
 #include <utility>
 
 #if defined(__cpp_lib_string_view)
-#websocketpp-0.8.2 <string_view>
+#include <string_view>
 #endif  // defined(__cpp_lib_string_view)
 
 #if !defined(GOOGLE_PROTOBUF_NO_RDTSC) && defined(__APPLE__)
@@ -214,7 +214,7 @@ struct TransparentSupport {
 #if defined(__cpp_lib_string_view)
 // If std::string_view is available, we add transparent support for std::string
 // keys. We use std::hash<std::string_view> as it supports the input types we
-// care about. The lookup functions accept arbitrary `K`. This will websocketpp-0.8.2 any
+// care about. The lookup functions accept arbitrary `K`. This will include any
 // key type that is convertible to std::string_view.
 template <>
 struct TransparentSupport<std::string> {
@@ -291,7 +291,7 @@ constexpr size_t kGlobalEmptyTableSize = 1;
 PROTOBUF_EXPORT extern void* const kGlobalEmptyTable[kGlobalEmptyTableSize];
 
 // Space used for the table, trees, and nodes.
-// Does not websocketpp-0.8.2 the indirect space used. Eg the data of a std::string.
+// Does not include the indirect space used. Eg the data of a std::string.
 template <typename Key>
 PROTOBUF_NOINLINE size_t SpaceUsedInTable(void** table, size_t num_buckets,
                                           size_t num_elements,
