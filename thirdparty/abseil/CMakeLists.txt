@@ -5,16 +5,13 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/hash/internal/hash.cc
         ${absl_home}/hash/internal/wyhash.cc
         ${absl_home}/hash/internal/city.cc
-        ${absl_home}/types/bad_variant_access.h
         ${absl_home}/types/bad_any_cast.cc
         ${absl_home}/types/bad_variant_access.cc
-        ${absl_home}/types/bad_optional_access.h
         ${absl_home}/types/bad_optional_access.cc
         ${absl_home}/flags/marshalling.cc
         ${absl_home}/flags/usage_config.cc
         ${absl_home}/flags/reflection.cc
         ${absl_home}/flags/internal/private_handle_accessor.cc
-        ${absl_home}/flags/internal/private_handle_accessor.h
         ${absl_home}/flags/internal/program_name.cc
         ${absl_home}/flags/internal/flag.cc
         ${absl_home}/flags/internal/commandlineflag.cc
@@ -54,27 +51,16 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/time/civil_time.cc
         ${absl_home}/time/format.cc
         ${absl_home}/time/time.cc
-        ${absl_home}/time/internal/cctz/include/cctz/civil_time.h
-        ${absl_home}/time/internal/cctz/include/cctz/zone_info_source.h
-        ${absl_home}/time/internal/cctz/include/cctz/time_zone.h
-        ${absl_home}/time/internal/cctz/include/cctz/civil_time_detail.h
         ${absl_home}/time/internal/cctz/src/civil_time_detail.cc
         ${absl_home}/time/internal/cctz/src/time_zone_if.cc
-        ${absl_home}/time/internal/cctz/src/time_zone_info.h
         ${absl_home}/time/internal/cctz/src/time_zone_libc.cc
-        ${absl_home}/time/internal/cctz/src/time_zone_libc.h
         ${absl_home}/time/internal/cctz/src/time_zone_impl.cc
-        ${absl_home}/time/internal/cctz/src/time_zone_if.h
         ${absl_home}/time/internal/cctz/src/zone_info_source.cc
         ${absl_home}/time/internal/cctz/src/time_zone_fixed.cc
-        ${absl_home}/time/internal/cctz/src/time_zone_impl.h
-        ${absl_home}/time/internal/cctz/src/time_zone_posix.h
         ${absl_home}/time/internal/cctz/src/time_zone_format.cc
         ${absl_home}/time/internal/cctz/src/time_zone_info.cc
         ${absl_home}/time/internal/cctz/src/time_zone_lookup.cc
         ${absl_home}/time/internal/cctz/src/time_zone_posix.cc
-        ${absl_home}/time/internal/cctz/src/tzfile.h
-        ${absl_home}/time/internal/cctz/src/time_zone_fixed.h
         ${absl_home}/time/clock.cc
         ${absl_home}/time/duration.cc
         ${absl_home}/base/internal/sysinfo.cc
@@ -83,7 +69,6 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/base/internal/throw_delegate.cc
         ${absl_home}/base/internal/periodic_sampler.cc
         ${absl_home}/base/internal/spinlock_wait.cc
-        ${absl_home}/base/internal/unaligned_access.h
         ${absl_home}/base/internal/scoped_set_env.cc
         ${absl_home}/base/internal/spinlock.cc
         ${absl_home}/base/internal/exponential_biased.cc
