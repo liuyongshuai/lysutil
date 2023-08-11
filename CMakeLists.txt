@@ -41,18 +41,30 @@ SET(src_home ${work_home}/src/)
 SET(test_home ${work_home}/test/)
 MESSAGE("src_home=${src_home}")
 
+#thirdparty
+SET(PROTOBUF_DIR ${work_home}/thirdparty/protobuf-3.21.12)
+SET(BOOST_DIR ${work_home}/thirdparty/boost-1.76.0)
+SET(WEBSOCKETPP_DIR ${work_home}/thirdparty/websocketpp-0.8.2)
 
 # websocketpp-0.8.2 file list
 SET(include_list "")
 LIST(APPEND include_list ${src_home})
-list(APPEND include_list ${work_home}/thirdparty/protobuf-3.21.12/include/)
-LIST(APPEND include_list ${work_home}/thirdparty/websocketpp-0.8.2/include)
+list(APPEND include_list ${PROTOBUF_DIR}/include/)
+LIST(APPEND include_list ${BOOST_DIR}/include)
+LIST(APPEND include_list ${WEBSOCKETPP_DIR}/include)
 INCLUDE_DIRECTORIES(${include_list})
 
 
 # library file list
 SET(library_list "-L${work_home}/lib")
-list(APPEND library_list "${work_home}/thirdparty/protobuf-3.21.12/lib/libprotobuf.a")
+list(APPEND library_list "${PROTOBUF_DIR}/lib/libprotobuf.a")
+list(APPEND library_list "${BOOST_DIR}/lib/libboost_iostreams.a")
+list(APPEND library_list "${BOOST_DIR}/lib/libboost_regex.a")
+list(APPEND library_list "${BOOST_DIR}/lib/libboost_program_options.a")
+list(APPEND library_list "${BOOST_DIR}/lib/libboost_system.a")
+list(APPEND library_list "${BOOST_DIR}/lib/libboost_thread.a")
+list(APPEND library_list "${BOOST_DIR}/lib/libboost_chrono.a")
+list(APPEND library_list "${BOOST_DIR}/lib/libboost_locale.a")
 LIST(APPEND library_list -lpthread -lpcre)
 
 
