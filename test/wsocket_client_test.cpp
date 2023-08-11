@@ -26,8 +26,8 @@ int main(int argc, char *argv[]) {
         });
         // 设置接收消息回调函数
         client.set_message_handler(
-                [](const websocketpp::connection_hdl& hdl, const websocketpp::config::asio_client::message_type& msg) {
-                    std::cout << "Received message: " << msg.get_payload() << std::endl;
+                [](const websocketpp::connection_hdl &hdl, const client::message_ptr &msg) {
+                    std::cout << "Received message: " << msg->get_payload() << std::endl;
                 });
         // 连接WebSocket服务器
         websocketpp::lib::error_code ec;
