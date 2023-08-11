@@ -48,6 +48,7 @@ SET(WEBSOCKETPP_DIR ${work_home}/thirdparty/websocketpp-0.8.2)
 SET(OPENSSL_DIR ${work_home}/thirdparty/openssl-1.1.1v)
 SET(SPDLOG_DIR ${work_home}/thirdparty/spdlog)
 SET(RAPIDJSON_DIR ${work_home}/thirdparty/rapidjson)
+SET(PCRE2_DIR ${work_home}/thirdparty/pcre2-10.42)
 
 # websocketpp-0.8.2 file list
 SET(include_list "")
@@ -58,6 +59,7 @@ LIST(APPEND include_list ${WEBSOCKETPP_DIR}/include)
 list(APPEND include_list ${OPENSSL_DIR}/include/)
 list(APPEND include_list ${RAPIDJSON_DIR}/include/)
 list(APPEND include_list ${SPDLOG_DIR}/include/)
+list(APPEND include_list ${PCRE2_DIR}/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -73,6 +75,7 @@ list(APPEND library_list "${BOOST_DIR}/lib/libboost_chrono.a")
 list(APPEND library_list "${BOOST_DIR}/lib/libboost_locale.a")
 list(APPEND library_list "${OPENSSL_DIR}/lib/libssl.a")
 list(APPEND library_list "${OPENSSL_DIR}/lib/libcrypto.a")
+list(APPEND library_list "${PCRE2_DIR}/lib/libpcre2.a")
 LIST(APPEND library_list -ldl -lpthread -lpcre)
 
 
