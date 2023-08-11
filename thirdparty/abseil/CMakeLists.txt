@@ -43,7 +43,6 @@ SET(ABSEIL_SOURCE_LIST
         ${absl_home}/random/internal/gaussian_distribution_gentables.cc
         ${absl_home}/random/internal/randen_hwaes.cc
         ${absl_home}/random/internal/pool_urbg.cc
-        ${absl_home}/random/internal/chi_square.cc
         ${absl_home}/random/internal/randen_round_keys.cc
         ${absl_home}/random/internal/randen_slow.cc
         ${absl_home}/random/internal/seed_material.cc
