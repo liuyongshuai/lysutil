@@ -73,7 +73,7 @@ list(APPEND library_list "${BOOST_DIR}/lib/libboost_chrono.a")
 list(APPEND library_list "${BOOST_DIR}/lib/libboost_locale.a")
 list(APPEND library_list "${OPENSSL_DIR}/lib/libssl.a")
 list(APPEND library_list "${OPENSSL_DIR}/lib/libcrypto.a")
-LIST(APPEND library_list -lpthread -lpcre)
+LIST(APPEND library_list -ldl -lpthread -lpcre)
 
 
 #引入其他文件
