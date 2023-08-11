@@ -80,6 +80,7 @@ detect_make_dir $build_home
 detect_make_dir $output_home
 
 cpunum=$(cat /proc/cpuinfo | grep "core id" | wc -l)
+echo "===============cpunum: ${cpunum}==============="
 
 cd $build_home
 # compile this project
