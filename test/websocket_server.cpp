@@ -8,32 +8,32 @@
 #include<string.h>
 #include<stdio.h>
 #include<stdint.h>
-#include <websocketpp/config/asio.hpp>
+#include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
-
 #include <iostream>
 
-// define types for two different server endpoints, one for each config we are
-// using
-typedef websocketpp::server<websocketpp::config::asio> server_plain;
-typedef websocketpp::server<websocketpp::config::asio_tls> server_tls;
+typedef websocketpp::server<websocketpp::config::asio> server;
 
-// alias some of the bind related functions as they are a bit long
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
 using websocketpp::lib::bind;
 
-// type of the ssl context pointer is long so alias it
-typedef websocketpp::lib::shared_ptr<boost::asio::ssl::context> context_ptr;
+// pull out the type of messages sent by our config
+typedef server::message_ptr message_ptr;
 
-// The shared on_message handler takes a template parameter so the function can
-// resolve any endpoint dependent types like message_ptr or connection_ptr
-template<typename EndpointType>
-void on_message(EndpointType *s, websocketpp::connection_hdl hdl,
-                typename EndpointType::message_ptr msg) {
+
+// Define a callback to handle incoming messages
+void on_message(server *s, websocketpp::connection_hdl hdl, message_ptr msg) {
     std::cout << "on_message called with hdl: " << hdl.lock().get()
               << " and message: " << msg->get_payload()
               << std::endl;
+
+    // check for a special command to instruct the server to stop listening so
+    // it can be cleanly exited.
+    if (msg->get_payload() == "stop-listening") {
+        s->stop_listening();
+        return;
+    }
 
     try {
         s->send(hdl, msg->get_payload(), msg->get_opcode());
@@ -43,53 +43,32 @@ void on_message(EndpointType *s, websocketpp::connection_hdl hdl,
     }
 }
 
-// No change to TLS init methods from echo_server_tls
-std::string get_password() {
-    return "test";
-}
-
-context_ptr on_tls_init(websocketpp::connection_hdl hdl) {
-    std::cout << "on_tls_init called with hdl: " << hdl.lock().get() << std::endl;
-    context_ptr ctx(new boost::asio::ssl::context(boost::asio::ssl::context::tlsv1));
+int main() {
+    // Create a server endpoint
+    server echo_server;
 
     try {
-        ctx->set_options(boost::asio::ssl::context::default_workarounds |
-                         boost::asio::ssl::context::no_sslv2 |
-                         boost::asio::ssl::context::no_sslv3 |
-                         boost::asio::ssl::context::single_dh_use);
-        ctx->set_password_callback(bind(&get_password));
-        ctx->use_certificate_chain_file("server.pem");
-        ctx->use_private_key_file("server.pem", boost::asio::ssl::context::pem);
-    } catch (std::exception &e) {
+        // Set logging settings
+        echo_server.set_access_channels(websocketpp::log::alevel::all);
+        echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
+
+        // Initialize Asio
+        echo_server.init_asio();
+
+        // Register our message handler
+        echo_server.set_message_handler(bind(&on_message, &echo_server, ::_1, ::_2));
+
+        // Listen on port 9002
+        echo_server.listen(9002);
+
+        // Start the server accept loop
+        echo_server.start_accept();
+
+        // Start the ASIO io_service run loop
+        echo_server.run();
+    } catch (websocketpp::exception const &e) {
         std::cout << e.what() << std::endl;
+    } catch (...) {
+        std::cout << "other exception" << std::endl;
     }
-    return ctx;
-}
-
-int main() {
-    // set up an external io_service to run both endpoints on. This is not
-    // strictly necessary, but simplifies thread management a bit.
-    boost::asio::io_service ios;
-
-    // set up plain endpoint
-    server_plain endpoint_plain;
-    // initialize asio with our external io_service rather than an internal one
-    endpoint_plain.init_asio(&ios);
-    endpoint_plain.set_message_handler(bind(&on_message<server_plain>, &endpoint_plain, ::_1, ::_2));
-    endpoint_plain.listen(9002);
-    endpoint_plain.start_accept();
-
-    // set up tls endpoint
-    server_tls endpoint_tls;
-    endpoint_tls.init_asio(&ios);
-    endpoint_tls.set_message_handler(bind(&on_message<server_tls>, &endpoint_tls, ::_1, ::_2));
-    // TLS endpoint has an extra handler for the tls init
-    endpoint_tls.set_tls_init_handler(bind(&on_tls_init, ::_1));
-    // tls endpoint listens on a different port
-    endpoint_tls.listen(443);
-    endpoint_tls.start_accept();
-
-    // Start the ASIO io_service run loop running both endpoints
-    ios.run();
-    return 0;
 }
