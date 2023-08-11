@@ -45,7 +45,7 @@ MESSAGE("src_home=${src_home}")
 SET(PROTOBUF_DIR ${work_home}/thirdparty/protobuf-3.21.12)
 SET(BOOST_DIR ${work_home}/thirdparty/boost-1.76.0)
 SET(WEBSOCKETPP_DIR ${work_home}/thirdparty/websocketpp-0.8.2)
-SET(OPENSSL_DIR ${work_home}/thirdparty/openssl)
+SET(OPENSSL_DIR ${work_home}/thirdparty/openssl-1.1.1v)
 SET(SPDLOG_DIR ${work_home}/thirdparty/spdlog)
 SET(RAPIDJSON_DIR ${work_home}/thirdparty/rapidjson)
 
