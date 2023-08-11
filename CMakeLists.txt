@@ -45,6 +45,9 @@ MESSAGE("src_home=${src_home}")
 SET(PROTOBUF_DIR ${work_home}/thirdparty/protobuf-3.21.12)
 SET(BOOST_DIR ${work_home}/thirdparty/boost-1.76.0)
 SET(WEBSOCKETPP_DIR ${work_home}/thirdparty/websocketpp-0.8.2)
+SET(OPENSSL_DIR ${work_home}/thirdparty/openssl)
+SET(SPDLOG_DIR ${work_home}/thirdparty/spdlog)
+SET(RAPIDJSON_DIR ${work_home}/thirdparty/rapidjson)
 
 # websocketpp-0.8.2 file list
 SET(include_list "")
@@ -52,6 +55,9 @@ LIST(APPEND include_list ${src_home})
 list(APPEND include_list ${PROTOBUF_DIR}/include/)
 LIST(APPEND include_list ${BOOST_DIR}/include)
 LIST(APPEND include_list ${WEBSOCKETPP_DIR}/include)
+list(APPEND include_list ${OPENSSL_DIR}/include/)
+list(APPEND include_list ${RAPIDJSON_DIR}/include/)
+list(APPEND include_list ${SPDLOG_DIR}/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -65,6 +71,8 @@ list(APPEND library_list "${BOOST_DIR}/lib/libboost_system.a")
 list(APPEND library_list "${BOOST_DIR}/lib/libboost_thread.a")
 list(APPEND library_list "${BOOST_DIR}/lib/libboost_chrono.a")
 list(APPEND library_list "${BOOST_DIR}/lib/libboost_locale.a")
+list(APPEND library_list "${OPENSSL_DIR}/lib/libssl.a")
+list(APPEND library_list "${OPENSSL_DIR}/lib/libcrypto.a")
 LIST(APPEND library_list -lpthread -lpcre)
 
 
