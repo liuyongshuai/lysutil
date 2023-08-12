@@ -10,9 +10,9 @@
 #include<stdint.h>
 #include<iostream>
 #include <memory>
-#include "thriftconcurrency/ThreadManager.h"
-#include "thriftconcurrency/Exception.h"
-#include "thriftconcurrency/Monitor.h"
+#include "thrift/concurrency/ThreadManager.h"
+#include "thrift/concurrency/Exception.h"
+#include "thrift/concurrency/Monitor.h"
 
 class printCounter : public apache::thrift::concurrency::Runnable{
 public:
