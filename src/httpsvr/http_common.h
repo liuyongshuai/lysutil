@@ -35,7 +35,7 @@
 #include<sys/stat.h>
 #include<sys/time.h>
 #include<sys/shm.h>
-#include "thriftconcurrency/ThreadManager.h"
+#include "thrift/concurrency/ThreadManager.h"
 
 #define HTTP_HEADER_BUF_SIZE  10240
 #define MAX_EVENTS 1024

@@ -10,7 +10,7 @@
 #include <utility>
 #include<vector>
 #include<map>
-#include "thriftconcurrency/Thread.h"
+#include "thrift/concurrency/Thread.h"
 #include "httpsvr/http_router.h"
 #include "httpsvr/http_common.h"
 #include "httpsvr/http_request.h"
