@@ -63,6 +63,9 @@ list(APPEND include_list ${OPENSSL_DIR}/include/)
 list(APPEND include_list ${RAPIDJSON_DIR}/include/)
 list(APPEND include_list ${SPDLOG_DIR}/include/)
 list(APPEND include_list ${PCRE_DIR}/include/)
+list(APPEND include_list ${GFLAGS_DIR}/include/)
+list(APPEND include_list ${LEVELDB_DIR}/include/)
+list(APPEND include_list ${THRIFT_DIR}/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -79,6 +82,10 @@ list(APPEND library_list "${BOOST_DIR}/lib/libboost_locale.a")
 list(APPEND library_list "${OPENSSL_DIR}/lib/libssl.a")
 list(APPEND library_list "${OPENSSL_DIR}/lib/libcrypto.a")
 list(APPEND library_list "${PCRE_DIR}/lib/libpcre.a")
+list(APPEND library_list "${GFLAGS_DIR}/lib/libgflags.a")
+list(APPEND library_list "${LEVELDB_DIR}/lib/libleveldb.a")
+list(APPEND library_list "${THRIFT_DIR}/lib/libthrift.a")
+list(APPEND library_list "${THRIFT_DIR}/lib/libthriftnb.a")
 LIST(APPEND library_list -ldl -lpthread)
 
 
@@ -109,14 +116,6 @@ SET(SRC_SOURCE_LIST
         ${src_home}/httpsvr/http_router.cpp
         ${src_home}/httpsvr/http_server.cpp
         ${src_home}/httpsvr/http_task.cpp
-
-        #thriftconcurrency
-        ${src_home}/thriftconcurrency/Monitor.cpp
-        ${src_home}/thriftconcurrency/Mutex.cpp
-        ${src_home}/thriftconcurrency/Thread.cpp
-        ${src_home}/thriftconcurrency/ThreadFactory.cpp
-        ${src_home}/thriftconcurrency/ThreadManager.cpp
-        ${src_home}/thriftconcurrency/TimerManager.cpp
         )
 
 
