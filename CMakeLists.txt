@@ -49,6 +49,9 @@ SET(OPENSSL_DIR ${work_home}/thirdparty/openssl-1.1.1v)
 SET(SPDLOG_DIR ${work_home}/thirdparty/spdlog)
 SET(RAPIDJSON_DIR ${work_home}/thirdparty/rapidjson)
 SET(PCRE_DIR ${work_home}/thirdparty/pcre-8.45)
+SET(GFLAGS_DIR ${work_home}/thirdparty/gflags-2.2.2)
+SET(LEVELDB_DIR ${work_home}/thirdparty/leveldb-1.23)
+SET(THRIFT_DIR ${work_home}/thirdparty/thrift-0.14.2)
 
 # websocketpp-0.8.2 file list
 SET(include_list "")
