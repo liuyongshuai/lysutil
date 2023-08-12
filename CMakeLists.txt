@@ -22,7 +22,7 @@ ENDIF ()
 
 ##============= 确定编译选项 =============
 OPTION(TARGET_DEBUG_MODE "Build the project with debug mode" OFF)
-SET(CMAKE_CXX_FLAGS "-gdwarf-2 -pipe -std=c++0x -fno-omit-frame-pointer -fPIC -D_GLIBCXX_USE_CXX11_ABI=0  -DSPDLOG_FMT_PRINTF")
+SET(CMAKE_CXX_FLAGS "-gdwarf-2 -pipe -std=c++0x -fno-omit-frame-pointer -fPIC -D_GLIBCXX_USE_CXX11_ABI=0 -DSPDLOG_FMT_PRINTF")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(notdir $<)\"'")
 if (TARGET_DEBUG_MODE)
     SET(CMAKE_BUILD_TYPE "Debug")
