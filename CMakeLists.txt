@@ -42,6 +42,7 @@ SET(test_home ${work_home}/test/)
 MESSAGE("src_home=${src_home}")
 
 #thirdparty
+SET(SYS_LIB_DIR ${work_home}/thirdparty/lib)
 SET(PROTOBUF_DIR ${work_home}/thirdparty/protobuf-3.21.12)
 SET(BOOST_DIR ${work_home}/thirdparty/boost-1.76.0)
 SET(WEBSOCKETPP_DIR ${work_home}/thirdparty/websocketpp-0.8.2)
@@ -86,7 +87,8 @@ list(APPEND library_list "${GFLAGS_DIR}/lib/libgflags.a")
 list(APPEND library_list "${LEVELDB_DIR}/lib/libleveldb.a")
 list(APPEND library_list "${THRIFT_DIR}/lib/libthrift.a")
 list(APPEND library_list "${THRIFT_DIR}/lib/libthriftnb.a")
-LIST(APPEND library_list -ldl -lpthread)
+list(APPEND library_list "${SYS_LIB_DIR}/libdl.a")
+LIST(APPEND library_list  -lpthread)
 
 
 #引入其他文件
