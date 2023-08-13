@@ -53,8 +53,9 @@ SET(PCRE_DIR ${work_home}/thirdparty/pcre-8.45)
 SET(GFLAGS_DIR ${work_home}/thirdparty/gflags-2.2.2)
 SET(LEVELDB_DIR ${work_home}/thirdparty/leveldb-1.23)
 SET(THRIFT_DIR ${work_home}/thirdparty/thrift-0.14.2)
+SET(GPERFTOOLS_DIR ${work_home}/thirdparty/gperftools-2.10.80)
 
-# websocketpp-0.8.2 file list
+#include list
 SET(include_list "")
 LIST(APPEND include_list ${src_home})
 list(APPEND include_list ${PROTOBUF_DIR}/include/)
@@ -67,6 +68,7 @@ list(APPEND include_list ${PCRE_DIR}/include/)
 list(APPEND include_list ${GFLAGS_DIR}/include/)
 list(APPEND include_list ${LEVELDB_DIR}/include/)
 list(APPEND include_list ${THRIFT_DIR}/include/)
+list(APPEND include_list ${GPERFTOOLS_DIR}/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -87,6 +89,7 @@ list(APPEND library_list "${GFLAGS_DIR}/lib/libgflags.a")
 list(APPEND library_list "${LEVELDB_DIR}/lib/libleveldb.a")
 list(APPEND library_list "${THRIFT_DIR}/lib/libthrift.a")
 list(APPEND library_list "${THRIFT_DIR}/lib/libthriftnb.a")
+list(APPEND library_list "${GPERFTOOLS_DIR}/lib/libtcmalloc_and_profiler.a")
 list(APPEND library_list "${DEPEND_LIB_DIR}/libdl.a")
 LIST(APPEND library_list  -lpthread)
 
