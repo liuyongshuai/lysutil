@@ -126,10 +126,10 @@ namespace lysutil {
     }
 }
 
-#define DEBUG_LOG(fmt, ...) didi::map::common::BthreadLogger::getInstance()->s_debug_logger->debug( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
-#define INFO_LOG(fmt, ...) didi::map::common::BthreadLogger::getInstance()->s_info_logger->info( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
-#define WARNING_LOG(fmt, ...) didi::map::common::BthreadLogger::getInstance()->s_error_logger->warn( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
-#define ERROR_LOG(fmt, ...) didi::map::common::BthreadLogger::getInstance()->s_error_logger->error( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
-#define FATAL_LOG(fmt, ...) didi::map::common::BthreadLogger::getInstance()->s_error_logger->critical( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
+#define DEBUG_LOG(fmt, ...) lysutil::comutils::CommLogger::getInstance()->s_debug_logger->debug( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
+#define INFO_LOG(fmt, ...) lysutil::comutils::CommLogger::getInstance()->s_info_logger->info( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
+#define WARNING_LOG(fmt, ...) lysutil::comutils::CommLogger::getInstance()->s_error_logger->warn( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
+#define ERROR_LOG(fmt, ...) lysutil::comutils::CommLogger::getInstance()->s_error_logger->error( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
+#define FATAL_LOG(fmt, ...) lysutil::comutils::CommLogger::getInstance()->s_error_logger->critical( "[%s:%d] " fmt, __FILENAME__, __LINE__, ##__VA_ARGS__)
 
 #endif //_LYSUTIL_LOGGER_H_202308141235_
