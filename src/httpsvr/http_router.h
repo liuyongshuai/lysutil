@@ -10,6 +10,7 @@
 #include<vector>
 #include<map>
 #include "httpsvr/http_common.h"
+#include "comutils/logger.h"
 #include "comutils/str_utils.h"
 #include "comutils/pcre_utils.h"
 

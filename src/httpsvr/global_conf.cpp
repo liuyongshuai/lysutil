@@ -6,17 +6,17 @@
 #include<iostream>
 #include "httpsvr/global_conf.h"
 
-namespace lysutil{
-    namespace httpsvr{
-        std::shared_ptr< globalConf > globalConf::instance_ = nullptr;
+namespace lysutil {
+    namespace httpsvr {
+        std::shared_ptr<globalConf> globalConf::instance_ = nullptr;
 
         /**
          * 解析配置文件
          */
-        bool globalConf::parseConf(const std::string &conf_file){
+        bool globalConf::parseConf(const std::string &conf_file) {
             std::string realPath = lysutil::comutils::fileUtils::getRealPath(conf_file);
-            if (!lysutil::comutils::fileUtils::isFileExist(realPath)){
-                std::cout << "conf file :" << conf_file << " not exists" << std::endl;
+            if (!lysutil::comutils::fileUtils::isFileExist(realPath)) {
+                INFO_LOG("conf file %s not exists", conf_file);
                 return false;
             }
             std::cout << "start parse " << realPath << std::endl;
@@ -30,7 +30,7 @@ namespace lysutil{
 
             std::string staticname;
             tomlParser.getString("http.static_dir", staticname);
-            std::vector< std::string > tmpdirs;
+            std::vector<std::string> tmpdirs;
             lysutil::comutils::strUtils::strSplit(realPath, '/', tmpdirs);
             tmpdirs[tmpdirs.size() - 1] = "";
             tmpdirs[tmpdirs.size() - 2] = staticname;
@@ -50,13 +50,13 @@ namespace lysutil{
             std::cout << "max_pending_worker_count=" << this->max_pending_worker_count << std::endl;
 
             //topic相关配置
-            std::vector< std::string > tmpTopicList;
+            std::vector<std::string> tmpTopicList;
             tomlParser.getStringList("topic.topic_list", tmpTopicList);
-            for (std::string &topic: tmpTopicList){
+            for (std::string &topic: tmpTopicList) {
                 lysutil::comutils::strUtils::trimSpace(topic);
                 this->topic_set.insert(topic);
             }
-            for (const std::string &topic: this->topic_set){
+            for (const std::string &topic: this->topic_set) {
                 this->topic_list.push_back(topic);
             }
             std::sort(this->topic_list.begin(), this->topic_list.end());

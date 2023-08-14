@@ -9,10 +9,11 @@
 #include<string>
 #include<vector>
 #include<map>
+#include "comutils/logger.h"
 #include "httpsvr/http_common.h"
 #include "httpsvr/http_router.h"
 #include "httpsvr/http_task.h"
-#include "global_conf.h"
+#include "httpsvr/global_conf.h"
 
 namespace lysutil{
     namespace httpsvr{

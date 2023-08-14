@@ -15,6 +15,7 @@
 #include "httpsvr/http_common.h"
 #include "httpsvr/http_request.h"
 #include "httpsvr/http_response.h"
+#include "comutils/logger.h"
 
 namespace lysutil{
     namespace httpsvr{

@@ -12,6 +12,7 @@
 #include<memory>
 #include<libgen.h>
 #include<algorithm>
+#include "comutils/logger.h"
 #include "comutils/toml_parser.h"
 #include "comutils/file_utils.h"
 
