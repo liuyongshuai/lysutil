@@ -39,7 +39,6 @@ endif (TARGET_DEBUG_MODE)
 SET(work_home ${CMAKE_CURRENT_SOURCE_DIR})
 SET(src_home ${work_home}/src/)
 SET(test_home ${work_home}/test/)
-SET(thirdparty_home ${work_home}/thirdparty)
 
 #include list
 SET(include_list "")
