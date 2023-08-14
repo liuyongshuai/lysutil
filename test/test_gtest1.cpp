@@ -9,6 +9,7 @@
 #include<stdio.h>
 #include<stdint.h>
 #include <gtest/gtest.h>
+#include "snappy.h"
 
 int add(int a, int b) {
     return a + b;
@@ -35,5 +36,14 @@ TEST(arithmetic, sub_test) {
 
 int main(int argc, char *argv[]) {
     testing::InitGoogleTest(&argc, argv);
+
+    std::string input{"123456789asdfghhjsssssssssssssssssssssssssssssssssswwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"}, output;
+    snappy::Compress(input.data(), input.size(), &output);
+    std::cout << "original size: " << input.size() << " Compressed size: " << output.size() << std::endl;
+    std::string original;
+    snappy::Uncompress(output.data(), output.size(), &original);
+    std::cout << "original str: " << original << std::endl;
+
+
     return RUN_ALL_TESTS();
 }
