@@ -9,6 +9,7 @@
 #include<stdio.h>
 #include<stdint.h>
 #include<iostream>
+#include "gflags/gflags.h"
 #include "httpsvr/http_request.h"
 #include "httpsvr/http_response.h"
 #include "httpsvr/http_router.h"
@@ -16,6 +17,14 @@
 #include "httpsvr/http_common.h"
 #include "comutils/file_utils.h"
 #include "httpsvr/global_conf.h"
+
+DEFINE_string(parking_function, "", "apa/avp");
+DEFINE_string(avp_mode, "", "mapping/cruise");
+DEFINE_string(park_mode, "", "designate/random");
+DEFINE_string(action, "", "start/stop/suspend/continue/exit");
+DEFINE_uint64(target_slot_id, 0, "target_slot_id");
+DEFINE_string(debug_info, "", "");
+DEFINE_string(host, "127.0.0.1", "host");
 
 void index(lysutil::httpsvr::httpRequest &req, lysutil::httpsvr::httpResponse &resp) {
     resp.setBody("Welcome:" + req.client_ip);
