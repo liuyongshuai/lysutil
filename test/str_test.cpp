@@ -8,6 +8,11 @@
 #include<string.h>
 #include<stdio.h>
 #include<stdint.h>
+#include <bzlib.h>
+#include "lz4.h"
+#include "zlib.h"
+#include "zconf.h"
+#include <zstd.h>
 #include "comutils/str_utils.h"
 #include "comutils/file_utils.h"
 #include "comutils/sys_utils.h"
@@ -16,6 +21,10 @@
 #include "comutils/rune_utils.h"
 #include "comutils/pcre_utils.h"
 #include "comutils/terminal_table.h"
+
+#define CHUNK 100000
+#define MaxLen 10000000
+
 
 void printVector1(const std::vector<std::string> &output) {
     std::vector<std::string>::const_iterator iter;
@@ -114,7 +123,213 @@ const char *testForTable[] = {
         "30|1152921509242339341|桥头排骨\n（金城路店）加拿大籍人员康明凯（Michael John Kovrig）窃取、刺探国家秘密和情报案侦办工作已取得重要进展。有关部门介绍，康明凯自2017年以来，经常持普通护照和商务签证入境，通过中国境内的关系人，窃取、刺探中国敏感信息和情报。迈克尔（Spavor Michael Peter Todd)是康明凯的重要情报关系人，向康明凯提供情报。",
 };
 
+int testbz2() {
+    std::string file_name = "xxxx.bin.bz2";
+    std::vector<short> orginVec;
+    if (access(file_name.c_str(), F_OK) != 0) {
+        printf("ERROR: file %s not exists!\n", file_name.c_str());
+        return -99;
+    } else {
+        int bzerror;
+
+        FILE *fp = fopen(file_name.c_str(), "rb");
+        if (!fp) {
+            printf("ERROR: open file %s fail!\n", file_name.c_str());
+            return -1;
+        }
+        BZFILE *bzFp = BZ2_bzReadOpen(&bzerror, fp, 4, 0, NULL, 0);
+        if (bzerror != BZ_OK) {
+            BZ2_bzReadClose(&bzerror, bzFp);
+            fclose(fp);
+            printf("ERROR: read file %s fail!\n", file_name.c_str());
+            return -1;
+        }
+
+        while (bzerror == BZ_OK) {
+            short orginData = 0;
+            BZ2_bzRead(&bzerror, bzFp, (char *) (&orginData), sizeof(short));
+            if (bzerror == BZ_OK) {
+                orginVec.push_back(orginData);
+            } else if (bzerror == BZ_STREAM_END) {
+                break;
+            } else {
+                if (bzerror == BZ_DATA_ERROR) {
+                    printf("ERROR: file %s BZ_DATA_ERROR!\n", file_name.c_str());
+                } else if (bzerror == BZ_PARAM_ERROR) {
+                    printf("ERROR: file %s BZ_PARAM_ERROR!\n", file_name.c_str());
+                } else if (bzerror == BZ_SEQUENCE_ERROR) {
+                    printf("ERROR: file %s BZ_SEQUENCE_ERROR!\n", file_name.c_str());
+                } else if (bzerror == BZ_IO_ERROR) {
+                    printf("ERROR: file %s BZ_IO_ERROR!\n", file_name.c_str());
+                } else if (bzerror == BZ_UNEXPECTED_EOF) {
+                    printf("ERROR: file %s BZ_UNEXPECTED_EOF!\n", file_name.c_str());
+                } else if (bzerror == BZ_DATA_ERROR_MAGIC) {
+                    printf("ERROR: file %s BZ_DATA_ERROR_MAGIC!\n", file_name.c_str());
+                } else if (bzerror == BZ_MEM_ERROR) {
+                    printf("ERROR: file %s BZ_MEM_ERROR!\n", file_name.c_str());
+                }
+            }
+        }
+        BZ2_bzReadClose(&bzerror, bzFp);
+        fclose(fp);
+    }
+}
+
+int testlz4() {
+    const char *input = "Hello, World!";
+    int inputSize = strlen(input) + 1;
+
+    int maxOutputSize = LZ4_compressBound(inputSize);
+    char *compressedData = (char *) malloc(maxOutputSize);
+    int compressedSize = LZ4_compress_default(input, compressedData, inputSize, maxOutputSize);
+
+    printf("Compressed data length: %d\n", compressedSize);
+    char *decompressedData = (char *) malloc(inputSize);
+
+    int decompressedSize = LZ4_decompress_safe(compressedData, decompressedData, compressedSize, inputSize);
+    printf("Decompressed data: %s\n", decompressedData);
+
+    free(compressedData);
+    free(decompressedData);
+    return 0;
+}
+
+void encodeZip(const std::string &buffer, std::string &zipBuf, int &zipLen) {
+    unsigned char _zipSrc[MaxLen];
+    unsigned char _zipDst[MaxLen];
+    unsigned char _scBuffer[MaxLen];
+
+    //先对原始内容进行压缩工作
+    unsigned int tmpLen = buffer.length();
+    memcpy(_zipSrc, buffer.c_str(), tmpLen);
+    z_stream c_stream;
+    c_stream.zalloc = (alloc_func) 0;
+    c_stream.zfree = (free_func) 0;
+    c_stream.opaque = (voidpf) 0;
+    c_stream.next_in = (Bytef *) _zipSrc;
+    c_stream.avail_in = tmpLen;
+    c_stream.next_out = (Bytef *) _zipDst;
+    c_stream.avail_out = (unsigned int) MaxLen;
+    int ret = deflateInit2(&c_stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 31, 8, Z_DEFAULT_STRATEGY);
+    if (ret != Z_OK) {
+        std::cout << "|" << "deflateInit2 error " << std::endl;
+        return;
+    }
+    ret = deflate(&c_stream, Z_FINISH);
+    if (ret != Z_STREAM_END) {
+        deflateEnd(&c_stream);
+        std::cout << "|" << "ret != Z_STREAM_END err=" << ret << std::endl;
+        return;
+    }
+
+    zipLen = c_stream.total_out;
+    ret = deflateEnd(&c_stream);
+    if (ret != Z_OK) {
+        std::cout << "|" << "deflateEnd error " << std::endl;
+        return;
+    }
+    //压缩完毕进行返回包组织
+    memcpy(_scBuffer, _zipDst, zipLen);
+    zipBuf = std::string(reinterpret_cast<const char *>(_scBuffer), zipLen);
+    return;
+}
+
+int decodeZip(char *source, int len, char **dest) {
+    int ret;
+    unsigned have;
+    z_stream strm;
+    unsigned char out[CHUNK];
+    int totalsize = 0;
+
+    /* allocate inflate state */
+    strm.zalloc = Z_NULL;
+    strm.zfree = Z_NULL;
+    strm.opaque = Z_NULL;
+    strm.avail_in = 0;
+    strm.next_in = Z_NULL;
+
+    ret = inflateInit2(&strm, 31);
+
+    if (ret != Z_OK)
+        return ret;
+
+    strm.avail_in = len;
+    strm.next_in = (unsigned char *) source;
+
+    /* run inflate() on input until output buffer not full */
+    do {
+        strm.avail_out = CHUNK;
+        strm.next_out = out;
+        ret = inflate(&strm, Z_NO_FLUSH);
+        switch (ret) {
+            case Z_NEED_DICT:
+                ret = Z_DATA_ERROR; /* and fall through */
+            case Z_DATA_ERROR:
+            case Z_MEM_ERROR:
+                inflateEnd(&strm);
+                return ret;
+        }
+
+        have = CHUNK - strm.avail_out;
+        totalsize += have;
+        *dest = (char *) realloc(*dest, totalsize);
+        memcpy(*dest + totalsize - have, out, have);
+    } while (strm.avail_out == 0);
+
+    /* clean up and return */
+    inflateEnd(&strm);
+    return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
+}
+
+int testzstd() {
+    // compress
+    size_t com_space_size;
+    size_t peppa_pig_text_size;
+
+    char *com_ptr = NULL;
+    char peppa_pig_buf[2048] = "Narrator: It is raining today. So, Peppa and George cannot play outside.Peppa: Daddy, it's stopped raining. Can we go out to play?Daddy: Alright, run along you two.Narrator: Peppa loves jumping in muddy puddles.Peppa: I love muddy puddles.Mummy: Peppa. If you jumping in muddy puddles, you must wear your boots.Peppa: Sorry, Mummy.Narrator: George likes to jump in muddy puddles, too.Peppa: George. If you jump in muddy puddles, you must wear your boots.Narrator: Peppa likes to look after her little brother, George.Peppa: George, let's find some more pud dles.Narrator: Peppa and George are having a lot of fun. Peppa has found a lttle puddle. George hasfound a big puddle.Peppa: Look, George. There's a really big puddle.Narrator: George wants to jump into the big puddle first.Peppa: Stop, George. | must check if it's safe for you. Good. It is safe for you. Sorry, George. It'sonly mud.Narrator: Peppa and George love jumping in muddy puddles.Peppa: Come on, George. Let's go and show Daddy.Daddy: Goodness me.Peppa: Daddy. Daddy. Guess what we' ve been doing.Daddy: Let me think... Have you been wa tching television?Peppa: No. No. Daddy.Daddy: Have you just had a BATh?Peppa: No. No.Daddy: | know. You've been jumping in muddy puddles.Peppa: Yes. Yes. Daddy. We've been jumping in muddy puddles.Daddy: Ho. Ho. And look at the mess you're in.Peppa: Oooh....Daddy: Oh, well, it's only mud. Let's clean up quickly before Mummy sees the mess.Peppa: Daddy, when we've cleaned up, will you and Mummy Come and play, too?Daddy: Yes, we can all play in the garden.Narrator: Peppa and George are wearing their boots. Mummy and Daddy are wearing their boots.Peppa loves jumping up and down in muddy puddles. Everyone loves jumping up and down inmuddy puddles.Mummy: Oh, Daddy pig, look at the mess you're in. .Peppa: It's only mud.";
+
+    peppa_pig_text_size = strlen(peppa_pig_buf);
+    com_space_size = ZSTD_compressBound(peppa_pig_text_size);
+    com_ptr = (char *) malloc(com_space_size);
+    if (NULL == com_ptr) {
+        std::cout << "compress malloc failed" << std::endl;
+        return -1;
+    }
+
+    size_t com_size;
+    com_size = ZSTD_compress(com_ptr, com_space_size, peppa_pig_buf, peppa_pig_text_size, ZSTD_fast);
+    std::cout << "peppa pig text size:" << peppa_pig_text_size << std::endl;
+    std::cout << "compress text size:" << com_size << std::endl;
+    std::cout << "compress ratio:" << (float) peppa_pig_text_size / (float) com_size << std::endl << std::endl;
+
+
+    // decompress
+    char *decom_ptr = NULL;
+    unsigned long long decom_buf_size;
+    decom_buf_size = ZSTD_getFrameContentSize(com_ptr, com_size);
+
+    decom_ptr = (char *) malloc((size_t) decom_buf_size);
+    if (NULL == decom_ptr) {
+        std::cout << "decompress malloc failed" << std::endl;
+        return -1;
+    }
+
+    size_t decom_size;
+    decom_size = ZSTD_decompress(decom_ptr, decom_buf_size, com_ptr, com_size);
+    std::cout << "decompress text size:" << decom_size << std::endl;
+
+    if (strncmp(peppa_pig_buf, decom_ptr, peppa_pig_text_size)) {
+        std::cout << "decompress text is not equal peppa pig text" << std::endl;
+    }
+
+    free(com_ptr);
+    free(decom_ptr);
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
+    testbz2();
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
     std::string s = "C/C++语言提供了几个标准库函数，可以将字符串转换为任意类型(整型、长整型、浮点型等)。";
     std::vector<int32_t> unicodes;
