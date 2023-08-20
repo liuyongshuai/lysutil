@@ -62,7 +62,6 @@ list(APPEND include_list ${work_home}/thirdparty/bzip2/include/)
 list(APPEND include_list ${work_home}/thirdparty/lz4/include/)
 list(APPEND include_list ${work_home}/thirdparty/zlib/include/)
 list(APPEND include_list ${work_home}/thirdparty/zstd/include/)
-list(APPEND include_list ${work_home}/thirdparty/curl/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -92,7 +91,6 @@ list(APPEND library_list "${work_home}/thirdparty/bzip2/lib/libbz2.a")
 list(APPEND library_list "${work_home}/thirdparty/lz4/lib/liblz4.a")
 list(APPEND library_list "${work_home}/thirdparty/zlib/lib/libz.a")
 list(APPEND library_list "${work_home}/thirdparty/zstd/lib/libzstd.a")
-list(APPEND library_list "${work_home}/thirdparty/curl/lib/libcurl.a")
 list(APPEND library_list "${work_home}/thirdparty/lib/libdl.a")
 LIST(APPEND library_list  -lpthread)
 
