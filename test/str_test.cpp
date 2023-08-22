@@ -23,10 +23,20 @@
 #include "comutils/terminal_table.h"
 #include <curl/curl.h>
 #include <arpa/inet.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
 
 #define CHUNK 100000
 #define MaxLen 10000000
+#define MAX_PROMPT 1024
+#define MAXLINE 4096 //the length of all args is ARG_MAX
+#define MAXARG 20
 
+
+struct parse_info;
+struct passwd *pwd;
+char *buffer;
 
 void printVector1(const std::vector<std::string> &output) {
     std::vector<std::string>::const_iterator iter;
@@ -328,6 +338,119 @@ int testzstd() {
     free(com_ptr);
     free(decom_ptr);
     return 0;
+}
+
+int read_command(char **command,char **parameters,char *prompt)
+{
+#ifdef READLINE_ON
+    char* tmpbuffer = buffer
+    buffer  = readline(prompt);
+    if(feof(stdin) == 0)
+    {
+        printf("\n");
+        exit(0);
+    }
+#else
+    printf("%s",prompt);
+    char* Res_fgets = fgets(buffer,MAXLINE,stdin);
+    if(Res_fgets == NULL)
+    {
+        printf("\n");
+        exit(0);
+    }
+#endif
+    if(buffer[0] == '\0')
+        return -1;
+    char *pStart,*pEnd;
+    int count = 0;
+    int isFinished = 0;
+    pStart = pEnd = buffer;
+    while(isFinished == 0)
+    {
+        while((*pEnd == ' ' && *pStart == ' ') || (*pEnd == '\t' && *pStart == '\t'))
+        {
+            pStart++;
+            pEnd++;
+        }
+
+        if(*pEnd == '\0' || *pEnd == '\n')
+        {
+            if(count == 0)
+                return -1;
+            break;
+        }
+
+        while(*pEnd != ' ' && *pEnd != '\0' && *pEnd != '\n')
+            pEnd++;
+
+
+        if(count == 0)
+        {
+            char *p = pEnd;
+            *command = pStart;
+            while(p!=pStart && *p !='/')
+                p--;
+            if(*p == '/')
+                p++;
+            //else //p==pStart
+            parameters[0] = p;
+            count += 2;
+#ifdef DEBUG
+            printf("\ncommand:  %s\n",*command);
+#endif
+        }
+        else if(count <= MAXARG)
+        {
+            parameters[count-1] = pStart;
+            count++;
+        }
+        else
+        {
+            break;
+        }
+
+        if(*pEnd == '\0' || *pEnd == '\n')
+        {
+            *pEnd = '\0';
+            isFinished = 1;
+        }
+        else
+        {
+            *pEnd = '\0';
+            pEnd++;
+            pStart = pEnd;
+        }
+    }
+
+    parameters[count-1] = NULL;
+
+#ifdef DEBUG
+    /*input analysis*/
+    printf("input analysis:\n");
+    printf("pathname:%s\ncommand:%s\nparameters:\n",*command,parameters[0]);
+    int i;
+    for(i=0;i<count-1;i++)
+        printf("%s\n",parameters[i]);
+#endif
+
+//free the space of readline() ---error
+/**
+ * edit by reeves
+ * 2015/07/03
+ * 下面这样写会有错误，导致readline情况下输入命令却不执行
+#ifdef READLINE_ON
+    free(buffer);
+    buffer = tmpbuffer;
+#endif
+    return count;
+}
+*/
+//free the space of readline()---correct
+#ifdef READLINE_ON
+    buffer=NULL;
+    free(tmpbuffer);
+#endif
+    return count;
 }
 
 int main(int argc, char *argv[]) {
