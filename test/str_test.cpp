@@ -25,6 +25,7 @@
 #include <arpa/inet.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <iconv.h>
 
 
 #define CHUNK 100000
@@ -340,8 +341,7 @@ int testzstd() {
     return 0;
 }
 
-int read_command(char **command,char **parameters,char *prompt)
-{
+int read_command(char **command, char **parameters, char *prompt) {
 #ifdef READLINE_ON
     char* tmpbuffer = buffer
     buffer  = readline(prompt);
@@ -351,46 +351,41 @@ int read_command(char **command,char **parameters,char *prompt)
         exit(0);
     }
 #else
-    printf("%s",prompt);
-    char* Res_fgets = fgets(buffer,MAXLINE,stdin);
-    if(Res_fgets == NULL)
-    {
+    printf("%s", prompt);
+    char *Res_fgets = fgets(buffer, MAXLINE, stdin);
+    if (Res_fgets == NULL) {
         printf("\n");
         exit(0);
     }
 #endif
-    if(buffer[0] == '\0')
+    if (buffer[0] == '\0')
         return -1;
-    char *pStart,*pEnd;
+    char *pStart, *pEnd;
     int count = 0;
     int isFinished = 0;
     pStart = pEnd = buffer;
-    while(isFinished == 0)
-    {
-        while((*pEnd == ' ' && *pStart == ' ') || (*pEnd == '\t' && *pStart == '\t'))
-        {
+    while (isFinished == 0) {
+        while ((*pEnd == ' ' && *pStart == ' ') || (*pEnd == '\t' && *pStart == '\t')) {
             pStart++;
             pEnd++;
         }
 
-        if(*pEnd == '\0' || *pEnd == '\n')
-        {
-            if(count == 0)
+        if (*pEnd == '\0' || *pEnd == '\n') {
+            if (count == 0)
                 return -1;
             break;
         }
 
-        while(*pEnd != ' ' && *pEnd != '\0' && *pEnd != '\n')
+        while (*pEnd != ' ' && *pEnd != '\0' && *pEnd != '\n')
             pEnd++;
 
 
-        if(count == 0)
-        {
+        if (count == 0) {
             char *p = pEnd;
             *command = pStart;
-            while(p!=pStart && *p !='/')
+            while (p != pStart && *p != '/')
                 p--;
-            if(*p == '/')
+            if (*p == '/')
                 p++;
             //else //p==pStart
             parameters[0] = p;
@@ -398,31 +393,24 @@ int read_command(char **command,char **parameters,char *prompt)
 #ifdef DEBUG
             printf("\ncommand:  %s\n",*command);
 #endif
-        }
-        else if(count <= MAXARG)
-        {
-            parameters[count-1] = pStart;
+        } else if (count <= MAXARG) {
+            parameters[count - 1] = pStart;
             count++;
-        }
-        else
-        {
+        } else {
             break;
         }
 
-        if(*pEnd == '\0' || *pEnd == '\n')
-        {
+        if (*pEnd == '\0' || *pEnd == '\n') {
             *pEnd = '\0';
             isFinished = 1;
-        }
-        else
-        {
+        } else {
             *pEnd = '\0';
             pEnd++;
             pStart = pEnd;
         }
     }
 
-    parameters[count-1] = NULL;
+    parameters[count - 1] = NULL;
 
 #ifdef DEBUG
     /*input analysis*/
@@ -451,6 +439,82 @@ int read_command(char **command,char **parameters,char *prompt)
     free(tmpbuffer);
 #endif
     return count;
+}
+
+#define MIN(a, b) ((a)>(b)?(b):(a))
+
+void dumprawmsg(char *p, int len) {
+    int i = 0;
+    for (i = 0; i < len; i++) {
+        unsigned char c = p[i];
+        printf("%.2X ", c);
+    }
+    printf("\n");
+}
+
+int convmsg(char *src, char *des, int srclen, int deslen, const char *srctype, const char *destype) {
+    if (strcmp(srctype, destype) == 0) {
+        memcpy(des, src, MIN(srclen, deslen));
+        return 0;
+    }
+    iconv_t conv = iconv_open(destype, srctype);
+    if (conv == (iconv_t) -1) {
+        printf("iconvopen err\n");
+        return -1;
+    }
+    char *in = src;
+    char *out = des;
+//    int ret =  iconv (conv, &in, (size_t *) & srclen,
+//                                &out,
+//                                (size_t *)& deslen);
+//
+//    if(ret == 0)
+//    {
+//        printf ("iconv succ\n");
+//    }
+//    else
+//    {
+//        if(errno == 84)
+//        {
+//            printf("iconv  84:%d,%d\n", srclen, deslen);
+//        }
+//        else
+//        {
+//            printf("iconv  err %d:%d,%d\n", errno, srclen, deslen);
+//        }
+//    }
+    size_t avail = deslen;
+    size_t insize = srclen;
+    char *wrptr = des;
+    char *inptr = src;
+    while (avail > 0) {
+        size_t nread;
+        size_t nconv;
+        printf("avail:%d\n", avail);
+        /* Do the conversion.  */
+        nconv = iconv(conv, &inptr, &insize, &wrptr, &avail);
+        if (nconv == (size_t) -1) {
+            /* Not everything went right.  It might only be
+               an unfinished byte sequence at the end of the
+               buffer.  Or it is a real problem.  */
+            if (errno == EINVAL) {
+                /* This is harmless.  Simply move the unused
+                   bytes to the beginning of the buffer so that
+                   they can be used in the next round.  */
+                //memmove (inbuf, inptr, insize);
+                printf("EINVAL\n");
+            } else {
+                /* It is a real problem.  Maybe we ran out of
+                   space in the output buffer or we have invalid
+                   input.  In any case back the file pointer to
+                   the position of the last processed byte.  */
+                printf("error\n");
+                break;
+            }
+        }
+    }
+    iconv_close(conv);
+    return 0;
 }
 
 int main(int argc, char *argv[]) {
