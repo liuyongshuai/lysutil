@@ -94,8 +94,8 @@ list(APPEND library_list "${work_home}/thirdparty/bzip2/lib/libbz2.a")
 list(APPEND library_list "${work_home}/thirdparty/lz4/lib/liblz4.a")
 list(APPEND library_list "${work_home}/thirdparty/zlib/lib/libz.a")
 list(APPEND library_list "${work_home}/thirdparty/zstd/lib/libzstd.a")
-list(APPEND library_list "${work_home}/thirdparty/sasl2/lib/libsasl2.a")
-list(APPEND library_list "${work_home}/thirdparty/ssh2/lib/libssh2.a")
+#list(APPEND library_list "${work_home}/thirdparty/sasl2/lib/libsasl2.a")
+#list(APPEND library_list "${work_home}/thirdparty/ssh2/lib/libssh2.a")
 LIST(APPEND library_list  -lpthread -ldl -lldap -llber)
 
 
