@@ -65,6 +65,9 @@ list(APPEND include_list ${work_home}/thirdparty/zlib/include/)
 list(APPEND include_list ${work_home}/thirdparty/zstd/include/)
 list(APPEND include_list ${work_home}/thirdparty/sasl2/include/)
 list(APPEND include_list ${work_home}/thirdparty/curl/include/)
+list(APPEND include_list ${work_home}/thirdparty/idn2/include/)
+list(APPEND include_list ${work_home}/thirdparty/tasn1/include/)
+list(APPEND include_list ${work_home}/thirdparty/iconv/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -99,6 +102,9 @@ list(APPEND library_list "${work_home}/thirdparty/openldap/lib/libldap.a")
 list(APPEND library_list "${work_home}/thirdparty/openldap/lib/liblber.a")
 list(APPEND library_list "${work_home}/thirdparty/sasl2/lib/libsasl2.a")
 list(APPEND library_list "${work_home}/thirdparty/ssh2/lib/libssh2.a")
+list(APPEND library_list "${work_home}/thirdparty/idn2/lib/libidn2.a")
+list(APPEND library_list "${work_home}/thirdparty/tasn1/lib/libtasn1.a")
+list(APPEND library_list "${work_home}/thirdparty/iconv/lib/libiconv.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
