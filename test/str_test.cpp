@@ -21,6 +21,7 @@
 #include "comutils/rune_utils.h"
 #include "comutils/pcre_utils.h"
 #include "comutils/terminal_table.h"
+#include <curl/curl.h>
 
 #define CHUNK 100000
 #define MaxLen 10000000
@@ -518,6 +519,21 @@ int main(int argc, char *argv[]) {
     std::string output;
     table.renderToString(output);
     std::cout << output << std::endl;
+    CURL *curl;
+    CURLcode res;
+
+    curl = curl_easy_init();
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, "https://www.example.com/");
+        res = curl_easy_perform(curl);
+        if(CURLE_OK == res) {
+            char *ct;
+            res = curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &ct);
+            if((CURLE_OK == res) && ct)
+                printf("We received Content-Type: %s\n", ct);
+        }
+        curl_easy_cleanup(curl);
+    }
 
     return 0;
 }
