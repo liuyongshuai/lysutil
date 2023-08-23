@@ -71,6 +71,7 @@ list(APPEND include_list ${work_home}/thirdparty/iconv/include/)
 list(APPEND include_list ${work_home}/thirdparty/readline/include/)
 list(APPEND include_list ${work_home}/thirdparty/ncurses/include/)
 list(APPEND include_list ${work_home}/thirdparty/libevent/include/)
+list(APPEND include_list ${work_home}/thirdparty/ImageMagick/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -125,6 +126,9 @@ list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_core.a")
 list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_extra.a")
 list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_openssl.a")
 list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_pthreads.a")
+list(APPEND library_list "${work_home}/thirdparty/ImageMagick/lib/libMagick++.a")
+list(APPEND library_list "${work_home}/thirdparty/ImageMagick/lib/libMagickCore.a")
+list(APPEND library_list "${work_home}/thirdparty/ImageMagick/lib/libMagickWand.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 

@@ -29,6 +29,7 @@
 #include <event2/event.h>
 #include <event2/bufferevent.h>
 #include <event2/listener.h>
+#include <MagickWand/MagickWand.h>
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -808,6 +809,48 @@ int main(int argc, char *argv[]) {
     //4.为基本事件分配循环：开启客户端
     bufferevent_write(event, call, strlen(call));
     event_base_dispatch(base);
-    
+
+    const char *inputimg = "./1.png";
+    const char *outputimg = "./1.png";
+    if (argc < 3) {
+        return -1;
+    }
+
+    MagickWand *magick_wand = nullptr;
+    MagickBooleanType status;
+
+    //初始化MagickWand
+    MagickWandGenesis();
+
+    //创建一个MagickWand实例
+    magick_wand = NewMagickWand();
+
+    //读取输入图片
+    status = MagickReadImage(magick_wand, inputimg);
+    if (status == MagickFalse) {
+        std::cout << "open image failed" << std::endl;
+        magick_wand = DestroyMagickWand(magick_wand);
+        MagickWandTerminus();
+        return -1;
+    }
+
+    //保存图片为
+    status = MagickWriteImages(magick_wand, outputimg, MagickTrue);
+    if (status == MagickFalse) {
+        std::cout << "write image failed" << std::endl;
+
+        magick_wand = DestroyMagickWand(magick_wand);
+
+        MagickWandTerminus();
+
+        return -1;
+    }
+
+    //销毁MagickWand实例
+    magick_wand = DestroyMagickWand(magick_wand);
+
+    //结束MagickWand
+    MagickWandTerminus();
+
     return 0;
 }
