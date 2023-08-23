@@ -70,6 +70,7 @@ list(APPEND include_list ${work_home}/thirdparty/tasn1/include/)
 list(APPEND include_list ${work_home}/thirdparty/iconv/include/)
 list(APPEND include_list ${work_home}/thirdparty/readline/include/)
 list(APPEND include_list ${work_home}/thirdparty/ncurses/include/)
+list(APPEND include_list ${work_home}/thirdparty/libevent/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -119,6 +120,11 @@ list(APPEND library_list "${work_home}/thirdparty/ncurses/lib/libpanel.a")
 list(APPEND library_list "${work_home}/thirdparty/ncurses/lib/libpanel_g.a")
 list(APPEND library_list "${work_home}/thirdparty/readline/lib/libreadline.a")
 list(APPEND library_list "${work_home}/thirdparty/readline/lib/libhistory.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_core.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_extra.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_openssl.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_pthreads.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 

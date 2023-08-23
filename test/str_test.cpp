@@ -26,7 +26,16 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <iconv.h>
+#include <event2/event.h>
+#include <event2/bufferevent.h>
+#include <event2/listener.h>
 
+#define BUF_SIZE 1024
+#define SERVER_IP "192.168.56.11"
+#define SERVER_PORT 8000
+
+const char *call = "Hello, my remote server.";
+int cnt = 5;
 
 #define CHUNK 100000
 #define MaxLen 10000000
@@ -517,6 +526,45 @@ int convmsg(char *src, char *des, int srclen, int deslen, const char *srctype, c
     return 0;
 }
 
+//读取回调
+void read_cb(struct bufferevent *bev, void *ctx) {
+    //读取数据
+    char buf[BUF_SIZE] = {0x00};
+    size_t len = 0;
+    printf("Receive data:\n");
+    len = bufferevent_read(bev, buf, BUF_SIZE);
+    while (0 < len) {
+        printf("%s", buf);
+        memset(buf, 0x00, 1024);
+        len = bufferevent_read(bev, buf, BUF_SIZE);
+    }
+    printf("\n");
+}
+
+//写回调
+void write_cb(struct bufferevent *bev, void *ctx) {
+    if (cnt--) {
+        printf("Send data to server.\n");
+        if (-1 == bufferevent_write(bev, call, strlen(call))) {
+            printf("Send data to server failed.\n");
+        }
+        sleep(5);
+    } else {
+        printf("send stop");
+        bufferevent_write(bev, "stop", strlen("stop"));
+    }
+}
+
+//事件回调
+void event_cb(struct bufferevent *bev, short events, void *ctx) {
+    if (events & BEV_EVENT_ERROR) {
+        perror("Error from bufferevent.");
+    }
+    if (events & (BEV_EVENT_EOF | BEV_EVENT_ERROR)) {
+        bufferevent_free(bev);
+    }
+}
+
 int main(int argc, char *argv[]) {
     testbz2();
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
@@ -723,5 +771,43 @@ int main(int argc, char *argv[]) {
         curl_easy_cleanup(curl);
     }
 
+
+    struct sockaddr_in addr;
+    struct event_base *base = NULL;
+    struct bufferevent *event = NULL;
+    int sock = -1;
+    //初始化服务端地址信息
+    memset(&addr, 0x00, sizeof(addr));
+    addr.sin_family = AF_INET;
+    inet_aton(SERVER_IP, &addr.sin_addr);
+    addr.sin_port = htons(SERVER_PORT);
+    //1.创建基础事件实例
+    base = event_base_new();
+    if (NULL == base) {
+        printf("Create instance of event_base failed.\n");
+        return -1;
+    }
+    //2.创建基于此基本事件的缓存事件
+    //设置非阻塞socket
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (-1 == sock) {
+        printf("Create socket file descriptor failed.\n");
+        return -1;
+    }
+    evutil_make_socket_nonblocking(sock);
+    event = bufferevent_socket_new(base, sock, BEV_OPT_CLOSE_ON_FREE);
+    //开启读写
+    bufferevent_enable(event, EV_READ | EV_WRITE);
+    //设置回调
+    bufferevent_setcb(event, read_cb, write_cb, event_cb, NULL);
+    //3.连接服务端
+    if (0 != bufferevent_socket_connect(event, (struct sockaddr *) (&addr), sizeof(addr))) {
+        printf("Connect to server failed.\n");
+        return -1;
+    }
+    //4.为基本事件分配循环：开启客户端
+    bufferevent_write(event, call, strlen(call));
+    event_base_dispatch(base);
+    
     return 0;
 }
