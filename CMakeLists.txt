@@ -79,6 +79,7 @@ list(APPEND include_list ${work_home}/thirdparty/webp/include/)
 list(APPEND include_list ${work_home}/thirdparty/ImageMagick/include/)
 list(APPEND include_list ${work_home}/thirdparty/lzma/include/)
 list(APPEND include_list ${work_home}/thirdparty/lz4/include/)
+list(APPEND include_list ${work_home}/thirdparty/libxml2/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -146,6 +147,7 @@ list(APPEND library_list "${work_home}/thirdparty/webp/lib/libwebpdemux.a")
 list(APPEND library_list "${work_home}/thirdparty/webp/lib/libwebpmux.a")
 list(APPEND library_list "${work_home}/thirdparty/lzma/lib/liblzma.a")
 list(APPEND library_list "${work_home}/thirdparty/lz4/lib/liblz4.a")
+list(APPEND library_list "${work_home}/thirdparty/libxml2/lib/libxml2.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
