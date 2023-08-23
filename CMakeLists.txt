@@ -127,8 +127,8 @@ list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_extra.a"
 list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_openssl.a")
 list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_pthreads.a")
 list(APPEND library_list "${work_home}/thirdparty/ImageMagick/lib/libMagick++.a")
-list(APPEND library_list "${work_home}/thirdparty/ImageMagick/lib/libMagickCore.a")
 list(APPEND library_list "${work_home}/thirdparty/ImageMagick/lib/libMagickWand.a")
+list(APPEND library_list "${work_home}/thirdparty/ImageMagick/lib/libMagickCore.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
