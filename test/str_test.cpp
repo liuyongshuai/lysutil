@@ -29,7 +29,9 @@
 #include <event2/event.h>
 #include <event2/bufferevent.h>
 #include <event2/listener.h>
-#include <MagickWand/MagickWand.h>
+//#include <MagickWand/MagickWand.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -566,6 +568,31 @@ void event_cb(struct bufferevent *bev, short events, void *ctx) {
     }
 }
 
+
+void testXML() {
+    xmlDocPtr bookDocPtr;
+    xmlNodePtr booksNodePtr;
+    char *bookDocName = "/Users/gxf/CLionProjects/untitled/books.xml";
+    // libxml默认将各个节点间的空格当作一个节点
+    xmlKeepBlanksDefault(0);
+    bookDocPtr = xmlParseFile(bookDocName);
+    if (bookDocPtr == NULL) {
+        fprintf(stderr, "xmlReadFile fail");
+        exit(1);
+    }
+    booksNodePtr = xmlDocGetRootElement(bookDocPtr);
+    xmlNodePtr bookNodePtr = booksNodePtr->children;
+    while (bookNodePtr) {
+        xmlNodePtr namePtr = bookNodePtr->children;
+        std::cout << xmlNodeGetContent(namePtr) << std::endl;
+        xmlNodePtr authorPtr = namePtr->next;
+        std::cout << xmlNodeGetContent(authorPtr) << std::endl;
+        xmlNodePtr datePtr = authorPtr->next;
+        std::cout << xmlNodeGetContent(datePtr) << std::endl;
+        bookNodePtr = bookNodePtr->next;
+    }
+}
+
 int main(int argc, char *argv[]) {
     testbz2();
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
@@ -810,47 +837,47 @@ int main(int argc, char *argv[]) {
     bufferevent_write(event, call, strlen(call));
     event_base_dispatch(base);
 
-    const char *inputimg = "./1.png";
-    const char *outputimg = "./1.png";
-    if (argc < 3) {
-        return -1;
-    }
-
-    MagickWand *magick_wand = nullptr;
-    MagickBooleanType status;
-
-    //初始化MagickWand
-    MagickWandGenesis();
-
-    //创建一个MagickWand实例
-    magick_wand = NewMagickWand();
-
-    //读取输入图片
-    status = MagickReadImage(magick_wand, inputimg);
-    if (status == MagickFalse) {
-        std::cout << "open image failed" << std::endl;
-        magick_wand = DestroyMagickWand(magick_wand);
-        MagickWandTerminus();
-        return -1;
-    }
-
-    //保存图片为
-    status = MagickWriteImages(magick_wand, outputimg, MagickTrue);
-    if (status == MagickFalse) {
-        std::cout << "write image failed" << std::endl;
-
-        magick_wand = DestroyMagickWand(magick_wand);
-
-        MagickWandTerminus();
-
-        return -1;
-    }
-
-    //销毁MagickWand实例
-    magick_wand = DestroyMagickWand(magick_wand);
-
-    //结束MagickWand
-    MagickWandTerminus();
+//    const char *inputimg = "./1.png";
+//    const char *outputimg = "./1.png";
+//    if (argc < 3) {
+//        return -1;
+//    }
+//
+//    MagickWand *magick_wand = nullptr;
+//    MagickBooleanType status;
+//
+//    //初始化MagickWand
+//    MagickWandGenesis();
+//
+//    //创建一个MagickWand实例
+//    magick_wand = NewMagickWand();
+//
+//    //读取输入图片
+//    status = MagickReadImage(magick_wand, inputimg);
+//    if (status == MagickFalse) {
+//        std::cout << "open image failed" << std::endl;
+//        magick_wand = DestroyMagickWand(magick_wand);
+//        MagickWandTerminus();
+//        return -1;
+//    }
+//
+//    //保存图片为
+//    status = MagickWriteImages(magick_wand, outputimg, MagickTrue);
+//    if (status == MagickFalse) {
+//        std::cout << "write image failed" << std::endl;
+//
+//        magick_wand = DestroyMagickWand(magick_wand);
+//
+//        MagickWandTerminus();
+//
+//        return -1;
+//    }
+//
+//    //销毁MagickWand实例
+//    magick_wand = DestroyMagickWand(magick_wand);
+//
+//    //结束MagickWand
+//    MagickWandTerminus();
 
     return 0;
 }
