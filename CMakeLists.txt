@@ -80,6 +80,9 @@ list(APPEND include_list ${work_home}/thirdparty/lzma/include/)
 list(APPEND include_list ${work_home}/thirdparty/lz4/include/)
 list(APPEND include_list ${work_home}/thirdparty/libxml2/include/)
 list(APPEND include_list ${work_home}/thirdparty/libxslt/include/)
+list(APPEND include_list ${work_home}/thirdparty/libconfig/include/)
+list(APPEND include_list ${work_home}/thirdparty/fontconfig/include/)
+list(APPEND include_list ${work_home}/thirdparty/freetype/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -147,6 +150,10 @@ list(APPEND library_list "${work_home}/thirdparty/libxml2/lib/libxml2.a")
 list(APPEND library_list "${work_home}/thirdparty/libxslt/lib/libexslt.a")
 list(APPEND library_list "${work_home}/thirdparty/libxslt/lib/libxslt.a")
 list(APPEND library_list "${work_home}/thirdparty/zlib/lib/libz.a")
+list(APPEND library_list "${work_home}/thirdparty/libconfig/lib/libconfig++.a")
+list(APPEND library_list "${work_home}/thirdparty/libconfig/lib/libconfig.a")
+list(APPEND library_list "${work_home}/thirdparty/fontconfig/lib/libconfig.a")
+list(APPEND library_list "${work_home}/thirdparty/freetype/lib/libfreetype.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
