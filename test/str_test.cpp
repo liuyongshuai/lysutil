@@ -31,6 +31,10 @@
 #include <event2/listener.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include <libconfig.h++>
+#include <iomanip>
+#include<fontconfig/fontconfig.h>
+
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -590,6 +594,131 @@ void testXML() {
         std::cout << xmlNodeGetContent(datePtr) << std::endl;
         bookNodePtr = bookNodePtr->next;
     }
+}
+
+int parseConfigInfo() {
+    libconfig::Config cfg;     //1.声明 Config对象
+
+    cfg.readFile("example.cfg");    //读取配置文件
+
+    // Get the store name.
+    try {
+        std::string name = cfg.lookup("name");
+        std::cout << "Store name: " << name << std::endl << std::endl;
+    }
+    catch (const libconfig::SettingNotFoundException &nfex)         //配置没找到会有SettingNotFoundException 异常
+    {
+        std::cerr << "No 'name' setting in configuration file." << std::endl;
+    }
+    // Get the store name.
+    try {
+        std::string name = cfg.lookup("name");
+        std::cout << "Store name: " << name << std::endl << std::endl;
+    }
+    catch (const libconfig::SettingNotFoundException &nfex) {
+        std::cerr << "No 'name' setting in configuration file." << std::endl;
+    }
+
+    const libconfig::Setting &root = cfg.getRoot();
+
+    // Output a list of all books in the inventory.
+    try {
+        const libconfig::Setting &books = root["inventory"]["books"];
+        int count = books.getLength();
+
+        std::cout << std::setw(30) << std::left << "TITLE" << "  "
+                  << std::setw(30) << std::left << "AUTHOR" << "   "
+                  << std::setw(6) << std::left << "PRICE" << "  "
+                  << "QTY"
+                  << std::endl;
+
+        for (int i = 0; i < count; ++i) {
+            const libconfig::Setting &book = books[i];
+
+            // Only output the record if all the expected fields are present.
+            std::string title, author;
+            double price;
+            int qty;
+
+            if (!(book.lookupValue("title", title)
+                  && book.lookupValue("author", author)
+                  && book.lookupValue("price", price)
+                  && book.lookupValue("qty", qty)))
+                continue;
+
+            std::cout << std::setw(30) << std::left << title << "  "
+                      << std::setw(30) << std::left << author << "  "
+                      << '$' << std::setw(6) << std::right << price << "  "
+                      << qty
+                      << std::endl;
+        }
+        std::cout << std::endl;
+    }
+    catch (const libconfig::SettingNotFoundException &nfex) {
+        // Ignore.
+    }
+
+    // Output a list of all books in the inventory.
+    try {
+        const libconfig::Setting &movies = root["inventory"]["movies"];
+        int count = movies.getLength();
+
+        std::cout << std::setw(30) << std::left << "TITLE" << "  "
+                  << std::setw(10) << std::left << "MEDIA" << "   "
+                  << std::setw(6) << std::left << "PRICE" << "  "
+                  << "QTY"
+                  << std::endl;
+
+        for (int i = 0; i < count; ++i) {
+            const libconfig::Setting &movie = movies[i];
+
+            // Only output the record if all of the expected fields are present.
+            std::string title, media;
+            double price;
+            int qty;
+
+            if (!(movie.lookupValue("title", title)
+                  && movie.lookupValue("media", media)
+                  && movie.lookupValue("price", price)
+                  && movie.lookupValue("qty", qty)))
+                continue;
+
+            std::cout << std::setw(30) << std::left << title << "  "
+                      << std::setw(10) << std::left << media << "  "
+                      << '$' << std::setw(6) << std::right << price << "  "
+                      << qty
+                      << std::endl;
+        }
+        std::cout << std::endl;
+    }
+    catch (const libconfig::SettingNotFoundException &nfex) {
+        // Ignore.
+    }
+}
+
+bool testFontconfig() {
+    FcBool success = FcInit();
+    if (!success) {
+        return false;
+    }
+
+    FcConfig *config = FcInitLoadConfigAndFonts();
+    if (!config) {
+        return false;
+    }
+
+    FcChar8 *s, *file;
+
+    FcPattern *p = FcPatternCreate();
+    FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, NULL);
+    FcFontSet *fs = FcFontList(config, p, os);
+
+    for (int i = 0; fs && i < fs->nfont; i++) {
+        FcPattern *font = fs->fonts[i];
+        s = FcNameUnparse(font);
+        free(s);
+    }
+    return true;
 }
 
 int main(int argc, char *argv[]) {
