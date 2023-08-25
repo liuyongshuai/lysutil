@@ -83,6 +83,8 @@ list(APPEND include_list ${work_home}/thirdparty/libxslt/include/)
 list(APPEND include_list ${work_home}/thirdparty/libconfig/include/)
 list(APPEND include_list ${work_home}/thirdparty/fontconfig/include/)
 list(APPEND include_list ${work_home}/thirdparty/freetype/include/)
+list(APPEND include_list ${work_home}/thirdparty/gettext/include/)
+list(APPEND include_list ${work_home}/thirdparty/libunistring/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -154,6 +156,8 @@ list(APPEND library_list "${work_home}/thirdparty/libconfig/lib/libconfig++.a")
 list(APPEND library_list "${work_home}/thirdparty/libconfig/lib/libconfig.a")
 list(APPEND library_list "${work_home}/thirdparty/fontconfig/lib/libfontconfig.a")
 list(APPEND library_list "${work_home}/thirdparty/freetype/lib/libfreetype.a")
+list(APPEND library_list "${work_home}/thirdparty/gettext/lib/libgettext.a")
+list(APPEND library_list "${work_home}/thirdparty/libunistring/lib/libunistring.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 

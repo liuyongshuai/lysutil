@@ -33,6 +33,8 @@
 #include <libxml/tree.h>
 #include <libconfig.h++>
 #include <iomanip>
+#include<fontconfig/fontconfig.h>
+
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -692,6 +694,31 @@ int parseConfigInfo() {
     catch (const libconfig::SettingNotFoundException &nfex) {
         // Ignore.
     }
+}
+
+bool testFontconfig() {
+    FcBool success = FcInit();
+    if (!success) {
+        return false;
+    }
+
+    FcConfig *config = FcInitLoadConfigAndFonts();
+    if (!config) {
+        return false;
+    }
+
+    FcChar8 *s, *file;
+
+    FcPattern *p = FcPatternCreate();
+    FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, NULL);
+    FcFontSet *fs = FcFontList(config, p, os);
+
+    for (int i = 0; fs && i < fs->nfont; i++) {
+        FcPattern *font = fs->fonts[i];
+        s = FcNameUnparse(font);
+        free(s);
+    }
+    return true;
 }
 
 int main(int argc, char *argv[]) {
