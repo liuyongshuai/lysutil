@@ -152,7 +152,7 @@ list(APPEND library_list "${work_home}/thirdparty/libxslt/lib/libxslt.a")
 list(APPEND library_list "${work_home}/thirdparty/zlib/lib/libz.a")
 list(APPEND library_list "${work_home}/thirdparty/libconfig/lib/libconfig++.a")
 list(APPEND library_list "${work_home}/thirdparty/libconfig/lib/libconfig.a")
-list(APPEND library_list "${work_home}/thirdparty/fontconfig/lib/libconfig.a")
+list(APPEND library_list "${work_home}/thirdparty/fontconfig/lib/libfontconfig.a")
 list(APPEND library_list "${work_home}/thirdparty/freetype/lib/libfreetype.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
