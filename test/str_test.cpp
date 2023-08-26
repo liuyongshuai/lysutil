@@ -37,7 +37,9 @@
 #include <gd.h>
 #include <gdfontl.h>
 #include "hiredis/hiredis.h"
-
+#include <mysql.h>
+#include <mysqld_error.h>
+#include <errmsg.h>
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -831,6 +833,21 @@ int ReceivFromRedis(const char *ip, int port, const char *key, char **rvalue, in
     ERR:
     redisFree(context);
     return 0;
+}
+
+
+void testMySQL() {
+    MYSQL mysql;
+    mysql_init(&mysql);
+    if (mysql_real_connect(&mysql, "localhost", "root","I do not know", "demo", 0, NULL, 0)) {
+        printf("Connect success\n");
+        mysql_close(&mysql);
+    } else {
+        fprintf(stderr, "Connect failed:\n");
+        if (mysql_errno(&mysql)) {
+            printf("\terror code is %d\n\treason:%s\n", mysql_errno(&mysql), mysql_error(&mysql));
+        }
+    }
 }
 
 int main(int argc, char *argv[]) {
