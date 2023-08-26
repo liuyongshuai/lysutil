@@ -34,6 +34,8 @@
 #include <libconfig.h++>
 #include <iomanip>
 #include<fontconfig/fontconfig.h>
+#include <gd.h>
+#include <gdfontl.h>
 
 
 #define BUF_SIZE 1024
@@ -721,6 +723,48 @@ bool testFontconfig() {
     return true;
 }
 
+int testGD() {
+    /* Declare the image */
+    gdImagePtr im;
+    /* Declare output files */
+    FILE *pngout;
+    char *s = "Hello.123";
+    /* Declare color indexes */
+    int black;
+    int white;
+
+    /* 创建100x100的图像，如果需要使用真彩色，
+     * 换成 gdImageCreateTrueColor 接口
+     */
+    im = gdImageCreate(100, 100);
+
+    /* 黑色作为背景，我这里使用了RGBA模式，也就是有透明的图像，
+     * 使用宏 gdAlphaTransparent,背景就为透明了。还有就是默认创建的第一层图像即为背景层
+     */
+    black = gdImageColorAllocateAlpha(im, 0, 0, 0, gdAlphaTransparent);
+    /* 创建白色的前景层，这里就不适用Alpha通道了。 */
+    white = gdImageColorAllocate(im, 255, 255, 255);
+    gdImageString(im, gdFontGetLarge(), im->sx / 2 - (strlen(s) * gdFontGetLarge()->w / 2),
+                  im->sy / 2 - gdFontGetLarge()->h / 2, reinterpret_cast<unsigned char *>(s), white);
+
+    /* 打开文件 */
+    pngout = fopen("test.png", "wb");
+
+    /* 不同的图像格式，对应不同的输出函数
+     * PNG -- gdImagePng
+     * Gif -- gdImageGif
+     * Tiff -- gdImageTiff 等，
+     */
+    gdImagePng(im, pngout);
+
+    /* Close the files. */
+    fclose(pngout);
+
+    /* Destroy the image in memory. */
+    gdImageDestroy(im);
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     testbz2();
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
@@ -964,6 +1008,6 @@ int main(int argc, char *argv[]) {
     //4.为基本事件分配循环：开启客户端
     bufferevent_write(event, call, strlen(call));
     event_base_dispatch(base);
-
+    testGD();
     return 0;
 }
