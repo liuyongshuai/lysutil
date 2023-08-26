@@ -90,6 +90,7 @@ list(APPEND include_list ${work_home}/thirdparty/libgd/include/)
 list(APPEND include_list ${work_home}/thirdparty/hiredis/include/)
 list(APPEND include_list ${work_home}/thirdparty/libmysqlclient/include/)
 list(APPEND include_list ${work_home}/thirdparty/e2fsprogs/include/)
+list(APPEND include_list ${work_home}/thirdparty/libdb/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -175,7 +176,7 @@ list(APPEND library_list "${work_home}/thirdparty/e2fsprogs/lib/libcom_err.a")
 list(APPEND library_list "${work_home}/thirdparty/e2fsprogs/lib/libe2p.a")
 list(APPEND library_list "${work_home}/thirdparty/e2fsprogs/lib/libext2fs.a")
 list(APPEND library_list "${work_home}/thirdparty/e2fsprogs/lib/libss.a")
-
+list(APPEND library_list "${work_home}/thirdparty/libdb/lib/libdb.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 

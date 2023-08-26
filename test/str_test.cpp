@@ -40,6 +40,7 @@
 #include <mysql.h>
 #include <mysqld_error.h>
 #include <errmsg.h>
+#include <db.h>
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -839,7 +840,7 @@ int ReceivFromRedis(const char *ip, int port, const char *key, char **rvalue, in
 void testMySQL() {
     MYSQL mysql;
     mysql_init(&mysql);
-    if (mysql_real_connect(&mysql, "localhost", "root","I do not know", "demo", 0, NULL, 0)) {
+    if (mysql_real_connect(&mysql, "localhost", "root", "I do not know", "demo", 0, NULL, 0)) {
         printf("Connect success\n");
         mysql_close(&mysql);
     } else {
@@ -848,6 +849,96 @@ void testMySQL() {
             printf("\terror code is %d\n\treason:%s\n", mysql_errno(&mysql), mysql_error(&mysql));
         }
     }
+}
+
+#define    DATABASE    "sequence.db"
+#define    SEQUENCE    "my_sequence"
+
+void testLibDb(int argc, char *argv[]) {
+    extern int optind;
+    DB *dbp;
+    DB_SEQUENCE *seq;
+    DBT key;
+    int ch, i, ret, rflag;
+    db_seq_t seqnum;
+    const char *database, *progname = "ex_sequence";
+
+    dbp = nullptr;
+    seq = nullptr;
+
+    rflag = 0;
+    while ((ch = getopt(argc, argv, "r")) != EOF)
+        switch (ch) {
+            case 'r':
+                rflag = 1;
+                break;
+            case '?':
+            default:
+                return;
+        }
+    argc -= optind;
+    argv += optind;
+
+    /* Accept optional database name. */
+    database = *argv == nullptr ? DATABASE : argv[0];
+
+    /* Optionally discard the database. */
+    if (rflag)
+        (void) remove(database);
+
+    /* Create and initialize database object, open the database. */
+    if ((ret = db_create(&dbp, nullptr, 0)) != 0) {
+        fprintf(stderr, "%s: db_create: %s\n", progname, db_strerror(ret));
+        return;
+    }
+    dbp->set_errfile(dbp, stderr);
+    dbp->set_errpfx(dbp, progname);
+    if ((ret = dbp->open(dbp, nullptr, database, nullptr, DB_BTREE, DB_CREATE, 0664)) != 0) {
+        dbp->err(dbp, ret, "%s: open", database);
+        goto err;
+    }
+
+    if ((ret = db_sequence_create(&seq, dbp, 0)) != 0) {
+        dbp->err(dbp, ret, "db_sequence_create");
+        goto err;
+    }
+
+    memset(&key, 0, sizeof(DBT));
+    key.data = (void *) SEQUENCE;
+    key.size = (u_int32_t) strlen(SEQUENCE);
+
+    if ((ret = seq->open(seq, nullptr, &key, DB_CREATE)) != 0) {
+        dbp->err(dbp, ret, "%s: DB_SEQUENCE->open", SEQUENCE);
+        goto err;
+    }
+
+    for (i = 0; i < 10; i++) {
+        if ((ret = seq->get(seq, nullptr, 1, &seqnum, 0)) != 0) {
+            dbp->err(dbp, ret, "DB_SEQUENCE->get");
+            goto err;
+        }
+    }
+
+    /* Close everything down. */
+    if ((ret = seq->close(seq, 0)) != 0) {
+        seq = nullptr;
+        dbp->err(dbp, ret, "DB_SEQUENCE->close");
+        goto err;
+    }
+    if ((ret = dbp->close(dbp, 0)) != 0) {
+        fprintf(stderr,
+                "%s: DB->close: %s\n", progname, db_strerror(ret));
+        return;
+    }
+    return;
+
+    err:
+    if (seq != nullptr)
+        (void) seq->close(seq, 0);
+    if (dbp != nullptr)
+        (void) dbp->close(dbp, 0);
+    return;
+
 }
 
 int main(int argc, char *argv[]) {
