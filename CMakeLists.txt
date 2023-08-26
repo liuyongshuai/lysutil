@@ -86,6 +86,7 @@ list(APPEND include_list ${work_home}/thirdparty/freetype/include/)
 list(APPEND include_list ${work_home}/thirdparty/gettext/include/)
 list(APPEND include_list ${work_home}/thirdparty/libunistring/include/)
 list(APPEND include_list ${work_home}/thirdparty/libgd/include/)
+list(APPEND include_list ${work_home}/thirdparty/hiredis/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -162,6 +163,8 @@ list(APPEND library_list "${work_home}/thirdparty/gettext/lib/libgettextpo.a")
 list(APPEND library_list "${work_home}/thirdparty/gettext/lib/libasprintf.a")
 list(APPEND library_list "${work_home}/thirdparty/libunistring/lib/libunistring.a")
 list(APPEND library_list "${work_home}/thirdparty/libgd/lib/libgd.a")
+list(APPEND library_list "${work_home}/thirdparty/hiredis/lib/libhiredis.a")
+list(APPEND library_list "${work_home}/thirdparty/hiredis/lib/libhiredis_ssl.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 

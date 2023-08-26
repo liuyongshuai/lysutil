@@ -36,6 +36,7 @@
 #include<fontconfig/fontconfig.h>
 #include <gd.h>
 #include <gdfontl.h>
+#include "hiredis/hiredis.h"
 
 
 #define BUF_SIZE 1024
@@ -762,6 +763,73 @@ int testGD() {
 
     /* Destroy the image in memory. */
     gdImageDestroy(im);
+    return 0;
+}
+
+int Send2Redis(const char *ip, int port, const char *key, const char *value, int len_value) {
+    printf("Enter Send2Redis\n");
+    redisContext *context = redisConnect(ip, port);
+    if (context == NULL || context->err) {
+        if (context) {
+            printf("Error: %s\n", context->errstr);
+            // handle error
+            return -1;
+        } else {
+            printf("Can't allocate redis context\n");
+            return -2;
+        }
+    }
+
+    printf("send date key:[%s] value[%d]:[%s]\n", key, len_value, value);
+    redisReply *reply;
+    redisAppendCommand(context, "SET %s %b", key, value, (size_t) len_value);
+    if (REDIS_OK != redisGetReply(context, (void **) &reply))// reply for SET
+    {
+        printf("ERR:after set: reply:[%s]\n", reply->str);
+        freeReplyObject(reply);
+        goto ERR;
+    }
+    printf("after set: reply:[%s]\n", reply->str);
+    freeReplyObject(reply);
+
+    printf("return \n");
+    ERR:
+    redisFree(context);
+    return 0;
+}
+
+int ReceivFromRedis(const char *ip, int port, const char *key, char **rvalue, int *len_rvalue) {
+    redisContext *context = redisConnect(ip, port);
+    if (context == NULL || context->err) {
+        if (context) {
+            printf("Error: %s\n", context->errstr);
+            // handle error
+            return -1;
+        } else {
+            printf("Can't allocate redis context\n");
+            return -2;
+        }
+    }
+
+    redisReply *reply;
+
+    redisAppendCommand(context, "GET %s ", key);
+    if (REDIS_OK != redisGetReply(context, (void **) &reply))// reply for SET
+    {
+        printf("ERR:after set: reply:[%s]\n", reply->str);
+        freeReplyObject(reply);
+        goto ERR;
+    }
+    //printf("after GET: reply[%d]:[%s]\n",reply->len,reply->str);
+    printf("after GET: replylen[%d]\n", reply->len);
+    *rvalue = (char *) malloc(sizeof(char) * reply->len);
+    memcpy(*rvalue, reply->str, sizeof(char) * reply->len);
+    *len_rvalue = reply->len;
+    freeReplyObject(reply);
+
+    printf("return \n");
+    ERR:
+    redisFree(context);
     return 0;
 }
 
