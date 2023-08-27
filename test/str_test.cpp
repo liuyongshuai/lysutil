@@ -41,6 +41,8 @@
 #include <mysqld_error.h>
 #include <errmsg.h>
 #include <db.h>
+#include <Poco/Timer.h>
+#include <Poco/Thread.h>
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -939,6 +941,25 @@ void testLibDb(int argc, char *argv[]) {
         (void) dbp->close(dbp, 0);
     return;
 
+}
+
+class TimerExample {
+public:
+    void onTimer(Poco::Timer &timer) {
+        std::cout << "onTimer called." << std::endl;
+    }
+};
+
+void testPOCO() {
+    long totalTime = 2000,
+            startInterval = 0,
+            periodicInterval = 0;
+
+    TimerExample te;
+    Poco::Timer timer(startInterval, periodicInterval);
+    timer.start(Poco::TimerCallback<TimerExample>(te, &TimerExample::onTimer));
+    Poco::Thread::sleep(totalTime);
+    return;
 }
 
 int main(int argc, char *argv[]) {
