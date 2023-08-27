@@ -92,6 +92,7 @@ list(APPEND include_list ${work_home}/thirdparty/libmysqlclient/include/)
 list(APPEND include_list ${work_home}/thirdparty/e2fsprogs/include/)
 list(APPEND include_list ${work_home}/thirdparty/libdb/include/)
 list(APPEND include_list ${work_home}/thirdparty/krb5/include/)
+list(APPEND include_list ${work_home}/thirdparty/libcbor/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -194,6 +195,7 @@ list(APPEND library_list "${work_home}/thirdparty/krb5/lib/libkrb5_pkinit.a")
 list(APPEND library_list "${work_home}/thirdparty/krb5/lib/libkrb5_spake.a")
 list(APPEND library_list "${work_home}/thirdparty/krb5/lib/libkrb5support.a")
 list(APPEND library_list "${work_home}/thirdparty/krb5/lib/libkrb5_test.a")
+list(APPEND library_list "${work_home}/thirdparty/libcbor/lib/libcbor.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
