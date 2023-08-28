@@ -43,6 +43,9 @@
 #include <db.h>
 #include <Poco/Timer.h>
 #include <Poco/Thread.h>
+#include <zmq.h>
+#include <libunwind.h>
+
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -962,6 +965,75 @@ void testPOCO() {
     return;
 }
 
+
+int testZMQServr() {
+    void *context = zmq_ctx_new();
+    void *responder = zmq_socket(context, ZMQ_REP);
+    int rc = zmq_bind(responder, "tcp://*:5555");
+    assert (rc == 0);
+
+    while (1) {
+        char buffer[10];
+        zmq_recv(responder, buffer, 10, 0);
+        printf("Received Hello\n");
+        sleep(1);          //  Do some 'work'
+        zmq_send(responder, "World", 5, 0);
+    }
+    return 0;
+}
+
+int testZMQClient() {
+    printf("Connecting to hello world server…\n");
+    void *context = zmq_ctx_new();
+    void *requester = zmq_socket(context, ZMQ_REQ);
+    zmq_connect(requester, "tcp://localhost:5555");
+
+    int request_nbr;
+    for (request_nbr = 0; request_nbr != 10; request_nbr++) {
+        char buffer[10];
+        printf("Sending Hello %d…\n", request_nbr);
+        zmq_send(requester, "Hello", 5, 0);
+        zmq_recv(requester, buffer, 10, 0);
+        printf("Received World %d\n", request_nbr);
+    }
+    zmq_close(requester);
+    zmq_ctx_destroy(context);
+    return 0;
+}
+
+void testunwind() {
+    unw_context_t ctx = {0};
+    unw_cursor_t cursor = {0};
+    unw_word_t offset = 0;
+    unw_word_t pc = 0;
+    int8_t func_name[128] = {0};
+    int32_t ret = 0;
+
+    printf("\n----------------------stack backtrace----------------------------\n");
+    ret = unw_getcontext(&ctx);
+    if (0 != ret) {
+        printf("get context failed\n");
+        return;
+    }
+
+    ret = unw_init_local(&cursor, &ctx);
+    if (0 != ret) {
+        printf("init local cursor failed\n");
+        return;
+    }
+
+    while (0 < unw_step(&cursor)) {
+        ret = unw_get_proc_name(&cursor, reinterpret_cast<char *>(func_name), sizeof(func_name), &offset);
+        if (0 != ret) {
+            printf("can not get func name\n");
+        } else {
+            unw_get_reg(&cursor, UNW_REG_IP, &pc);
+            printf("0x%lx:(%s+0x%lx)\n", pc, func_name, offset);
+        }
+    }
+}
+
+
 int main(int argc, char *argv[]) {
     testbz2();
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
@@ -1169,6 +1241,9 @@ int main(int argc, char *argv[]) {
     }
 
 
+    testunwind();
+    testGD();
+    
     struct sockaddr_in addr;
     struct event_base *base = NULL;
     struct bufferevent *event = NULL;
