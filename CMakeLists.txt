@@ -95,6 +95,8 @@ list(APPEND include_list ${work_home}/thirdparty/libdb/include/)
 list(APPEND include_list ${work_home}/thirdparty/krb5/include/)
 list(APPEND include_list ${work_home}/thirdparty/libcbor/include/)
 list(APPEND include_list ${work_home}/thirdparty/poco/include/)
+list(APPEND include_list ${work_home}/thirdparty/libzmq/include/)
+list(APPEND include_list ${work_home}/thirdparty/libunwind/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -222,6 +224,12 @@ list(APPEND library_list "${work_home}/thirdparty/poco/lib/libPocoXML.a")
 list(APPEND library_list "${work_home}/thirdparty/poco/lib/libPocoXMLd.a")
 list(APPEND library_list "${work_home}/thirdparty/poco/lib/libPocoZip.a")
 list(APPEND library_list "${work_home}/thirdparty/poco/lib/libPocoZipd.a")
+list(APPEND library_list "${work_home}/thirdparty/libzmq/lib/libzmq.a")
+list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind.a")
+list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind-coredump.a")
+list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind-ptrace.a")
+list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind-setjmp.a")
+list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind-x86_64.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
