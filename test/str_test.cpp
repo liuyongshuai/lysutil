@@ -33,7 +33,6 @@
 #include <libxml/tree.h>
 #include <libconfig.h++>
 #include <iomanip>
-#include<fontconfig/fontconfig.h>
 #include "hiredis/hiredis.h"
 #include <mysql.h>
 #include <mysqld_error.h>
@@ -488,25 +487,6 @@ int convmsg(char *src, char *des, int srclen, int deslen, const char *srctype, c
     }
     char *in = src;
     char *out = des;
-//    int ret =  iconv (conv, &in, (size_t *) & srclen,
-//                                &out,
-//                                (size_t *)& deslen);
-//
-//    if(ret == 0)
-//    {
-//        printf ("iconv succ\n");
-//    }
-//    else
-//    {
-//        if(errno == 84)
-//        {
-//            printf("iconv  84:%d,%d\n", srclen, deslen);
-//        }
-//        else
-//        {
-//            printf("iconv  err %d:%d,%d\n", errno, srclen, deslen);
-//        }
-//    }
     size_t avail = deslen;
     size_t insize = srclen;
     char *wrptr = des;
@@ -703,31 +683,6 @@ int parseConfigInfo() {
     catch (const libconfig::SettingNotFoundException &nfex) {
         // Ignore.
     }
-}
-
-bool testFontconfig() {
-    FcBool success = FcInit();
-    if (!success) {
-        return false;
-    }
-
-    FcConfig *config = FcInitLoadConfigAndFonts();
-    if (!config) {
-        return false;
-    }
-
-    FcChar8 *s, *file;
-
-    FcPattern *p = FcPatternCreate();
-    FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, NULL);
-    FcFontSet *fs = FcFontList(config, p, os);
-
-    for (int i = 0; fs && i < fs->nfont; i++) {
-        FcPattern *font = fs->fonts[i];
-        s = FcNameUnparse(font);
-        free(s);
-    }
-    return true;
 }
 
 int Send2Redis(const char *ip, int port, const char *key, const char *value, int len_value) {
