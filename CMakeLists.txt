@@ -152,7 +152,7 @@ list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_openssl.
 list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_pthreads.a")
 list(APPEND library_list "${work_home}/thirdparty/tiff/lib/libtiff.a")
 list(APPEND library_list "${work_home}/thirdparty/jpeg/lib/libjpeg.a")
-list(APPEND library_list "${work_home}/thirdparty/libpng/lib/libpng.a")
+list(APPEND library_list "${work_home}/thirdparty/libpng/lib/libpng16.a")
 list(APPEND library_list "${work_home}/thirdparty/giflib/lib/libgif.a")
 list(APPEND library_list "${work_home}/thirdparty/webp/lib/libwebp.a")
 list(APPEND library_list "${work_home}/thirdparty/webp/lib/libsharpyuv.a")
