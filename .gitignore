@@ -21,6 +21,7 @@ log
 bag
 hios-bdb*
 ._.DS_Store
+test.db
 ._*
 lcov
 *.txt
