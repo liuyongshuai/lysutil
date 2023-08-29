@@ -43,7 +43,7 @@
 #include <zmq.h>
 #include <libunwind.h>
 #include <nlohmann/json.hpp>
-
+#include "json/json.h"
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -982,6 +982,26 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     return 0;
 }
 
+int testJsonCPP() {
+    Json::Value root;
+    Json::Value data;
+    constexpr bool shouldUseOldWay = false;
+    root["action"] = "run";
+    data["number"] = 1;
+    root["data"] = data;
+
+    if (shouldUseOldWay) {
+        Json::FastWriter writer;
+        const std::string json_file = writer.write(root);
+        std::cout << json_file << std::endl;
+    } else {
+        Json::StreamWriterBuilder builder;
+        const std::string json_file = Json::writeString(builder, root);
+        std::cout << json_file << std::endl;
+    }
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char *argv[]) {
     testbz2();
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
@@ -1190,7 +1210,7 @@ int main(int argc, char *argv[]) {
 
 
     testunwind();
-
+    testJsonCPP();
     struct sockaddr_in addr;
     struct event_base *base = NULL;
     struct bufferevent *event = NULL;
