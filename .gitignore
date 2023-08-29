@@ -17,6 +17,7 @@ output.tar.gz
 output
 log
 *.core*
+*.png
 bag
 hios-bdb*
 ._.DS_Store
