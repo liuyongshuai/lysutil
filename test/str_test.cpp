@@ -1198,7 +1198,6 @@ int main(int argc, char *argv[]) {
 
 
     testunwind();
-    testGD();
 
     struct sockaddr_in addr;
     struct event_base *base = NULL;
@@ -1236,6 +1235,5 @@ int main(int argc, char *argv[]) {
     //4.为基本事件分配循环：开启客户端
     bufferevent_write(event, call, strlen(call));
     event_base_dispatch(base);
-    testGD();
     return 0;
 }
