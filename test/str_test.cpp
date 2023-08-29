@@ -733,43 +733,23 @@ bool testFontconfig() {
 }
 
 int testGD() {
-    /* Declare the image */
     gdImagePtr im;
-    /* Declare output files */
-    FILE *pngout;
-    char *s = "Hello.123";
-    /* Declare color indexes */
-    int black;
-    int white;
+    FILE *fp;
+    int cor_rad = 60;
+    im = gdImageCreateTrueColor(400, 400);
+    gdImageFilledRectangle(im, 0, 0, 399, 399, 0x00FFFFFF);
 
-    /* 创建100x100的图像，如果需要使用真彩色，
-     * 换成 gdImageCreateTrueColor 接口
-     */
-    im = gdImageCreate(100, 100);
+    gdImageFilledArc (im, cor_rad, 399 - cor_rad, cor_rad *2, cor_rad *2, 90, 180, 0x0, gdPie);
 
-    /* 黑色作为背景，我这里使用了RGBA模式，也就是有透明的图像，
-     * 使用宏 gdAlphaTransparent,背景就为透明了。还有就是默认创建的第一层图像即为背景层
-     */
-    black = gdImageColorAllocateAlpha(im, 0, 0, 0, gdAlphaTransparent);
-    /* 创建白色的前景层，这里就不适用Alpha通道了。 */
-    white = gdImageColorAllocate(im, 255, 255, 255);
-    gdImageString(im, gdFontGetLarge(), im->sx / 2 - (strlen(s) * gdFontGetLarge()->w / 2),
-                  im->sy / 2 - gdFontGetLarge()->h / 2, reinterpret_cast<unsigned char *>(s), white);
+    fp = fopen("b.png", "wb");
+    if (!fp) {
+        fprintf(stderr, "Can't save png image.\n");
+        gdImageDestroy(im);
+        return 1;
+    }
+    gdImagePng(im, fp);
+    fclose(fp);
 
-    /* 打开文件 */
-    pngout = fopen("test.png", "wb");
-
-    /* 不同的图像格式，对应不同的输出函数
-     * PNG -- gdImagePng
-     * Gif -- gdImageGif
-     * Tiff -- gdImageTiff 等，
-     */
-    gdImagePng(im, pngout);
-
-    /* Close the files. */
-    fclose(pngout);
-
-    /* Destroy the image in memory. */
     gdImageDestroy(im);
     return 0;
 }
@@ -1243,7 +1223,7 @@ int main(int argc, char *argv[]) {
 
     testunwind();
     testGD();
-    
+
     struct sockaddr_in addr;
     struct event_base *base = NULL;
     struct bufferevent *event = NULL;
