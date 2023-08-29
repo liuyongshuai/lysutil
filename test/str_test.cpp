@@ -42,6 +42,7 @@
 #include <Poco/Thread.h>
 #include <zmq.h>
 #include <libunwind.h>
+#include <nlohmann/json.hpp>
 
 
 #define BUF_SIZE 1024
@@ -944,6 +945,42 @@ void testunwind() {
     }
 }
 
+// see http://llvm.org/docs/LibFuzzer.html
+int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+    try {
+        // step 1: parse input
+        nlohmann::json const j1 = nlohmann::json::parse(data, data + size);
+
+        try {
+            // step 2: round trip
+
+            // first serialization
+            std::string const s1 = j1.dump();
+
+            // parse serialization
+            nlohmann::json const j2 = nlohmann::json::parse(s1);
+
+            // second serialization
+            std::string const s2 = j2.dump();
+
+            // serializations must match
+            assert(s1 == s2);
+        }
+        catch (const nlohmann::json::parse_error &) {
+            // parsing a JSON serialization must not fail
+            assert(false);
+        }
+    }
+    catch (const nlohmann::json::parse_error &) {
+        // parse errors are ok, because input may be random bytes
+    }
+    catch (const nlohmann::json::out_of_range &) {
+        // out of range errors may happen if provided sizes are excessive
+    }
+
+    // return 0 - non-zero return values are reserved for future use
+    return 0;
+}
 
 int main(int argc, char *argv[]) {
     testbz2();
