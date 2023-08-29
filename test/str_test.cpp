@@ -1066,7 +1066,7 @@ struct Matrix2x2 {
 
     Matrix2x2() {}
 
-    Matrix2x2(value v00, value v01, value v10, value v11) {
+    Matrix2x2(int64_t v00, int64_t v01, int64_t v10, int64_t v11) {
         v[0][0] = v00;
         v[0][1] = v01;
         v[1][0] = v10;
@@ -1082,15 +1082,15 @@ static const Matrix2x2 MatrixIdentity(1, 0, 0, 1);
 static const Matrix2x2 Matrix1110(1, 1, 1, 0);
 
 //! Raw arrays matrices multiply
-void Matrix2x2Multiply(const value a[2][2], const value b[2][2], value c[2][2]);
+void Matrix2x2Multiply(const int64_t a[2][2], const int64_t b[2][2], int64_t c[2][2]);
 
 /////////////////////// Serial methods ////////////////////////
 
 //! Plain serial sum
-value SerialFib(int n) {
+int64_t SerialFib(int n) {
     if (n < 2)
         return n;
-    value a = 0, b = 1, sum;
+    int64_t a = 0, b = 1, sum;
     int i;
     for (i = 2; i <= n; i++) { // n is really index of Fibonacci number
         sum = a + b;
@@ -1101,10 +1101,10 @@ value SerialFib(int n) {
 }
 
 //! Serial n-1 matrices multiplication
-value SerialMatrixFib(int n) {
-    value c[2][2], a[2][2] = {{1, 1},
-                              {1, 0}}, b[2][2] = {{1, 1},
-                                                  {1, 0}};
+int64_t SerialMatrixFib(int n) {
+    int64_t c[2][2], a[2][2] = {{1, 1},
+                                {1, 0}}, b[2][2] = {{1, 1},
+                                                    {1, 0}};
     int i;
     for (i = 2; i < n; i++) { // Using condition to prevent copying of values
         if (i & 1)
@@ -1116,8 +1116,8 @@ value SerialMatrixFib(int n) {
 }
 
 //! Recursive summing. Just for complete list of serial algorithms, not used
-value SerialRecursiveFib(int n) {
-    value result;
+int64_t SerialRecursiveFib(int n) {
+    int64_t result;
     if (n < 2)
         result = n;
     else
@@ -1135,7 +1135,7 @@ using std::this_thread::yield;
 #endif
 
 //! Introducing of queue method in serial
-value SerialQueueFib(int n) {
+int64_t SerialQueueFib(int n) {
     oneapi::tbb::concurrent_queue<Matrix2x2> Q;
     for (int i = 1; i < n; i++)
         Q.push(Matrix1110);
@@ -1153,8 +1153,8 @@ value SerialQueueFib(int n) {
 }
 
 //! Trying to use concurrent_vector
-value SerialVectorFib(int n) {
-    oneapi::tbb::concurrent_vector<value> A;
+int64_t SerialVectorFib(int n) {
+    oneapi::tbb::concurrent_vector<int64_t> A;
     A.grow_by(2);
     A[0] = 0;
     A[1] = 1;
@@ -1170,7 +1170,7 @@ value SerialVectorFib(int n) {
 // *** Serial shared by mutexes *** //
 
 //! Shared glabals
-value SharedA = 0, SharedB = 1;
+int64_t SharedA = 0, SharedB = 1;
 int SharedI = 1, SharedN;
 
 //! Template task class which computes Fibonacci numbers with shared globals
@@ -1187,7 +1187,7 @@ public:
             typename M::scoped_lock lock(mutex);
             if (SharedI >= SharedN)
                 break;
-            value sum = SharedA + SharedB;
+            int64_t sum = SharedA + SharedB;
             SharedA = SharedB;
             SharedB = sum;
             ++SharedI;
@@ -1202,7 +1202,7 @@ void SharedSerialFibBody<std::mutex>::operator()(
         std::lock_guard<std::mutex> lock(mutex);
         if (SharedI >= SharedN)
             break;
-        value sum = SharedA + SharedB;
+        int64_t sum = SharedA + SharedB;
         SharedA = SharedB;
         SharedB = sum;
         ++SharedI;
@@ -1211,7 +1211,7 @@ void SharedSerialFibBody<std::mutex>::operator()(
 
 //! Root function
 template<class M>
-value SharedSerialFib(int n) {
+int64_t SharedSerialFib(int n) {
     SharedA = 0;
     SharedB = 1;
     SharedI = 1;
@@ -1235,7 +1235,7 @@ struct IntHashCompare {
 };
 
 //! NumbersTable type based on concurrent_hash_map
-typedef oneapi::tbb::concurrent_hash_map<int, value, IntHashCompare> NumbersTable;
+typedef oneapi::tbb::concurrent_hash_map<int, int64_t, IntHashCompare> NumbersTable;
 
 //! task for serial method using shared concurrent_hash_map
 class ConcurrentHashSerialFibTask {
@@ -1255,7 +1255,7 @@ public:
                 // earlier by this thread or another thread.
                 assert(0);
             }
-            value sum = f1->second + f2->second;
+            int64_t sum = f1->second + f2->second;
             NumbersTable::const_accessor fsum;
             Fib.insert(fsum, std::make_pair(i, sum)); // inserting
             assert(fsum->second == sum); // check value
@@ -1264,7 +1264,7 @@ public:
 };
 
 //! Root function
-value ConcurrentHashSerialFib(int n) {
+int64_t ConcurrentHashSerialFib(int n) {
     NumbersTable Fib;
     bool okay;
     okay = Fib.insert(std::make_pair(0, 0));
@@ -1327,7 +1327,7 @@ struct MultiplyFunc {
 };
 
 //! Root function
-value ParallelPipeFib(int n) {
+int64_t ParallelPipeFib(int n) {
     using namespace parallel_pipeline_ns;
 
     N = n - 1;
@@ -1343,7 +1343,7 @@ value ParallelPipeFib(int n) {
     Matrix2x2 M;
     bool result = Queue.try_pop(M); // get last element
     assert(result);
-    value res = M.v[0][0]; // get value
+    int64_t res = M.v[0][0]; // get value
     Queue.clear();
     return res;
 }
@@ -1376,7 +1376,7 @@ struct parallel_reduceFibBody {
 };
 
 //! Root function
-value parallel_reduceFib(int n) {
+int64_t parallel_reduceFib(int n) {
     parallel_reduceFibBody b;
     oneapi::tbb::parallel_reduce(oneapi::tbb::blocked_range<int>(2, n, 3),
                                  b); // do parallel reduce on range [2, n) for b
@@ -1391,10 +1391,10 @@ struct parallel_scanFibBody {
         it can be used to accumulate running products too. */
     Matrix2x2 product;
     /** Pointer to output sequence */
-    value *const output;
+    int64_t *const output;
 
     //! Constructor sets product to identity matrix
-    parallel_scanFibBody(value *output_) : product(MatrixIdentity), output(output_) {}
+    parallel_scanFibBody(int64_t *output_) : product(MatrixIdentity), output(output_) {}
 
     //! Splitting constructor
     parallel_scanFibBody(parallel_scanFibBody &b, oneapi::tbb::split)
@@ -1430,8 +1430,8 @@ struct parallel_scanFibBody {
 };
 
 //! Root function
-value parallel_scanFib(int n) {
-    value *output = new value[n];
+int64_t parallel_scanFib(int n) {
+    int64_t *output = new int64_t[n];
     parallel_scanFibBody b(output);
     oneapi::tbb::parallel_scan(oneapi::tbb::blocked_range<int>(0, n, 3), b);
     // output[0..n-1] now contains the Fibonacci sequence (modulo integer wrap-around).
@@ -1473,11 +1473,11 @@ static oneapi::tbb::tick_count t0;
 //! Verbose output flag
 static bool Verbose = false;
 
-typedef value (*MeasureFunc)(int);
+typedef int64_t (*MeasureFunc)(int);
 
 //! Measure ticks count in loop [2..n]
-value Measure(const char *name, MeasureFunc func, int n) {
-    value result;
+int64_t Measure(const char *name, MeasureFunc func, int n) {
+    int64_t result;
     if (Verbose)
         printf("%s", name);
     t0 = oneapi::tbb::tick_count::now();
@@ -1497,7 +1497,7 @@ int testOneTBB(int argc, char *argv[]) {
     if (argc > 2)
         NThread.set_from_string(argv[2]);
     unsigned long ntrial = argc > 3 ? (unsigned long) strtoul(argv[3], nullptr, 0) : 1;
-    value result, sum;
+    int64_t result, sum;
 
     if (Verbose)
         printf("Fibonacci numbers example. Generating %d numbers..\n", NumbersCount);
@@ -1554,7 +1554,7 @@ int testOneTBB(int argc, char *argv[]) {
 
 // Utils
 
-void Matrix2x2Multiply(const value a[2][2], const value b[2][2], value c[2][2]) {
+void Matrix2x2Multiply(const int64_t a[2][2], const int64_t b[2][2], int64_t c[2][2]) {
     for (int i = 0; i <= 1; i++)
         for (int j = 0; j <= 1; j++)
             c[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j];
