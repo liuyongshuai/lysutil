@@ -93,6 +93,8 @@ list(APPEND include_list ${work_home}/thirdparty/json/include/)
 list(APPEND include_list ${work_home}/thirdparty/jsoncpp/include/)
 list(APPEND include_list ${work_home}/thirdparty/sqlite3/include/)
 list(APPEND include_list ${work_home}/thirdparty/oneTBB/include/)
+list(APPEND include_list ${work_home}/thirdparty/lua/include/)
+list(APPEND include_list ${work_home}/thirdparty/libev/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -242,6 +244,8 @@ list(APPEND library_list "${work_home}/thirdparty/jsoncpp/lib/libjsoncpp.a")
 list(APPEND library_list "${work_home}/thirdparty/sqlite3/lib/libsqlite3.a")
 list(APPEND library_list "${work_home}/thirdparty/oneTBB/lib/libtbb.a")
 list(APPEND library_list "${work_home}/thirdparty/oneTBB/lib/libtbbmalloc.a")
+list(APPEND library_list "${work_home}/thirdparty/libev/lib/libev.a")
+list(APPEND library_list "${work_home}/thirdparty/lua/lib/liblua.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
