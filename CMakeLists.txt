@@ -89,6 +89,7 @@ list(APPEND include_list ${work_home}/thirdparty/libcbor/include/)
 list(APPEND include_list ${work_home}/thirdparty/poco/include/)
 list(APPEND include_list ${work_home}/thirdparty/libzmq/include/)
 list(APPEND include_list ${work_home}/thirdparty/libunwind/include/)
+list(APPEND include_list ${work_home}/thirdparty/json/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
