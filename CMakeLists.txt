@@ -91,6 +91,7 @@ list(APPEND include_list ${work_home}/thirdparty/libzmq/include/)
 list(APPEND include_list ${work_home}/thirdparty/libunwind/include/)
 list(APPEND include_list ${work_home}/thirdparty/json/include/)
 list(APPEND include_list ${work_home}/thirdparty/jsoncpp/include/)
+list(APPEND include_list ${work_home}/thirdparty/sqlite3/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -237,6 +238,7 @@ list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind-ptrace
 list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind-setjmp.a")
 list(APPEND library_list "${work_home}/thirdparty/libunwind/lib/libunwind-x86_64.a")
 list(APPEND library_list "${work_home}/thirdparty/jsoncpp/lib/libjsoncpp.a")
+list(APPEND library_list "${work_home}/thirdparty/sqlite3/lib/libsqlite3.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 

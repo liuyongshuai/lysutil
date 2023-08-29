@@ -44,6 +44,7 @@
 #include <libunwind.h>
 #include <nlohmann/json.hpp>
 #include "json/json.h"
+#include "sqlite3.h"
 
 #define BUF_SIZE 1024
 #define SERVER_IP "192.168.56.11"
@@ -1002,6 +1003,51 @@ int testJsonCPP() {
     return EXIT_SUCCESS;
 }
 
+int testSQLite3(){
+    sqlite3*db;
+    char*zErrMsg = NULL;
+    int rv;
+    char szSql[128] = { 0 };
+    sqlite3_stmt*stmt;
+    rv = sqlite3_open("./test.db", &db);
+    if(rv){
+        fprintf(stderr, "Can't open database: %s\n",sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return 1;
+    }
+    else
+        fprintf(stderr,"sqlite3_open OK\n");
+    //这里查询时，假定数据库中存在表test，并且有一列为COL1(text类型)
+    strcpy(szSql,"SELECT COL1 FROM test where COL1=?");
+    rv = sqlite3_prepare(db, szSql, 128, &stmt, NULL);
+    if( rv != SQLITE_OK ) {
+        fprintf(stderr, "sqlite3_prepare(%d): %s\n", rv,sqlite3_errmsg(db));
+        return -1;
+    }
+    rv = sqlite3_bind_text(stmt, 1, "VALUE1", strlen("VALUE1"),SQLITE_STATIC);
+    if( rv != SQLITE_OK ) {
+        fprintf(stderr, "sqlite3_bind_text(%d): %s\n", rv,sqlite3_errmsg(db));
+        return -1;
+    }
+    rv = sqlite3_step(stmt);
+    if( (rv != SQLITE_OK) && (rv != SQLITE_DONE) && (rv!= SQLITE_ROW) ) {
+        fprintf(stderr, "sqlite3_step(%d): %s\n", rv,sqlite3_errmsg(db));
+        return -1;
+    }
+    while( rv == SQLITE_ROW ){
+        fprintf(stderr, "result: %s\n", sqlite3_column_text(stmt,0));
+        rv = sqlite3_step(stmt);
+    }
+    rv = sqlite3_finalize(stmt);
+    if( rv != SQLITE_OK ) {
+        fprintf(stderr, "sqlite3_finalize(%d): %s\n", rv,sqlite3_errmsg(db));
+        return -1;
+    }
+    sqlite3_close(db);
+    return 0;
+}
+
+
 int main(int argc, char *argv[]) {
     testbz2();
     std::cout << "\n---------utf8ToUnicodes---------" << std::endl;
@@ -1211,6 +1257,7 @@ int main(int argc, char *argv[]) {
 
     testunwind();
     testJsonCPP();
+    testSQLite3();
     struct sockaddr_in addr;
     struct event_base *base = NULL;
     struct bufferevent *event = NULL;
