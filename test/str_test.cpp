@@ -57,6 +57,9 @@
 #include "oneapi/tbb/spin_mutex.h"
 #include "oneapi/tbb/queuing_mutex.h"
 #include "oneapi/tbb/global_control.h"
+#include <ev.h>
+#include <nanomsg/pair.h>
+#include <nanomsg/nn.h>
 
 
 #define BUF_SIZE 1024
@@ -1565,6 +1568,339 @@ Matrix2x2 Matrix2x2::operator*(const Matrix2x2 &to) const {
     Matrix2x2Multiply(v, to.v, result.v);
     return result;
 }
+
+// every watcher type has its own typedef'd struct
+// with the name ev_TYPE
+ev_io stdin_watcher;
+ev_timer timeout_watcher;
+
+// all watcher callbacks have a similar signature
+// this callback is called when data is readable on stdin
+static void stdin_cb(EV_P_ ev_io *w, int revents) {
+    puts("stdin ready");
+    // for one-shot events, one must manually stop the watcher
+    // with its corresponding stop function.
+    ev_io_stop(EV_A_ w);
+    // this causes all nested ev_run's to stop iterating
+    ev_break(EV_A_ EVBREAK_ALL);
+}
+
+// another callback, this time for a time-out
+static void timeout_cb(EV_P_ ev_timer *w, int revents) {
+    puts("timeout");
+    // this causes the innermost ev_run to stop iterating
+    ev_break(EV_A_ EVBREAK_ONE);
+}
+
+int testLibEV(void) {
+    // use the default event loop unless you have special needs
+    struct ev_loop *loop = EV_DEFAULT;
+    // initialise an io watcher, then start it
+    // this one will watch for stdin to become readable
+    ev_io_init (&stdin_watcher, stdin_cb,
+    /* STDIN_FILENO*/ 0, EV_READ);
+    ev_io_start(loop, &stdin_watcher);
+    // initialise a timer watcher, then start it
+    // simple non-repeating 5.5 second timeout
+    ev_timer_init (&timeout_watcher, timeout_cb, 5.5, 0.);
+    ev_timer_start(loop, &timeout_watcher);
+    // now wait for events to arrive
+    ev_run(loop, 0);
+    // break was called, so exit
+    return 0;
+}
+
+/***************************************************************************************************
+动态库：libev nanomsg
+概述：A B C 三个线程通过nanomsg通信，A线程作为主线程，控制中枢，B C请求均通过A.
+demo示范：
+    A为指令处理模块
+    B为指令接收模块
+    C为指令执行模块
+    B -> A   开灯
+    A -> C   开灯
+    C :      执行开灯
+    C -> A   OK
+    A -> B   OK
+总结：
+    这只是简单的测试使用例子，你可以通过在这个框架的基础上做更多的功能，对于多线程编程这将是一个不
+错的选择.
+***************************************************************************************************/
+
+typedef struct {
+    int n;          //nanomsg socket
+    int s;          //nanomsg recieve fd
+} nanomsg_info_t;
+
+typedef struct {
+    nanomsg_info_t ab;
+    nanomsg_info_t ac;
+} Aloop_ctrl_t;
+
+typedef struct {
+    nanomsg_info_t ba;
+} Bloop_ctrl_t;
+
+typedef struct {
+    nanomsg_info_t ca;
+} Cloop_ctrl_t;
+
+/*获取系统时间打印*/
+uint32_t print_timenow() {
+    time_t now;
+    struct tm *tm_now;
+    time(&now);
+    tm_now = localtime(&now);
+    uint32_t times = tm_now->tm_hour * 3600 + tm_now->tm_min * 60 + tm_now->tm_sec;
+    printf("[%02d:%02d:%02d]\r\n", tm_now->tm_hour, tm_now->tm_min, tm_now->tm_sec);
+    return times;
+}
+
+/*****************************************子线程C相关**********************************************/
+static void watcher_c_cb(struct ev_loop *loop, struct ev_io *w, int revents) {
+    void *user_data = ev_userdata(loop);
+    Cloop_ctrl_t *Cloop_ctrl = (Cloop_ctrl_t *) user_data;
+    uint8_t *dat = nullptr;
+    uint32_t bytes = nn_recv(Cloop_ctrl->ca.n, &dat, NN_MSG, NN_DONTWAIT);
+    if (bytes <= 0) {
+        return;
+    }
+    printf("C:%s (A->C)\r\n", (char *) dat);
+    nn_freemsg(dat);
+    //接收成功，发送OK
+    char *str = "OK";
+    uint8_t *udata = static_cast<uint8_t *>(nn_allocmsg(3, 0));
+    if (nullptr != udata) {
+        memcpy(udata, str, 3);
+        nn_send(Cloop_ctrl->ca.n, &udata, NN_MSG, NN_DONTWAIT);
+    }
+
+}
+
+int C_nanomsg_init(Cloop_ctrl_t *Cloop_ctrl) {
+    Cloop_ctrl->ca.n = nn_socket(AF_SP, NN_PAIR);
+    if (Cloop_ctrl->ca.n < 0) {
+        return -1;
+    }
+    if (nn_connect(Cloop_ctrl->ca.n, "inproc://c2a_loop") < 0) {
+        return -1;
+    }
+    size_t size = sizeof(size_t);
+    if (nn_getsockopt(Cloop_ctrl->ca.n, NN_SOL_SOCKET, NN_RCVFD, (char *) &Cloop_ctrl->ca.s, &size) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+struct ev_loop *C_loop_init(Cloop_ctrl_t *Cloop_ctrl) {
+    static struct ev_io watcher_c;
+    struct ev_loop *loop = ev_loop_new(EVBACKEND_EPOLL);
+    if (nullptr == loop) {
+        printf("create C loop failed\r\n");
+        return nullptr;
+    }
+    ev_io_init (&watcher_c, watcher_c_cb, Cloop_ctrl->ca.s, EV_READ);
+    ev_io_start(loop, &watcher_c);
+    return loop;
+}
+
+void *C_thread(void *arg) {
+    Cloop_ctrl_t Cloop_ctrl;
+    if (C_nanomsg_init(&Cloop_ctrl) < 0) {
+        printf("nanomsg init failed\r\n");
+        return nullptr;
+    }
+    struct ev_loop *Cloop = C_loop_init(&Cloop_ctrl);
+    if (nullptr == Cloop) {
+        printf("Cloop init failed\r\n");
+        return nullptr;
+    }
+    ev_set_userdata(Cloop, &Cloop_ctrl);
+    ev_run(Cloop, 0);
+    return nullptr;
+}
+
+/*****************************************子线程B相关**********************************************/
+static void watcher_b_cb(struct ev_loop *loop, struct ev_io *w, int revents) {
+    void *user_data = ev_userdata(loop);
+    Bloop_ctrl_t *Bloop_ctrl = (Bloop_ctrl_t *) user_data;
+    uint8_t *dat = nullptr;
+    uint32_t bytes = nn_recv(Bloop_ctrl->ba.n, &dat, NN_MSG, NN_DONTWAIT);
+    if (bytes <= 0) {
+        return;
+    }
+    printf("B:%s (A->B)\r\n\r\n", (char *) dat);
+    nn_freemsg(dat);
+}
+
+static void watcher_timer_cb(struct ev_loop *loop, struct ev_timer *w, int revents) {
+    static int i = 1;
+    char send_data[128] = {0};
+    void *user_data = ev_userdata(loop);
+    Bloop_ctrl_t *Bloop_ctrl = (Bloop_ctrl_t *) user_data;
+    sprintf(send_data, "Please turn on LED[%d]", i);
+    i++;
+    int length = strlen(send_data) + 1;
+    uint8_t *udata = static_cast<uint8_t *>(nn_allocmsg(length, 0));
+    if (nullptr != udata) {
+        memcpy(udata, send_data, length);
+        nn_send(Bloop_ctrl->ba.n, &udata, NN_MSG, NN_DONTWAIT);
+    }
+    //如果定时器不重设，就会默认1秒进入一次回调
+    w->repeat = 10;
+    ev_timer_again(loop, w);
+}
+
+
+int B_nanomsg_init(Bloop_ctrl_t *Bloop_ctrl) {
+    Bloop_ctrl->ba.n = nn_socket(AF_SP, NN_PAIR);
+    if (Bloop_ctrl->ba.n < 0) {
+        return -1;
+    }
+    if (nn_connect(Bloop_ctrl->ba.n, "inproc://b2a_loop") < 0) {
+        return -1;
+    }
+    size_t size = sizeof(size_t);
+    if (nn_getsockopt(Bloop_ctrl->ba.n, NN_SOL_SOCKET, NN_RCVFD, (char *) &Bloop_ctrl->ba.s, &size) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+struct ev_loop *B_loop_init(Bloop_ctrl_t *Bloop_ctrl) {
+    static struct ev_io watcher_b;
+    static struct ev_timer watcher_timer;
+    struct ev_loop *loop = ev_loop_new(EVBACKEND_EPOLL);
+    if (nullptr == loop) {
+        printf("create loop failed\r\n");
+        return nullptr;
+    }
+    ev_io_init (&watcher_b, watcher_b_cb, Bloop_ctrl->ba.s, EV_READ);
+    ev_timer_init(&watcher_timer, watcher_timer_cb, 5, 1);
+    ev_io_start(loop, &watcher_b);
+    ev_timer_start(loop, &watcher_timer);
+    return loop;
+}
+
+void *B_thread(void *arg) {
+    Bloop_ctrl_t Bloop_ctrl;
+    if (B_nanomsg_init(&Bloop_ctrl) < 0) {
+        printf("nanomsg init failed\r\n");
+        return nullptr;
+    }
+    struct ev_loop *Bloop = B_loop_init(&Bloop_ctrl);
+    if (nullptr == Bloop) {
+        printf("Bloop init failed\r\n");
+        return nullptr;
+    }
+    ev_set_userdata(Bloop, &Bloop_ctrl);
+    ev_run(Bloop, 0);
+    return nullptr;
+}
+
+/*****************************************主线程A相关**********************************************/
+static void watcher_ab_cb(struct ev_loop *loop, struct ev_io *w, int revents) {
+    void *user_data = ev_userdata(loop);
+    Aloop_ctrl_t *Aloop_ctrl = (Aloop_ctrl_t *) user_data;
+    uint8_t *dat = nullptr;
+    uint32_t bytes = nn_recv(Aloop_ctrl->ab.n, &dat, NN_MSG, NN_DONTWAIT);
+    if (bytes <= 0) {
+        return;
+    }
+    //转发到C
+    printf("A:%s (B->A)\r\n", (char *) dat);
+    nn_send(Aloop_ctrl->ac.n, &dat, NN_MSG, NN_DONTWAIT);
+}
+
+static void watcher_ac_cb(struct ev_loop *loop, struct ev_io *w, int revents) {
+    void *user_data = ev_userdata(loop);
+    Aloop_ctrl_t *Aloop_ctrl = (Aloop_ctrl_t *) user_data;
+    uint8_t *dat = nullptr;
+    uint32_t bytes = nn_recv(Aloop_ctrl->ac.n, &dat, NN_MSG, NN_DONTWAIT);
+    if (bytes <= 0) {
+        return;
+    }
+    //转发到B
+    printf("A:%s (C->A)\r\n", (char *) dat);
+    nn_send(Aloop_ctrl->ab.n, &dat, NN_MSG, NN_DONTWAIT);
+}
+
+/*主事件nanomsg初始化*/
+int A_nanomsg_init(Aloop_ctrl_t *Aloop_ctrl) {
+    //ab通信的nanomsg初始化
+    Aloop_ctrl->ab.n = nn_socket(AF_SP, NN_PAIR);
+    if (Aloop_ctrl->ab.n < 0) {
+        return -1;
+    }
+    if (nn_bind(Aloop_ctrl->ab.n, "inproc://b2a_loop") < 0) {
+        return -1;
+    }
+    //获取此端口的接收数据fd描述符
+    size_t size = sizeof(size_t);
+    if (nn_getsockopt(Aloop_ctrl->ab.n, NN_SOL_SOCKET, NN_RCVFD, (char *) &Aloop_ctrl->ab.s, &size) < 0) {
+        return -1;
+    }
+    //ac通信的nanomsg初始化
+    Aloop_ctrl->ac.n = nn_socket(AF_SP, NN_PAIR);
+    if (Aloop_ctrl->ac.n < 0) {
+        return -1;
+    }
+    if (nn_bind(Aloop_ctrl->ac.n, "inproc://c2a_loop") < 0) {
+        return -1;
+    }
+    //获取此端口的接收数据fd描述符
+    if (nn_getsockopt(Aloop_ctrl->ac.n, NN_SOL_SOCKET, NN_RCVFD, (char *) &Aloop_ctrl->ac.s, &size) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+/*主事件循环初始化*/
+struct ev_loop *A_loop_init(Aloop_ctrl_t *Aloop_ctrl) {
+    static struct ev_io watcher_ab, watcher_ac;
+    struct ev_loop *loop = ev_loop_new(EVBACKEND_EPOLL);
+    if (nullptr == loop) {
+        printf("create loop failed\r\n");
+        return nullptr;
+    }
+    //传参
+    ev_set_userdata(loop, Aloop_ctrl);
+    //初始化
+    ev_io_init (&watcher_ab, watcher_ab_cb, Aloop_ctrl->ab.s, EV_READ);
+    ev_io_init (&watcher_ac, watcher_ac_cb, Aloop_ctrl->ac.s, EV_READ);
+    ev_io_start(loop, &watcher_ab);
+    ev_io_start(loop, &watcher_ac);
+    return loop;
+}
+
+/**************************************************************************************************/
+int testLibEV_Nanomsg() {
+    pthread_t pb, pc;
+    Aloop_ctrl_t Aloop_ctrl;
+    if (A_nanomsg_init(&Aloop_ctrl) < 0) {
+        printf("nanomsg init failed\r\n");
+        return -1;
+    }
+    struct ev_loop *Aloop = A_loop_init(&Aloop_ctrl);
+    if (nullptr == Aloop) {
+        printf("Aloop init failed\r\n");
+        return -1;
+    }
+    //创建线程B
+    if (0 != pthread_create(&pb, nullptr, B_thread, nullptr)) {
+        printf("create pthread B failed\r\n");
+        return -1;
+    }
+    //创建线程C
+    if (0 != pthread_create(&pc, nullptr, C_thread, nullptr)) {
+        printf("create pthread C failed\r\n");
+        return -1;
+    }
+    //运行
+    ev_run(Aloop, 0);
+    return 0;
+}
+
 
 int main(int argc, char *argv[]) {
     testbz2();
