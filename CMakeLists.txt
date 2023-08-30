@@ -289,6 +289,7 @@ TARGET_LINK_LIBRARIES(${project_name} ${library_list})
 INSTALL(TARGETS ${project_name} DESTINATION ${work_home}/output/bin)
 INSTALL(DIRECTORY ${work_home}/conf DESTINATION ${work_home}/output)
 INSTALL(DIRECTORY ${work_home}/static DESTINATION ${work_home}/output)
+INSTALL(DIRECTORY ${work_home}/testdata DESTINATION ${work_home}/output)
 #INSTALL(FILES ${work_home}/inf/control.sh DESTINATION ${work_home}/output)
 
 

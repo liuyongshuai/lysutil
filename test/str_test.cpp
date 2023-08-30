@@ -63,6 +63,7 @@
 #include <nanomsg/nn.h>
 #include <absl/strings/string_view.h>
 #include "absl/strings/str_cat.h"
+#include "lua.hpp"
 
 
 #define BUF_SIZE 1024
@@ -1931,6 +1932,64 @@ int testabseil() {
     return 0;
 }
 
+int testLua(int argc, char *argv[]) {
+    ///< 创建lua句柄并初始化
+    lua_State *pState = luaL_newstate();
+
+    if (nullptr == pState) {
+        std::cout << "Lua 初始化失败" << std::endl;
+        return -1;
+    }
+
+    ///< 加载相关库文件
+    luaL_openlibs(pState);
+
+    ///< 加载lua文件
+    if (luaL_loadfile(pState, "./testdata/test.lua")) {
+        std::cout << "Lua 文件加载失败" << std::endl;
+    } else {
+        ///< 执行lua文件
+        if (lua_pcall(pState, 0, 0, 0)) {
+            std::cerr << lua_tostring(pState, -1) << std::endl;
+        } else {
+            ///< 获取值
+            lua_getglobal(pState, "mystr");
+
+            std::string str = lua_tostring(pState, -1);
+            std::cout << str << std::endl;
+
+            ///< 获取表中数据
+            lua_getglobal(pState, "myTable");
+            lua_getfield(pState, -1, "name");
+            std::cout << lua_tostring(pState, -1) << std::endl;
+
+            lua_getglobal(pState, "myTable");
+            lua_getfield(pState, -1, "id");
+            std::cout << lua_tonumber(pState, -1) << std::endl;
+
+            ///< 调用函数
+            lua_getglobal(pState, "print_hello");
+            lua_pcall(pState, 0, 0, 0);
+
+            ///< 调用计算函数
+            lua_getglobal(pState, "_add");
+            lua_pushnumber(pState, 10);
+            lua_pushnumber(pState, 20);
+
+            if (lua_pcall(pState, 2, 1, 0)) {
+                std::cout << lua_tostring(pState, -1) << std::endl;
+                lua_close(pState);
+            } else {
+                if (lua_isnumber(pState, -1)) {
+                    std::cout << lua_tonumber(pState, -1) << std::endl;
+                }
+            }
+        }
+    }
+
+    lua_close(pState);
+    return 0;
+}
 
 int main(int argc, char *argv[]) {
     testbz2();
@@ -2143,6 +2202,7 @@ int main(int argc, char *argv[]) {
     testJsonCPP();
     testSQLite3();
     testabseil();
+    testLua(argc, argv);
 //    struct sockaddr_in addr;
 //    struct event_base *base = NULL;
 //    struct bufferevent *event = NULL;
