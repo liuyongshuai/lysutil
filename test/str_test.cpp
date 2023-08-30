@@ -62,6 +62,7 @@
 #include <nanomsg/pair.h>
 #include <nanomsg/nn.h>
 #include <absl/strings/string_view.h>
+#include "absl/strings/str_cat.h"
 
 
 #define BUF_SIZE 1024
@@ -1923,6 +1924,10 @@ int testabseil() {
     std::cout << sv4 << std::endl;
     std::cout << sv4[2] << std::endl;  // 可以用方括号获取string_view 中的字符
     // sv4[2]  = 'i';  // ERROR：不允许通过方括号更改底层字符，因为string_view 不持有底层字符
+    std::string hello = "Hello";
+    std::string world = "world!";
+    std::string message = absl::StrCat(hello, ", ", world);
+    std::cout << message << std::endl;
     return 0;
 }
 
