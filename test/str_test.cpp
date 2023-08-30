@@ -6,6 +6,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<string.h>
+#include<netdb.h>
 #include<stdio.h>
 #include<stdint.h>
 #include <bzlib.h>
