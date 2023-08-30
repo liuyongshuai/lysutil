@@ -96,6 +96,7 @@ list(APPEND include_list ${work_home}/thirdparty/oneTBB/include/)
 list(APPEND include_list ${work_home}/thirdparty/lua/include/)
 list(APPEND include_list ${work_home}/thirdparty/libev/include/)
 list(APPEND include_list ${work_home}/thirdparty/nanomsg/include/)
+list(APPEND include_list ${work_home}/thirdparty/abseil/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
@@ -248,6 +249,7 @@ list(APPEND library_list "${work_home}/thirdparty/oneTBB/lib/libtbbmalloc.a")
 list(APPEND library_list "${work_home}/thirdparty/libev/lib/libev.a")
 list(APPEND library_list "${work_home}/thirdparty/lua/lib/liblua.a")
 list(APPEND library_list "${work_home}/thirdparty/nanomsg/lib/libnanomsg.a")
+list(APPEND library_list "${work_home}/thirdparty/abseil/lib/libabsl.a")
 LIST(APPEND library_list  -lpthread -ldl)
 
 
