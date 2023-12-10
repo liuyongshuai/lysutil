@@ -96,11 +96,13 @@ list(APPEND include_list ${work_home}/thirdparty/oneTBB/include/)
 list(APPEND include_list ${work_home}/thirdparty/lua/include/)
 list(APPEND include_list ${work_home}/thirdparty/libev/include/)
 list(APPEND include_list ${work_home}/thirdparty/nanomsg/include/)
+list(APPEND include_list ${work_home}/thirdparty/rocksdb/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
 
 # library file list
 SET(library_list "-L${work_home}/lib")
+list(APPEND library_list "${work_home}/thirdparty/rocksdb/lib/librocksdb.a")
 list(APPEND library_list "${work_home}/thirdparty/protobuf/lib/libprotobuf.a")
 list(APPEND library_list "${work_home}/thirdparty/boost/lib/libboost_atomic.a")
 list(APPEND library_list "${work_home}/thirdparty/boost/lib/libboost_chrono.a")
