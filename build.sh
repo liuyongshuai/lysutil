@@ -6,6 +6,7 @@ project="lysutils"
 function usage() {
     echo "./build.sh [options]"
     echo "  -h show this help message"
+    echo "  -a -tgc"
     echo "  -g compile with debug mode"
     echo "  -c clean temp file"
     echo "  -t build test file"
@@ -14,8 +15,9 @@ function usage() {
 mode=ONLINE
 with_test=OFF
 clean=OFF
-while getopts "thgcw" opt; do
+while getopts "athgcw" opt; do
     case "$opt" in
+        a) mode=DEBUG;clean=ON;with_test=ON;;
         g) mode=DEBUG;;
         c) clean=ON;;
         t) with_test=ON;;

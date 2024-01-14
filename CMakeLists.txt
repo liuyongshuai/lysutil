@@ -71,7 +71,7 @@ list(APPEND include_list ${work_home}/thirdparty/iconv/include/)
 list(APPEND include_list ${work_home}/thirdparty/readline/include/)
 list(APPEND include_list ${work_home}/thirdparty/libedit/include/)
 list(APPEND include_list ${work_home}/thirdparty/ncurses/include/)
-#list(APPEND include_list ${work_home}/thirdparty/libevent/include/)
+list(APPEND include_list ${work_home}/thirdparty/libevent/include/)
 list(APPEND include_list ${work_home}/thirdparty/lzma/include/)
 list(APPEND include_list ${work_home}/thirdparty/ssh2/include/)
 list(APPEND include_list ${work_home}/thirdparty/lz4/include/)
@@ -169,11 +169,11 @@ list(APPEND library_list "${work_home}/thirdparty/ncurses/lib/libpanel.a")
 list(APPEND library_list "${work_home}/thirdparty/ncurses/lib/libpanel_g.a")
 list(APPEND library_list "${work_home}/thirdparty/readline/lib/libreadline.a")
 list(APPEND library_list "${work_home}/thirdparty/readline/lib/libhistory.a")
-#list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent.a")
-#list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_core.a")
-#list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_extra.a")
-#list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_openssl.a")
-#list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_pthreads.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_core.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_extra.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_openssl.a")
+list(APPEND library_list "${work_home}/thirdparty/libevent/lib/libevent_pthreads.a")
 list(APPEND library_list "${work_home}/thirdparty/lzma/lib/liblzma.a")
 list(APPEND library_list "${work_home}/thirdparty/lz4/lib/liblz4.a")
 list(APPEND library_list "${work_home}/thirdparty/libxml2/lib/libxml2.a")
@@ -284,13 +284,12 @@ SET(SRC_SOURCE_LIST
 
 
 #工程的二进制文件
-ADD_EXECUTABLE(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST} ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
+ADD_EXECUTABLE(${project_name} ${work_home}/src/main.cpp ${SRC_SOURCE_LIST} ${PROTOBUF_SOURCE_LIST})
 TARGET_LINK_LIBRARIES(${project_name} ${library_list})
 INSTALL(TARGETS ${project_name} DESTINATION ${work_home}/output/bin)
 INSTALL(DIRECTORY ${work_home}/conf DESTINATION ${work_home}/output)
 INSTALL(DIRECTORY ${work_home}/static DESTINATION ${work_home}/output)
 INSTALL(DIRECTORY ${work_home}/testdata DESTINATION ${work_home}/output)
-#INSTALL(FILES ${work_home}/inf/control.sh DESTINATION ${work_home}/output)
 
 
 #遍历./test下所有的.cpp文件
@@ -303,7 +302,7 @@ if (WITH_TEST)
         #不带后缀的名称
         STRING(REGEX REPLACE "(.*).cpp$" "\\1" target ${b})
         #每个文件生成一个同名的二进制文件
-        ADD_EXECUTABLE(${target} ${originFile} ${SRC_SOURCE_LIST} ${PROTOBUF_SOURCE_LIST} ${ABSEIL_SOURCE_LIST})
+        ADD_EXECUTABLE(${target} ${originFile} ${SRC_SOURCE_LIST} ${PROTOBUF_SOURCE_LIST})
         #跟上面的一堆动态、静态库链接起来
         TARGET_LINK_LIBRARIES(${target} ${library_list})
         INSTALL(TARGETS ${target} DESTINATION ${work_home}/output/test)
