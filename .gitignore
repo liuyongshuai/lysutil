@@ -32,3 +32,4 @@ cmake-build-debug
 CMakeCache.txt
 out
 build/**
+librocksdb.a
