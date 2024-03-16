@@ -15,77 +15,104 @@
 #include <string>
 #include <unistd.h>
 #include <memory.h>
+#include <chrono>
 #include <mysql/mysql.h>
+#include "client/mysqlclient/common.h"
 
-namespace lysutil{
+namespace lysutil {
     namespace client {
         class MySQLClient {
         public:
-            //存储MySQL的连接账号信息
-            typedef struct _mysql_conf {
-                std::string host;            //连接地址
-                unsigned int port;            //端口号，默认3306
-                std::string user;            //用户名
-                std::string passwd;          //密码
-                std::string dbName;          //DB名称
-                std::string charset;         //设置的字符编码，默认utf8
-                size_t timeout;         //连接超时时间，单位秒，默认5秒
-                bool autoCommit;        //是否自动提交，默认为true
-                int maxIdleConns;       //允许最大空闲连接数，默认为2
-                int maxOpenConns;       //最多允许打开多少个连接，默认0不限制
-                size_t connMaxLiftTime; //连接的最大生存时间，默认0不限制，单位秒
-            } MySQLConf;
+            //创建一个MYSQL实例对象并设置字符集
+            MySQLClient(const MySQLConnConf &conf) {
+                this->conf_.host = conf.host;
+                this->conf_.port = conf.port;
+                this->conf_.user = conf.user;
+                this->conf_.dbName = conf.dbName;
+                this->conf_.charset = conf.charset;
+                this->conf_.password = conf.password;
+                this->conf_.timeout = conf.timeout;
+                this->conf_.autoCommit = conf.autoCommit;
+
+                //设置默认值
+                if (this->conf_.charset.empty()) {
+                    this->conf_.charset = "utf8";
+                }
+                if (this->conf_.timeout == 0) {
+                    this->conf_.timeout = 5;
+                }
+                if (this->conf_.port == 0) {
+                    this->conf_.port = 3306;
+                }
+            }
+
+            //释放资源
+            ~MySQLClient();
+
+            //连接
+            bool conn();
 
             //提取单行的单个字段
-            void fetchOne();
+            bool fetchOne();
 
             //提取所有行的第一个字段的列表
-            void fetchCols();
+            bool fetchCols();
 
             //提取一行数据
-            void fetchRow();
+            bool fetchRow();
 
             //提取多行数据
-            void fetchRows();
+            bool fetchRows();
 
             //执行一条更新语句
-            int execute();
+            bool execute();
 
             //删除一条数据，返回lastAffectedRows
-            int deleteData();
+            bool deleteData();
 
             //写入一条数据，返回lastInsertId
-            int insertData();
+            bool insertData();
 
             //批量写入数据，返回影响行数
-            int insertBatchData();
+            bool insertBatchData();
 
             //执行一条：INSERT INTO table (a,b,c) VALUES (1,2,3) ON DUPLICATE KEY UPDATE c=c+1 语句
-            int insertUpdateData();
+            bool insertUpdateData();
 
             //更新一条数据，返回lastAffectedRows
-            int updateData();
+            bool updateData();
 
             //执行一条select ... for update语句
-            int fetchForUpdate();
+            bool fetchForUpdate();
 
             //开启事务
-            int beginTransaction();
+            bool beginTransaction();
 
             //提交事务
-            int commitTransaction();
+            bool commitTransaction();
 
             //回滚事务
-            int rollBackTransaction();
+            bool rollBackTransaction();
 
             //执行ping命令
-            int ping();
+            bool ping();
+
+            //更新空闲时间点
+            void refreshAliveTime();
+
+            //计算连接空闲时长
+            uint64_t getAliveTime();
 
         private:
-            void conn();
+            //释放上次的结果
+            void freeResult();
 
-            //连接句柄
-            MYSQL *mysql;
+            MYSQL *mysql_ = nullptr;
+            MYSQL_RES *result_ = nullptr;
+            MYSQL_ROW row_;
+            //连接信息
+            MySQLConnConf conf_;
+            std::chrono::steady_clock::time_point m_aliveTime_;
         };
     }
 } //namespacecpputils
