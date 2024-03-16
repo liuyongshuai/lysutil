@@ -25,7 +25,11 @@ namespace lysutil {
             //设置的字符编码，默认utf8
             std::string charset;
             //连接超时时间，单位秒，默认5秒
-            uint32_t timeout;
+            uint32_t conn_timeout;
+            //读取超时时间，单位秒，默认5秒
+            uint32_t read_timeout;
+            //写入超时时间，单位秒，默认5秒
+            uint32_t write_timeout;
             //是否自动提交，默认为true
             bool autoCommit;
         } MySQLConnConf;
