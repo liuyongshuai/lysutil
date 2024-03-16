@@ -50,11 +50,13 @@ namespace lysutil {
             //mysql的连接信息
             MySQLConnConf conf_;
             //最多允许打开多少个连接，默认0不限制
-            int max_open_conns_;
+            uint64_t max_open_conns_;
             //最少打开的链接数
-            int min_open_conns_;
+            uint64_t min_open_conns_;
             //单个连接允许的空闲时长
-            int max_conn_idle_time_;
+            uint64_t max_conn_idle_time_;
+            //获取连接时最长等待时间
+            uint64_t max_wait_conn_milliseconds_;
             //线程同步
             std::mutex mutex_;
             std::condition_variable cond_;
