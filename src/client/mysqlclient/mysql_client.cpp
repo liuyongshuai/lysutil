@@ -57,9 +57,9 @@ namespace lysutil {
         /**
          * 计算连接空闲时长
          */
-        int64_t MySQLClient::getAliveTime() {
+        uint64_t MySQLClient::getAliveTime() {
             std::chrono::nanoseconds res = std::chrono::steady_clock::now() - this->alive_time_;
-            std::chrono::milliseconds mil = std::chrono::duration_cast<std::chrono::microseconds>(res);
+            std::chrono::milliseconds mil = std::chrono::duration_cast<std::chrono::milliseconds>(res);
             return mil.count();
         }
 

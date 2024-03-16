@@ -109,8 +109,7 @@ namespace lysutil {
             void refreshAliveTime();
 
             //计算连接空闲时长
-            int64_t getAliveTime();
-
+            uint64_t getAliveTime();
         private:
             //释放上次的结果
             void freeResult();
