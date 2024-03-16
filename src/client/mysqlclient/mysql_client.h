@@ -112,7 +112,7 @@ namespace lysutil {
             MYSQL_ROW row_;
             //连接信息
             MySQLConnConf conf_;
-            std::chrono::steady_clock::time_point m_aliveTime_;
+            std::chrono::steady_clock::time_point alive_time_;
         };
     }
 } //namespacecpputils

@@ -37,6 +37,32 @@ namespace lysutil {
             return p != nullptr;
         }
 
+        /**
+         * 释放上次的结果
+         */
+        void MySQLClient::freeResult() {
+            if (this->result_) {
+                mysql_free_result(this->result_);
+                this->result_ = nullptr;
+            }
+        }
+
+        /**
+         * 更新空闲时间点
+         */
+        void MySQLClient::refreshAliveTime() {
+            this->alive_time_ = std::chrono::steady_clock::now();
+        }
+
+        /**
+         * 计算连接空闲时长
+         */
+        uint64_t MySQLClient::getAliveTime() {
+            std::chrono::nanoseconds res = std::chrono::steady_clock::now() - this->alive_time_;
+            std::chrono::milliseconds mil = std::chrono::duration_cast<std::chrono::microseconds>(res);
+            return mil.count();
+        }
+
         //释放资源
         MySQLClient::~MySQLClient() {
             this->freeResult();
