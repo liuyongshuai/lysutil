@@ -41,7 +41,7 @@
   the dependency on my_sys already exists.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 #ifndef PSI_FILE_CALL
 #define PSI_FILE_CALL(M) PSI_DYNAMIC_CALL(M)

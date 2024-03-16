@@ -27,7 +27,7 @@
 */
 
 
-#include <mysql/client_plugin.h>
+#include "client_plugin.h"
 
 #ifdef __cplusplus
 extern "C" {

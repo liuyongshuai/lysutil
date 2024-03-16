@@ -21,7 +21,7 @@
   Instrumentation helpers for stages.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 #ifndef PSI_STAGE_CALL
 #define PSI_STAGE_CALL(M) PSI_DYNAMIC_CALL(M)

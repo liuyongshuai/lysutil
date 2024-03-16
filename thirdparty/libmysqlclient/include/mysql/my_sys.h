@@ -20,10 +20,10 @@
 #include "m_ctype.h"                    /* for CHARSET_INFO */
 
 #include "my_thread.h"                  /* Needed for psi.h */
-#include "mysql/psi/psi.h"
-#include "mysql/service_mysql_alloc.h"
-#include "mysql/psi/mysql_memory.h"
-#include "mysql/psi/mysql_thread.h"
+#include "psi/psi.h"
+#include "service_mysql_alloc.h"
+#include "psi/mysql_memory.h"
+#include "psi/mysql_thread.h"
 
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>

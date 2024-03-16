@@ -58,7 +58,7 @@
 #include "my_thread_local.h"
 #include "thr_mutex.h"
 #include "thr_rwlock.h"
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 #ifdef MYSQL_SERVER
 #ifndef MYSQL_DYNAMIC_PLUGIN
 #include "pfs_thread_provider.h"

@@ -61,7 +61,7 @@ typedef int my_socket;
 #include "my_list.h" /* for LISTs used in 'MYSQL' and 'MYSQL_STMT' */
 
 /* Include declarations of plug-in API */
-#include "mysql/client_plugin.h"
+#include "client_plugin.h"
 
 /*
   Declare my_init() here because it is a documented C API function exported

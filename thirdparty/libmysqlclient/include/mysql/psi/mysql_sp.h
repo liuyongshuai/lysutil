@@ -21,7 +21,7 @@
   Instrumentation helpers for stored programs.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 #ifndef PSI_SP_CALL
 #define PSI_SP_CALL(M) PSI_DYNAMIC_CALL(M)                               

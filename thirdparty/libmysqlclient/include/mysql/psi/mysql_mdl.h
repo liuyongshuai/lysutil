@@ -21,7 +21,7 @@
   Instrumentation helpers for metadata locks.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 #ifndef PSI_METADATA_CALL
 #define PSI_METADATA_CALL(M) PSI_DYNAMIC_CALL(M)

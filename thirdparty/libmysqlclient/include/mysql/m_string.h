@@ -27,7 +27,7 @@
 #define strmov please_use_my_stpcpy_or_my_stpmov_rather_than_strmov
 #define strnmov please_use_my_stpncpy_or_my_stpnmov_rather_than_strnmov
 
-#include "mysql/service_my_snprintf.h"
+#include "service_my_snprintf.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -234,7 +234,7 @@ extern char *longlong10_to_str(longlong val,char *dst,int radix);
   Ditto LEX_CSTRING/MYSQL_LEX_CSTRING.
 */
 
-#include <mysql/mysql_lex_string.h>
+#include "mysql_lex_string.h"
 typedef struct st_mysql_lex_string LEX_STRING;
 typedef struct st_mysql_const_lex_string LEX_CSTRING;
 

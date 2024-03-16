@@ -21,7 +21,7 @@
   Instrumentation helpers for table io.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 #ifndef PSI_TABLE_CALL
 #define PSI_TABLE_CALL(M) PSI_DYNAMIC_CALL(M)

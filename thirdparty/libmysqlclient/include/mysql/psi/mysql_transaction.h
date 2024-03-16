@@ -21,7 +21,7 @@
   Instrumentation helpers for transactions.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 #ifndef PSI_TRANSACTION_CALL
 #define PSI_TRANSACTION_CALL(M) PSI_DYNAMIC_CALL(M)

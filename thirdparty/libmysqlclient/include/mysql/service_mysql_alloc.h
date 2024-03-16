@@ -21,7 +21,7 @@
 #endif
 
 /* PSI_memory_key */
-#include "mysql/psi/psi_memory.h"
+#include "psi/psi_memory.h"
 
 #ifdef __cplusplus
 extern "C" {

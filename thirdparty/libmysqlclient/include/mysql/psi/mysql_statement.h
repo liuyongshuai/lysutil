@@ -21,7 +21,7 @@
   Instrumentation helpers for statements.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 class Diagnostics_area;
 typedef struct charset_info_st CHARSET_INFO;

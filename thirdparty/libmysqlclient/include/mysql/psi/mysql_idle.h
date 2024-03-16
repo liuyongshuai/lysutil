@@ -21,7 +21,7 @@
   Instrumentation helpers for idle waits.
 */
 
-#include "mysql/psi/psi.h"
+#include "psi/psi.h"
 
 #ifndef PSI_IDLE_CALL
 #define PSI_IDLE_CALL(M) PSI_DYNAMIC_CALL(M)
