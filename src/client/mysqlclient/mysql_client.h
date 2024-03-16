@@ -24,34 +24,7 @@ namespace lysutil {
         class MySQLClient {
         public:
             //创建一个MYSQL实例对象并设置字符集
-            MySQLClient(const MySQLConnConf &conf) {
-                this->conf_.host = conf.host;
-                this->conf_.port = conf.port;
-                this->conf_.user = conf.user;
-                this->conf_.dbName = conf.dbName;
-                this->conf_.charset = conf.charset;
-                this->conf_.password = conf.password;
-                this->conf_.conn_timeout = conf.conn_timeout;
-                this->conf_.read_timeout = conf.read_timeout;
-                this->conf_.write_timeout = conf.write_timeout;
-                this->conf_.autoCommit = conf.autoCommit;
-
-                //设置默认值
-                if (this->conf_.charset.empty()) {
-                    this->conf_.charset = "utf8";
-                }
-                if (this->conf_.conn_timeout == 0) {
-                    this->conf_.conn_timeout = 5;
-                }
-                if (this->conf_.read_timeout == 0) {
-                    this->conf_.read_timeout = 5;
-                }
-                if (this->conf_.write_timeout == 0) {
-                    this->conf_.write_timeout = 5;
-                }
-                if (this->conf_.port == 0) {
-                    this->conf_.port = 3306;
-                }
+            MySQLClient(const MySQLConnConf *conf):conf_(conf) {
             }
 
             //释放资源
@@ -118,7 +91,7 @@ namespace lysutil {
             MYSQL_RES *result_ = nullptr;
             MYSQL_ROW row_;
             //连接信息
-            MySQLConnConf conf_;
+            const MySQLConnConf *conf_;
             std::chrono::steady_clock::time_point alive_time_;
         };
     }
