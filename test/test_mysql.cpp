@@ -31,8 +31,35 @@ int main(int argc, char *argv[]) {
     mysql_options(mysql_, MYSQL_OPT_WRITE_TIMEOUT, &write_timeout);
     MYSQL *p = mysql_real_connect(mysql_, "192.168.1.5", "liuyongshuai", "123456", "db_data", 3306, nullptr, 0);
     if (p == nullptr) {
-        std::cout << "connect mysql failed" << std::endl;
+        std::cout << "connect mysql failed:" << mysql_error(mysql_) << std::endl;
         return 1;
     }
+
+    //开始查询
+    std::string sql = "show tables";
+    if (mysql_real_query(mysql_, sql.c_str(), sql.size()) != 0) {
+        std::cout << "mysql_real_query failed:" << mysql_error(mysql_) << std::endl;
+        return 1;
+    }
+    //得到结果集
+    MYSQL_RES *result_ = mysql_store_result(mysql_);
+    my_ulonglong field_num = mysql_field_count(mysql_);
+    my_ulonglong num_rows = mysql_num_rows(result_);
+    MYSQL_FIELD *field_list = mysql_fetch_fields(result_);
+    std::cout << "row_count=" << num_rows << "\tfield_count=" << field_num << std::endl;
+
+    //打印字段
+    for (uint64_t i = 0; i < field_num; i++) {
+        std::cout << "field" << i << ":" << field_list[i].name << std::endl;
+    }
+    //打印值
+    MYSQL_ROW row;
+    for (uint64_t j = 0; j < num_rows; j++) {
+        row = mysql_fetch_row(result_);
+        for (uint64_t i = 0; i < field_num; i++) {
+            std::cout << field_list[i].name << "=" << row[i] << std::endl;
+        }
+    }
+    mysql_free_result(result_);
     return 0;
 }
