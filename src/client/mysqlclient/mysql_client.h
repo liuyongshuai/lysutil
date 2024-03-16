@@ -31,15 +31,23 @@ namespace lysutil {
                 this->conf_.dbName = conf.dbName;
                 this->conf_.charset = conf.charset;
                 this->conf_.password = conf.password;
-                this->conf_.timeout = conf.timeout;
+                this->conf_.conn_timeout = conf.conn_timeout;
+                this->conf_.read_timeout = conf.read_timeout;
+                this->conf_.write_timeout = conf.write_timeout;
                 this->conf_.autoCommit = conf.autoCommit;
 
                 //设置默认值
                 if (this->conf_.charset.empty()) {
                     this->conf_.charset = "utf8";
                 }
-                if (this->conf_.timeout == 0) {
-                    this->conf_.timeout = 5;
+                if (this->conf_.conn_timeout == 0) {
+                    this->conf_.conn_timeout = 5;
+                }
+                if (this->conf_.read_timeout == 0) {
+                    this->conf_.read_timeout = 5;
+                }
+                if (this->conf_.write_timeout == 0) {
+                    this->conf_.write_timeout = 5;
                 }
                 if (this->conf_.port == 0) {
                     this->conf_.port = 3306;
@@ -101,7 +109,7 @@ namespace lysutil {
             void refreshAliveTime();
 
             //计算连接空闲时长
-            uint64_t getAliveTime();
+            int64_t getAliveTime();
 
         private:
             //释放上次的结果
