@@ -92,8 +92,7 @@ namespace lysutil {
             std::unique_lock<std::mutex> locker(this->mutex_);
             //判断连接池队列为空
             while (this->conn_queue_.empty()) {
-                if (std::cv_status::timeout ==
-                    this->cond_.wait_for(locker, std::chrono::milliseconds(this->max_wait_conn_milliseconds_))) {
+                if (std::cv_status::timeout == this->cond_.wait_for(locker, std::chrono::milliseconds(this->max_wait_conn_milliseconds_))) {
                     if (this->conn_queue_.empty()) {
                         continue;
                     }
