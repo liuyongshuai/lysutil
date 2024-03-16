@@ -54,10 +54,12 @@ int main(int argc, char *argv[]) {
     }
     //打印值
     MYSQL_ROW row;
+    unsigned long *lengths;
     for (uint64_t j = 0; j < num_rows; j++) {
         row = mysql_fetch_row(result_);
+        lengths = mysql_fetch_lengths(result_);
         for (uint64_t i = 0; i < field_num; i++) {
-            std::cout << field_list[i].name << "=" << row[i] << std::endl;
+            std::cout << field_list[i].name << "=" << row[i]  << "\tlen=" << lengths[i] << std::endl;
         }
     }
     mysql_free_result(result_);
