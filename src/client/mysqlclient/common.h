@@ -30,15 +30,7 @@ namespace lysutil {
             uint32_t read_timeout;
             //写入超时时间，单位秒，默认5秒
             uint32_t write_timeout;
-            //是否自动提交，默认为true
-            bool autoCommit;
         } MySQLConnConf;
-
-        typedef struct _mysql_conn_pool_conf {
-            int maxIdleConns;           //允许最大空闲连接数，默认为2
-            int maxOpenConns;           //最多允许打开多少个连接，默认0不限制
-            size_t connMaxLiftTime;     //连接的最大生存时间，默认0不限制，单位秒
-        } MySQLConnPoolConf;
     }
 }
 #endif //_LYSUTIL_COMMON_H_202403161206_

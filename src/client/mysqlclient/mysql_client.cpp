@@ -37,6 +37,81 @@ namespace lysutil {
             return p != nullptr;
         }
 
+        //提取单行的单个字段
+        bool MySQLClient::fetchOne(){
+            return true;
+        }
+
+        //提取所有行的第一个字段的列表
+        bool MySQLClient::fetchCols(){
+            return true;
+        }
+
+        //提取一行数据
+        bool MySQLClient::fetchRow(){
+            return true;
+        }
+
+        //提取多行数据
+        bool MySQLClient::fetchRows(){
+            return true;
+        }
+
+        //执行一条更新语句
+        bool MySQLClient::execute(){
+            return true;
+        }
+
+        //删除一条数据，返回lastAffectedRows
+        bool MySQLClient::deleteData(){
+            return true;
+        }
+
+        //写入一条数据，返回lastInsertId
+        bool MySQLClient::insertData(){
+            return true;
+        }
+
+        //批量写入数据，返回影响行数
+        bool MySQLClient::insertBatchData(){
+            return true;
+        }
+
+        //执行一条：INSERT INTO table (a,b,c) VALUES (1,2,3) ON DUPLICATE KEY UPDATE c=c+1 语句
+        bool MySQLClient::insertUpdateData(){
+            return true;
+        }
+
+        //更新一条数据，返回lastAffectedRows
+        bool MySQLClient::updateData(){
+            return true;
+        }
+
+        //执行一条select ... for update语句
+        bool MySQLClient::fetchForUpdate(){
+            return true;
+        }
+
+        //开启事务
+        bool MySQLClient::beginTransaction(){
+            return true;
+        }
+
+        //提交事务
+        bool MySQLClient::commitTransaction(){
+            return true;
+        }
+
+        //回滚事务
+        bool MySQLClient::rollBackTransaction(){
+            return true;
+        }
+
+        //执行ping命令
+        bool MySQLClient::ping(){
+            return true;
+        }
+
         /**
          * 释放上次的结果
          */
