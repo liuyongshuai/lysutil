@@ -260,6 +260,7 @@ SET(SRC_SOURCE_LIST
 
         #client
         ${src_home}/client/mysqlclient/mysql_client.cpp
+        ${src_home}/client/mysqlclient/mysql_connect_pool.cpp
 
         #comutils
         ${src_home}/comutils/pb_utils.cpp
