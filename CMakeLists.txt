@@ -258,9 +258,6 @@ SET(SRC_SOURCE_LIST
         #protocol
         ${src_home}/protocol/httpresp.pb.cc
 
-        #client
-        ${src_home}/client/mysqlclient/mysql_client.cpp
-
         #comutils
         ${src_home}/comutils/pb_utils.cpp
         ${src_home}/comutils/color_utils.cpp
