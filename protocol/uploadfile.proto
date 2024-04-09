@@ -2,7 +2,7 @@ syntax = "proto3";
 package lysutil.uploadfile;
 
 enum OPValue {
-    OP_INVALID                      = 0;
+    OP_PING                         = 0;    //没啥用的隔一段时间就互相ping一下
     OP_INIT_UPLOAD                  = 1;    //上传初始化，如提交文件信息给服务器
     OP_UPLOAD_SEGMENT               = 2;    //开始上传文件片断
     OP_GET_UPLOAD_STATISTIC         = 3;    //获取上传文件的统计信息
@@ -42,7 +42,6 @@ message deleteFileRequest{
 
 message uploadStatistic{
     repeated uint64 finish_segment_ids      = 1;    //已完成上传的片断ID列表
-    repeated uint64 unfinish_segment_ids    = 2;    //未上传完的片断ID列表
 }
 
 message fileInfo{
