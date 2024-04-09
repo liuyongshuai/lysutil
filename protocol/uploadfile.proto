@@ -1,0 +1,64 @@
+syntax = "proto3";
+package lysutil.uploadfile;
+
+enum OPValue {
+    OP_INVALID                      = 0;
+    OP_INIT_UPLOAD                  = 1;    //上传初始化，如提交文件信息给服务器
+    OP_UPLOAD_SEGMENT               = 2;    //开始上传文件片断
+    OP_GET_UPLOAD_STATISTIC         = 3;    //获取上传文件的统计信息
+    OP_UPLOAD_FINISH                = 4;    //完成上传操作
+    OP_DELETE_FILE                  = 5;    //删除文件
+    OP_GET_FILE_LIST                = 6;    //获取所有的文件列表
+}
+
+//通用的请求信息
+message defaultReqInfo{
+    OPValue op      = 1;    //请求的类型
+    bytes   msg     = 2;    //具体的pb序列化数据
+}
+
+//上传文件相关
+message uploadFileMetaInfo{
+    string md5                  = 1;    //文件的md5值
+	string raw_filename         = 2;    //文件的原始名称
+	string upload_path          = 3;    //上传后在服务端的绝对路径
+	uint64 filesize             = 4;    //文件大小
+}
+
+message uploadFileSegmentInfo{
+    string md5                  = 1;    //文件md5值
+    uint64 segment_id           = 2;    //片断编号ID
+    uint64 segmeng_size         = 3;    //片断的大小
+    bytes segmeng_content       = 4;    //片断的具体二进制信息
+}
+
+message uploadFileFinishRequest{
+    string md5      = 1;    //文件的md5值
+}
+
+message deleteFileRequest{
+    string filename         = 1;    //可以是目录或者文件，为目录时会递归清理目录下的文件
+}
+
+message uploadStatistic{
+    repeated uint64 finish_segment_ids      = 1;    //已完成上传的片断ID列表
+    repeated uint64 unfinish_segment_ids    = 2;    //未上传完的片断ID列表
+}
+
+message fileInfo{
+    string filename             = 1;    //文件名称
+    string upload_user          = 2;    //上传用户，一般是上传时的机器名称
+    uint64 upload_time          = 3;    //上传时间，一般是排序用的
+    uint64 filesize             = 4;    //文件大小，展示用的
+    repeated string tags        = 5;    //文件的标签，如"302"、"规控"、"林奥地下"
+}
+
+message dirInfo{
+    string dirname                  = 1;    //最底层的目录名称，如"/data/bag/集成测试/0312"，在展现时会按照/切开
+    repeated fileInfo filelist      = 2;    //文件列表
+}
+
+message fileList{
+    string root_dir                 = 1;    //服务端的根目录
+    repeated dirInfo dirlist        = 2;    //所有的目录/文件列表
+}
