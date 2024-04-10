@@ -96,6 +96,7 @@ list(APPEND include_list ${work_home}/thirdparty/oneTBB/include/)
 list(APPEND include_list ${work_home}/thirdparty/lua/include/)
 list(APPEND include_list ${work_home}/thirdparty/libev/include/)
 list(APPEND include_list ${work_home}/thirdparty/nanomsg/include/)
+list(APPEND include_list ${work_home}/thirdparty/httplib/include/)
 #list(APPEND include_list ${work_home}/thirdparty/rocksdb/include/)
 INCLUDE_DIRECTORIES(${include_list})
 
