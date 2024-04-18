@@ -133,6 +133,7 @@ std::string mac_to_string(const mac_t *mac) {
  * 设置mac地址
  * param1：必选，网卡名称，如wlp3s0
  * param2：可选，mac地址，为空则随机生成
+ * 注意：有的网卡是不让修改的，必须先down后再修改，然后再up，如sudo ifconfig wlp3s0 down; setmac; sudo ifconfig wlp3s0 up
  */
 int main(int argc, char *argv[]) {
     std::string device_name;
