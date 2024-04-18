@@ -1,8 +1,10 @@
 /*************************************************************************
- * File:	test_setmac.cpp
+ * File:	abc1.cpp
  * Author:	liuyongshuai<liuyongshuai@hotmail.com>
- * Time:	2024-04-18 10:51
+ * Time:	2024-04-18 12:28:59
+ * Desc:	
  ************************************************************************/
+#include<iostream>
 #include<stdlib.h>
 #include<unistd.h>
 #include<string.h>
@@ -23,8 +25,15 @@
 #include<sys/time.h>
 #include<getopt.h>
 #include<fcntl.h>
-#include<linux/ethtool.h>
-#include<linux/sockios.h>
+
+#define IFHWADDRLEN 6
+#define ETHTOOL_GPERMADDR	0x00000020 /* Get permanent hardware address */
+#define SIOCETHTOOL	0x8946		/* Ethtool interface		*/
+struct ethtool_perm_addr {
+	uint32_t	cmd;
+	uint32_t	size;
+	uint8_t	data[0];
+};
 
 typedef struct {
     unsigned char byte[6];
@@ -113,6 +122,7 @@ void set_net_mac(net_info_t *net, const mac_t *mac) {
     }
     if (ioctl(net->sock, SIOCSIFHWADDR, &net->dev) < 0) {
         std::cout << "Could not change MAC: interface up or insufficient permissions" << std::endl;
+		perror("failed");
         return;
     }
 }
@@ -133,7 +143,6 @@ std::string mac_to_string(const mac_t *mac) {
  * 设置mac地址
  * param1：必选，网卡名称，如wlp3s0
  * param2：可选，mac地址，为空则随机生成
- * 注意：有的网卡是不让修改的，必须先down后再修改，然后再up，如sudo ifconfig wlp3s0 down; setmac; sudo ifconfig wlp3s0 up
  */
 int main(int argc, char *argv[]) {
     std::string device_name;
