@@ -27,12 +27,12 @@
 #include<fcntl.h>
 
 #define IFHWADDRLEN 6
-#define ETHTOOL_GPERMADDR	0x00000020 /* Get permanent hardware address */
-#define SIOCETHTOOL	0x8946		/* Ethtool interface		*/
+#define ETHTOOL_GPERMADDR    0x00000020 /* Get permanent hardware address */
+#define SIOCETHTOOL    0x8946        /* Ethtool interface		*/
 struct ethtool_perm_addr {
-	uint32_t	cmd;
-	uint32_t	size;
-	uint8_t	data[0];
+    uint32_t cmd;
+    uint32_t size;
+    uint8_t data[0];
 };
 
 typedef struct {
@@ -122,7 +122,7 @@ void set_net_mac(net_info_t *net, const mac_t *mac) {
     }
     if (ioctl(net->sock, SIOCSIFHWADDR, &net->dev) < 0) {
         std::cout << "Could not change MAC: interface up or insufficient permissions" << std::endl;
-		perror("failed");
+        perror("failed");
         return;
     }
 }
