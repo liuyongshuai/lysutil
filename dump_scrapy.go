@@ -77,30 +77,35 @@ func main() {
 	articleFile := "./article"
 	fp, err := negoutils.OpenNewFile(articleFile)
 	writer := bufio.NewWriter(fp)
-	articleSQL := "SELECT * FROM `article` WHERE `auto_id` > %d"
+	articleSQL := "SELECT * FROM `article` WHERE `auto_id` > %d LIMIT 100"
 	articleAutoId := uint64(0)
-	rows, err := db.FetchRows(articleSQL, articleAutoId)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	for row := range rows {
-		b, e := json.Marshal(row)
-		if e != nil {
-			continue
+	for {
+		rows, err := db.FetchRows(articleSQL, articleAutoId)
+		if err != nil {
+			fmt.Println(err)
+			return
 		}
-		var articleInfo Article
-		e = json.Unmarshal(b, &articleInfo)
-		if e != nil {
-			continue
+		if len(rows) == 0 {
+			break
 		}
-		articleAutoId = articleInfo.AutoID
-		b, e = json.Marshal(articleInfo)
-		if e != nil {
-			continue
+		for row := range rows {
+			b, e := json.Marshal(row)
+			if e != nil {
+				continue
+			}
+			var articleInfo Article
+			e = json.Unmarshal(b, &articleInfo)
+			if e != nil {
+				continue
+			}
+			articleAutoId = articleInfo.AutoID
+			b, e = json.Marshal(articleInfo)
+			if e != nil {
+				continue
+			}
+			writer.WriteString(negoutils.ByteToStr(b))
+			writer.Flush()
 		}
-		writer.WriteString(negoutils.ByteToStr(b))
-		writer.Flush()
 	}
 	fp.Close()
 	return
