@@ -43,7 +43,7 @@ type Video365yg struct {
 	VideoDesc     string              `json:"video_desc" db:"video_desc"`         //视频的描述信息
 	CommentNum    uint                `json:"comment_num" db:"comment_num"`       //评论数量
 	CreateDate    uint                `json:"create_date" db:"create_date"`       //创建日期
-	CommentList   []Video365ygComment `json:"comment_list" db:"comment_list"`      //评论列表
+	CommentList   []Video365ygComment `json:"comment_list" db:"comment_list"`     //评论列表
 }
 
 // 视频下面的评论列表
@@ -102,6 +102,7 @@ func dumpVideo365yg() {
 
 		for _, row := range rows {
 			var videoInfo Video365yg
+			videoInfo.CommentList = make([]Video365ygComment)
 			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
 			videoInfo.GroupID, _ = row["group_id"].ToUint64()
 			videoInfo.Title = row["title"].ToString()
