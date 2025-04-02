@@ -104,7 +104,7 @@ func main() {
 				fmt.Println(e)
 				continue
 			}
-			writer.WriteString(negoutils.ByteToStr(b))
+			writer.WriteString(negoutils.ByteToStr(b) + "\n")
 			writer.Flush()
 		}
 	}
