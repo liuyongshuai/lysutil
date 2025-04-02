@@ -113,6 +113,7 @@ func dumpVideo365yg() {
 			videoAutoId = videoInfo.AutoID
 
 			//提取评论信息
+			commentAutoId = uint64(0)
 			for {
 				commentRows, commentErr := db.FetchRows(commentSQL, videoInfo.GroupID, commentAutoId)
 				if commentErr != nil || len(commentRows) == 0 {
