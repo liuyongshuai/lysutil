@@ -94,10 +94,10 @@ func main() {
 		for _, row := range rows {
 			var articleInfo Article
 			articleInfo.AutoID, _ = row["auto_id"].ToUint64()
-			articleInfo.Tags, _ = row["tags"].ToString()
-			articleInfo.Content, _ = row["Content"].ToString()
-			articleInfo.Title, _ = row["title"].ToString()
-			articleInfo.URL, _ = row["url"].ToString()
+			articleInfo.Tags = row["tags"].ToString()
+			articleInfo.Content = row["Content"].ToString()
+			articleInfo.Title = row["title"].ToString()
+			articleInfo.URL = row["url"].ToString()
 			articleAutoId = articleInfo.AutoID
 			b, e := json.Marshal(articleInfo)
 			if e != nil {
