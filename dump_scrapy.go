@@ -94,16 +94,19 @@ func main() {
 		for row := range rows {
 			b, e := json.Marshal(row)
 			if e != nil {
+				fmt.Println(e)
 				continue
 			}
 			var articleInfo Article
 			e = json.Unmarshal(b, &articleInfo)
 			if e != nil {
+				fmt.Println(e)
 				continue
 			}
 			articleAutoId = articleInfo.AutoID
 			b, e = json.Marshal(articleInfo)
 			if e != nil {
+				fmt.Println(e)
 				continue
 			}
 			writer.WriteString(negoutils.ByteToStr(b))
