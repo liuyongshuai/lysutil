@@ -74,12 +74,44 @@ func main() {
 		return
 	}
 	defer db.Close()
-
+	dumpJokes()
 	return
 }
 
 func dumpJokes() {
-
+	//提取article
+	articleFile := "./joke_text"
+	fp, err := negoutils.OpenNewFile(articleFile, ".bak", true)
+	fmt.Println(err)
+	writer := bufio.NewWriter(fp)
+	articleSQL := "SELECT * FROM `joke_text` WHERE `auto_id` > ? LIMIT 100"
+	jokeAutoId := uint64(0)
+	for {
+		fmt.Println("jokeAutoId=", jokeAutoId)
+		rows, err := db.FetchRows(articleSQL, jokeAutoId)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if len(rows) == 0 {
+			break
+		}
+		for _, row := range rows {
+			var jokeInfo JokeText
+			jokeInfo.AutoID, _ = row["auto_id"].ToUint64()
+			jokeInfo.Md5 = row["md5"].ToString()
+			jokeInfo.Content = row["content"].ToString()
+			jokeAutoId = jokeInfo.AutoID
+			b, e := json.Marshal(jokeInfo)
+			if e != nil {
+				fmt.Println(e)
+				continue
+			}
+			writer.WriteString(negoutils.ByteToStr(b) + "\n")
+			writer.Flush()
+		}
+	}
+	fp.Close()
 }
 
 func dumpArticle() {
