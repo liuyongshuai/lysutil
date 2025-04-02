@@ -58,14 +58,15 @@ type Video365ygComment struct {
 func main() {
 	sfile = "./videoid"
 	myconf = negoutils.MySQLConf{
-		Charset:    "utf8",
-		Host:       "127.0.0.1",
-		User:       "phpmyadmin",
-		Passwd:     "123456",
-		DbName:     "db_scrapy",
-		Timeout:    10,
-		Port:       3306,
-		AutoCommit: true,
+		Charset:      "utf8",
+		Host:         "127.0.0.1",
+		User:         "phpmyadmin",
+		Passwd:       "123456",
+		DbName:       "db_scrapy",
+		Timeout:      10,
+		Port:         3306,
+		AutoCommit:   true,
+		MaxIdleConns: 10,
 	}
 	db = negoutils.NewDBase(myconf)
 	_, err := db.Conn()
