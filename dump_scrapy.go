@@ -92,17 +92,12 @@ func main() {
 			break
 		}
 		for row := range rows {
-			b, e := json.Marshal(row)
-			if e != nil {
-				fmt.Println(e)
-				continue
-			}
 			var articleInfo Article
-			e = json.Unmarshal(b, &articleInfo)
-			if e != nil {
-				fmt.Println(e)
-				continue
-			}
+			articleInfo.AutoID = row["auto_id"].ToUint64()
+			articleInfo.Tags = row["tags"].ToString()
+			articleInfo.Content = row["Content"].ToString()
+			articleInfo.Title = row["title"].ToString()
+			articleInfo.URL = row["url"].ToString()
 			articleAutoId = articleInfo.AutoID
 			b, e = json.Marshal(articleInfo)
 			if e != nil {
