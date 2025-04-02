@@ -115,11 +115,11 @@ func dumpVideo365yg() {
 			if commentErr == nil && len(commentRows) > 0 {
 				for _, commentRow := range commentRows {
 					var commentInfo Video365ygComment
-					commentInfo.AutoID, _ = row["auto_id"].ToUint64()
-					commentInfo.CommentID, _ = row["comment_id"].ToUint64()
-					commentInfo.GroupID, _ = row["group_id"].ToUint64()
-					commentInfo.Content = row["content"].ToString()
-					commentInfo.Ctime, _ = row["ctime"].ToUint()
+					commentInfo.AutoID, _ = commentRow["auto_id"].ToUint64()
+					commentInfo.CommentID, _ = commentRow["comment_id"].ToUint64()
+					commentInfo.GroupID, _ = commentRow["group_id"].ToUint64()
+					commentInfo.Content = commentRow["content"].ToString()
+					commentInfo.Ctime, _ = commentRow["ctime"].ToUint()
 					videoInfo.CommentList = append(videoInfo.CommentList, commentInfo)
 				}
 			}
