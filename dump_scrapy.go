@@ -29,7 +29,7 @@ type Article struct {
 // 段子信息
 type JokeText struct {
 	AutoID  uint64 `json:"-" db:"auto_id"`       //无意义的自增ID
-	Md5     string `json:"md5" db:"md5"`         //段子的ID
+	Md5     string `json:"-" db:"md5"`         //段子的ID
 	Content string `json:"content" db:"content"` //内容
 }
 
