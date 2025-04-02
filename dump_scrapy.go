@@ -82,6 +82,7 @@ func main() {
 	articleSQL := "SELECT * FROM `article` WHERE `auto_id` > ? LIMIT 100"
 	articleAutoId := uint64(0)
 	for {
+		fmt.Println("articleAutoId=", articleAutoId)
 		rows, err := db.FetchRows(articleSQL, articleAutoId)
 		if err != nil {
 			fmt.Println(err)
