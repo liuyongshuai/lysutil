@@ -85,7 +85,7 @@ func dumpVideo365yg() {
 	fmt.Println(err)
 	writer := bufio.NewWriter(fp)
 	videoSQL := "SELECT * FROM `video_365yg` WHERE `auto_id` > ? ORDER BY `auto_id` ASC LIMIT 100"
-	commentSQL := "SELECT * FROM `video_365yg_comment` WHERE `group_id` = ? AND `auto_id` > ? ORDER BY `auto_id` ASC LIMIT 1000"
+	commentSQL := "SELECT * FROM `video_365yg_comment` WHERE `group_id` = ? AND `auto_id` > ? ORDER BY `auto_id` ASC LIMIT 100"
 	videoAutoId := uint64(0)
 	commentAutoId := uint64(0)
 	for {
