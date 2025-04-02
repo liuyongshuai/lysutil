@@ -75,9 +75,18 @@ func main() {
 	}
 	defer db.Close()
 
+	return
+}
+
+func dumpJokes() {
+
+}
+
+func dumpArticle() {
 	//提取article
 	articleFile := "./article"
 	fp, err := negoutils.OpenNewFile(articleFile, ".bak", true)
+	fmt.Println(err)
 	writer := bufio.NewWriter(fp)
 	articleSQL := "SELECT * FROM `article` WHERE `auto_id` > ? LIMIT 100"
 	articleAutoId := uint64(0)
@@ -109,5 +118,4 @@ func main() {
 		}
 	}
 	fp.Close()
-	return
 }
