@@ -101,13 +101,13 @@ func dumpVideo365yg() {
 		for _, row := range rows {
 			var videoInfo Video365yg
 			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
-			videoInfo.GroupId = row["group_id"].ToUint64()
+			videoInfo.GroupId, _ = row["group_id"].ToUint64()
 			videoInfo.Title = row["title"].ToString()
-			videoInfo.VideoDuration = row["video_duration"].ToUint()
+			videoInfo.VideoDuration, _ = row["video_duration"].ToUint()
 			videoInfo.VideoId = row["video_id"].ToString()
 			videoInfo.VideoDesc = row["video_desc"].ToString()
-			videoInfo.CommentNum = row["comment_num"].ToUint()
-			videoInfo.CreateDate = row["create_date"].ToUint()
+			videoInfo.CommentNum, _ = row["comment_num"].ToUint()
+			videoInfo.CreateDate, _ = row["create_date"].ToUint()
 			videoAutoId = videoInfo.AutoID
 
 			//提取评论信息
@@ -116,10 +116,10 @@ func dumpVideo365yg() {
 				for _, commentRow := range commentRows {
 					var commentInfo Video365ygComment
 					commentInfo.AutoID, _ = row["auto_id"].ToUint64()
-					commentInfo.CommentID = row["comment_id"].ToUint64()
-					commentInfo.GroupID = row["group_id"].ToUint64()
+					commentInfo.CommentID, _ = row["comment_id"].ToUint64()
+					commentInfo.GroupID, _ = row["group_id"].ToUint64()
 					commentInfo.Content = row["content"].ToString()
-					commentInfo.Ctime = row["ctime"].ToUint()
+					commentInfo.Ctime, _ = row["ctime"].ToUint()
 					videoInfo.CommentList = append(videoInfo.CommentList, commentInfo)
 				}
 			}
