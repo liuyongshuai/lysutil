@@ -84,9 +84,10 @@ func dumpVideo365yg() {
 	fp, err := negoutils.OpenNewFile(videoFile, ".bak", true)
 	fmt.Println(err)
 	writer := bufio.NewWriter(fp)
-	videoSQL := "SELECT * FROM `video_365yg` WHERE `auto_id` > ? LIMIT 100"
-	commentSQL := "SELECT * FROM `video_365yg_comment` WHERE `group_id` = ? ORDER BY `ctime` DESC"
+	videoSQL := "SELECT * FROM `video_365yg` WHERE `auto_id` > ? ORDER BY `auto_id` ASC LIMIT 100"
+	commentSQL := "SELECT * FROM `video_365yg_comment` WHERE `group_id` = ? AND `auto_id` > ? ORDER BY `auto_id` ASC LIMIT 1000"
 	videoAutoId := uint64(0)
+	commentAutoId := uint64(0)
 	for {
 		fmt.Println("videoAutoId=", videoAutoId)
 		rows, err := db.FetchRows(videoSQL, videoAutoId)
@@ -111,8 +112,11 @@ func dumpVideo365yg() {
 			videoAutoId = videoInfo.AutoID
 
 			//提取评论信息
-			commentRows, commentErr := db.FetchRows(commentSQL, videoInfo.GroupID)
-			if commentErr == nil && len(commentRows) > 0 {
+			for {
+				commentRows, commentErr := db.FetchRows(commentSQL, videoInfo.GroupID, commentAutoId)
+				if commentErr != nil || len(commentRows) == 0 {
+					break
+				}
 				for _, commentRow := range commentRows {
 					var commentInfo Video365ygComment
 					commentInfo.AutoID, _ = commentRow["auto_id"].ToUint64()
@@ -120,6 +124,7 @@ func dumpVideo365yg() {
 					commentInfo.GroupID, _ = commentRow["group_id"].ToUint64()
 					commentInfo.Content = commentRow["content"].ToString()
 					commentInfo.Ctime, _ = commentRow["ctime"].ToUint()
+					commentAutoId = commentInfo.AutoID
 					videoInfo.CommentList = append(videoInfo.CommentList, commentInfo)
 				}
 			}
