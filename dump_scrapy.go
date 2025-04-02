@@ -75,7 +75,7 @@ func main() {
 
 	//提取article
 	articleFile := "./article"
-	fp, err := negoutils.OpenNewFile(articleFile)
+	fp, err := negoutils.OpenNewFile(articleFile, ".bak", true)
 	writer := bufio.NewWriter(fp)
 	articleSQL := "SELECT * FROM `article` WHERE `auto_id` > %d LIMIT 100"
 	articleAutoId := uint64(0)
