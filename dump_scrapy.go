@@ -29,7 +29,7 @@ type Article struct {
 // 段子信息
 type JokeText struct {
 	AutoID  uint64 `json:"-" db:"auto_id"`       //无意义的自增ID
-	Md5     string `json:"-" db:"md5"`         //段子的ID
+	Md5     string `json:"-" db:"md5"`           //段子的ID
 	Content string `json:"content" db:"content"` //内容
 }
 
@@ -74,8 +74,65 @@ func main() {
 		return
 	}
 	defer db.Close()
-	dumpJokes()
+	dumpVideo365yg()
 	return
+}
+
+func dumpVideo365yg() {
+	//提取article
+	videoFile := "./video365yg"
+	fp, err := negoutils.OpenNewFile(videoFile, ".bak", true)
+	fmt.Println(err)
+	writer := bufio.NewWriter(fp)
+	videoSQL := "SELECT * FROM `video_365yg` WHERE `auto_id` > ? LIMIT 100"
+	commentSQL := "SELECT * FROM `video_365yg_comment` WHERE `group_id` = ?"
+	videoAutoId := uint64(0)
+	for {
+		fmt.Println("videoAutoId=", videoAutoId)
+		rows, err := db.FetchRows(videoSQL, videoAutoId)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if len(rows) == 0 {
+			break
+		}
+
+		for _, row := range rows {
+			var videoInfo Video365yg
+			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
+			videoInfo.GroupId = row["group_id"].ToUint64()
+			videoInfo.Title = row["title"].ToString()
+			videoInfo.VideoDuration = row["video_duration"].ToUint()
+			videoInfo.VideoId = row["video_id"].ToString()
+			videoInfo.VideoDesc = row["video_desc"].ToString()
+			videoInfo.CommentNum = row["comment_num"].ToUint()
+			videoInfo.CreateDate = row["create_date"].ToUint()
+			videoAutoId = videoInfo.AutoID
+
+			//提取评论信息
+			commentRows, commentErr := db.FetchRows(commentSQL, videoInfo.GroupId)
+			if commentErr == nil && len(commentRows) > 0 {
+				for _, commentRow := range commentRows {
+					var commentInfo Video365ygComment
+					commentInfo.AutoID, _ = row["auto_id"].ToUint64()
+					commentInfo.CommentID = row["comment_id"].ToUint64()
+					commentInfo.GroupID = row["group_id"].ToUint64()
+					commentInfo.Content = row["content"].ToString()
+					commentInfo.Ctime = row["ctime"].ToUint()
+					videoInfo.CommentList = append(videoInfo.CommentList, commentInfo)
+				}
+			}
+			b, e := json.Marshal(videoInfo)
+			if e != nil {
+				fmt.Println(e)
+				continue
+			}
+			writer.WriteString(negoutils.ByteToStr(b) + "\n")
+			writer.Flush()
+		}
+	}
+	fp.Close()
 }
 
 func dumpJokes() {
