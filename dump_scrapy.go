@@ -95,7 +95,7 @@ func main() {
 			var articleInfo Article
 			articleInfo.AutoID, _ = row["auto_id"].ToUint64()
 			articleInfo.Tags = row["tags"].ToString()
-			articleInfo.Content = row["Content"].ToString()
+			articleInfo.Content = row["content"].ToString()
 			articleInfo.Title = row["title"].ToString()
 			articleInfo.URL = row["url"].ToString()
 			articleAutoId = articleInfo.AutoID
