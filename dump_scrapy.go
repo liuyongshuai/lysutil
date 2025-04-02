@@ -5,7 +5,7 @@
 package main
 
 import (
-	"encode/json"
+	"encoding/json"
 	"github.com/liuyongshuai/negoutils"
 )
 
