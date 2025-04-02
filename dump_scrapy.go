@@ -63,7 +63,7 @@ func main() {
 		Passwd:     "123456",
 		DbName:     "db_scrapy",
 		Charset:    "utf8",
-		Timeout:    5,
+		Timeout:    30,
 		Port:       3306,
 		AutoCommit: true,
 	}
