@@ -102,7 +102,7 @@ func dumpVideo365yg() {
 
 		for _, row := range rows {
 			var videoInfo Video365yg
-			videoInfo.CommentList = make([]Video365ygComment)
+			videoInfo.CommentList = make([]Video365ygComment, 0)
 			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
 			videoInfo.GroupID, _ = row["group_id"].ToUint64()
 			videoInfo.Title = row["title"].ToString()
