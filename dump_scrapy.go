@@ -63,7 +63,6 @@ func main() {
 		User:       "phpmyadmin",
 		Passwd:     "123456",
 		DbName:     "db_scrapy",
-		Charset:    "utf8",
 		Timeout:    10,
 		Port:       3306,
 		AutoCommit: true,
