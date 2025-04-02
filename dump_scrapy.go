@@ -101,17 +101,17 @@ func dumpVideo365yg() {
 		for _, row := range rows {
 			var videoInfo Video365yg
 			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
-			videoInfo.GroupId, _ = row["group_id"].ToUint64()
+			videoInfo.GroupID, _ = row["group_id"].ToUint64()
 			videoInfo.Title = row["title"].ToString()
 			videoInfo.VideoDuration, _ = row["video_duration"].ToUint()
-			videoInfo.VideoId = row["video_id"].ToString()
+			videoInfo.VideoID = row["video_id"].ToString()
 			videoInfo.VideoDesc = row["video_desc"].ToString()
 			videoInfo.CommentNum, _ = row["comment_num"].ToUint()
 			videoInfo.CreateDate, _ = row["create_date"].ToUint()
 			videoAutoId = videoInfo.AutoID
 
 			//提取评论信息
-			commentRows, commentErr := db.FetchRows(commentSQL, videoInfo.GroupId)
+			commentRows, commentErr := db.FetchRows(commentSQL, videoInfo.GroupID)
 			if commentErr == nil && len(commentRows) > 0 {
 				for _, commentRow := range commentRows {
 					var commentInfo Video365ygComment
