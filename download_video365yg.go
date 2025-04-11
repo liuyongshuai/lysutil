@@ -116,7 +116,7 @@ func downloadVideo(auto_id uint64, video_id string) {
 	//fmt.Println("\n\n")
 
 	client := negoutils.NewHttpClient(url, context.Background())
-	client.SetReferer("http://365yg.com.com")
+	client.SetReferer("http://365yg.com")
 	client.AddHeader("myHeaderKey", "myHeaderValue")
 	client.SetUserAgent("Mozilla/5.0 (Linux; Android 6.0.1; SM919 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.84 Mobile Safari/537.36 JsSdk/2 NewsArticle/6.2.7 NetType/wifi")
 	client.SetKeepAlive(false)
