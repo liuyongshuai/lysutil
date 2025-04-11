@@ -140,8 +140,8 @@ func downloadVideo(auto_id uint64, video_id string) {
 
 	//是否被平台封禁
 	if vinfo.Code != 0 {
-		db.Execute(videoForbidSQL, auto_id)
-		fmt.Println("FORBIDDEN: video_id=", video_id, "message=", vinfo.Message, ", auto_id=", auto_id)
+		_, _, e = db.Execute(videoForbidSQL, auto_id)
+		fmt.Println("FORBIDDEN", e, " video_id=", video_id, "message=", vinfo.Message, ", auto_id=", auto_id)
 		return
 	}
 
@@ -170,5 +170,9 @@ func downloadVideo(auto_id uint64, video_id string) {
 		//fmt.Println(vinfo)
 		return
 	}
-	db.Execute(videoUpdateSQL, vSize, auto_id)
+	_, _, e = db.Execute(videoUpdateSQL, vSize, auto_id)
+	if e != nil {
+		fmt.Println("update VideoSize failed", e)
+		return
+	}
 }
