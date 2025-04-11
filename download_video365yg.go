@@ -6,7 +6,7 @@ package main
 
 import (
 	"context"
-	"encoding/base64"
+	//"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/liuyongshuai/negoutils"
@@ -95,7 +95,6 @@ func main() {
 
 		for _, row := range rows {
 			var videoInfo Video365ygInfo
-			videoInfo.CommentList = make([]Video365ygComment, 0)
 			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
 			videoInfo.VideoID = row["video_id"].ToString()
 			videoAutoId = videoInfo.AutoID
@@ -122,7 +121,6 @@ func downloadVideo(auto_id uint64, video_id string) {
 	client.SetKeepAlive(false)
 	resp, _ := client.Get()
 	ret := resp.GetBodyString()
-	client.Close()
 	ret = strings.TrimLeft(ret, callback)
 	ret = strings.TrimLeft(ret, "(")
 	ret = strings.TrimRight(ret, ")")
@@ -138,14 +136,14 @@ func downloadVideo(auto_id uint64, video_id string) {
 	//tmpDecode, _ := base64.StdEncoding.DecodeString(vinfo.Data.PostUrl)
 	//vinfo.Data.PostUrl = negoutils.ByteToStr(tmpDecode)
 	vlist := vinfo.Data.VideoList
-	mainUrl := ""
+	//mainUrl := ""
 	vSize := int64(0)
 	for _, v := range vlist {
-		tmpDecode, e := base64.StdEncoding.DecodeString(v.MainURL)
-		if e != nil {
-			continue
-		}
-		mainUrl = negoutils.ByteToStr(tmpDecode)
+		//tmpDecode, e := base64.StdEncoding.DecodeString(v.MainURL)
+		//if e != nil {
+		//	continue
+		//}
+		//mainUrl = negoutils.ByteToStr(tmpDecode)
 		vSize = v.Size
 		//fmt.Println("mainUrl", mainUrl)
 		//fmt.Println("videoSize", v.Size)
@@ -154,5 +152,5 @@ func downloadVideo(auto_id uint64, video_id string) {
 	if vSize == 0 {
 		return
 	}
-	db.Execute(videoUpdateSQL, v.Size, auto_id)
+	db.Execute(videoUpdateSQL, vSize, auto_id)
 }
