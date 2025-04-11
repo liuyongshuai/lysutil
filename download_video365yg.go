@@ -129,6 +129,7 @@ func downloadVideo(auto_id uint64, video_id string) {
 	vinfo := TouTiaoVideo365YGInfo{}
 	e := json.Unmarshal([]byte(ret), &vinfo)
 	if e != nil {
+		fmt.Println("json.Unmarshal vinfo failed", e)
 		return
 	}
 	//fmt.Println(vinfo)
@@ -150,6 +151,7 @@ func downloadVideo(auto_id uint64, video_id string) {
 		break
 	}
 	if vSize == 0 {
+		fmt.Println("invalid vSize")
 		return
 	}
 	db.Execute(videoUpdateSQL, vSize, auto_id)
