@@ -145,7 +145,9 @@ func downloadVideo(auto_id uint64, video_id string) {
 		//	continue
 		//}
 		//mainUrl = negoutils.ByteToStr(tmpDecode)
-		vSize = v.Size
+		if v.Size > 0 {
+			vSize = v.Size
+		}
 		//fmt.Println("mainUrl", mainUrl)
 		//fmt.Println("videoSize", v.Size)
 		break
