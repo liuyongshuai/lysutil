@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-type VideoInfo struct {
+type TouTiaoVideoInfo struct {
 	Definition string `json:"definition"`
 	Quality    string `json:"quality"`
 	VType      string `json:"vtype"`
@@ -28,29 +28,84 @@ type VideoInfo struct {
 	FileId     string `json:"file_id"`
 }
 
-type Video365YGInfo struct {
+type TouTiaoVideo365YGInfo struct {
 	Code    int64  `json:"code"`
 	Total   int64  `json:"total"`
 	Message string `json:"message"`
 	Data    struct {
-		Status         int                  `json:"status"`
-		Message        string               `json:"message"`
-		EnableSSL      bool                 `json:"enable_ssl"`
-		AutoDefinition string               `json:"auto_definition"`
-		EnableAdaptive bool                 `json:"enable_adaptive"`
-		VideoId        string               `json:"video_id"`
-		VideoDuration  float64              `json:"video_duration"`
-		MediaType      string               `json:"media_type"`
-		VideoList      map[string]VideoInfo `json:"video_list"`
-		UrlExpire      int                  `json:"url_expire"`
-		PostUrl        string               `json:"post_url"`
+		Status         int                         `json:"status"`
+		Message        string                      `json:"message"`
+		EnableSSL      bool                        `json:"enable_ssl"`
+		AutoDefinition string                      `json:"auto_definition"`
+		EnableAdaptive bool                        `json:"enable_adaptive"`
+		VideoId        string                      `json:"video_id"`
+		VideoDuration  float64                     `json:"video_duration"`
+		MediaType      string                      `json:"media_type"`
+		VideoList      map[string]TouTiaoVideoInfo `json:"video_list"`
+		UrlExpire      int                         `json:"url_expire"`
+		PostUrl        string                      `json:"post_url"`
 	} `json:"data"`
 }
 
+// 从阳光宽频网上抓取下来的视频信息
+type Video365ygInfo struct {
+	AutoID  uint64 `json:"-" db:"auto_id"`         //无意义的自增ID
+	VideoID string `json:"video_id" db:"video_id"` //视频ID
+}
+
+var (
+	db             *negoutils.DBase
+	myconf         negoutils.MySQLConf
+	video_url      = "http://ib.365yg.com/video/urls/v/1/toutiao/mp4/"
+	videoSelectSQL = "SELECT `auto_id`,``video_id` FROM `video_365yg` WHERE `auto_id` > ? ORDER BY `auto_id` ASC LIMIT 100"
+	videoUpdateSQL = "UDPATE `video_365yg` SET `video_size` = ? WHERE `auto_id` = ?"
+)
+
 func main() {
+	myconf = negoutils.MySQLConf{
+		Charset:      "utf8",
+		Host:         "127.0.0.1",
+		User:         "phpmyadmin",
+		Passwd:       "123456",
+		DbName:       "db_scrapy",
+		Timeout:      10,
+		Port:         3306,
+		AutoCommit:   true,
+		MaxIdleConns: 10,
+	}
+	db = negoutils.NewDBase(myconf)
+	_, err := db.Conn()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer db.Close()
+
+	videoAutoId := uint64(0)
+	for {
+		fmt.Println("videoAutoId=", videoAutoId)
+		rows, err := db.FetchRows(videoSelectSQL, videoAutoId)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if len(rows) == 0 {
+			break
+		}
+
+		for _, row := range rows {
+			var videoInfo Video365ygInfo
+			videoInfo.CommentList = make([]Video365ygComment, 0)
+			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
+			videoInfo.VideoID = row["video_id"].ToString()
+			videoAutoId = videoInfo.AutoID
+			downloadVideo(videoInfo.AutoID, videoInfo.VideoID)
+		}
+	}
+}
+
+func downloadVideo(auto_id uint64, video_id string) {
 	t := time.Now().UnixNano()
-	video_id := "5494cda9784e4f60b04e4c0c6629da56"
-	video_url := "http://ib.365yg.com/video/urls/v/1/toutiao/mp4/"
 	callback := "reqwest_" + strconv.FormatUint(uint64(t), 10)
 	url := video_url + video_id
 	um, _ := negoutils.ParseUrl(url, -1)
@@ -64,31 +119,40 @@ func main() {
 	client.SetReferer("http://365yg.com.com")
 	client.AddHeader("myHeaderKey", "myHeaderValue")
 	client.SetUserAgent("Mozilla/5.0 (Linux; Android 6.0.1; SM919 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.84 Mobile Safari/537.36 JsSdk/2 NewsArticle/6.2.7 NetType/wifi")
-	client.SetKeepAlive(true)
+	client.SetKeepAlive(false)
 	resp, _ := client.Get()
 	ret := resp.GetBodyString()
+	client.Close()
 	ret = strings.TrimLeft(ret, callback)
 	ret = strings.TrimLeft(ret, "(")
 	ret = strings.TrimRight(ret, ")")
-	fmt.Println(ret)
-	fmt.Println("\n\n")
-	vinfo := Video365YGInfo{}
-	json.Unmarshal([]byte(ret), &vinfo)
-	fmt.Println(vinfo)
-	fmt.Println("\n\n")
+	//fmt.Println(ret)
+	//fmt.Println("\n\n")
+	vinfo := TouTiaoVideo365YGInfo{}
+	e := json.Unmarshal([]byte(ret), &vinfo)
+	if e != nil {
+		return
+	}
+	//fmt.Println(vinfo)
+	//fmt.Println("\n\n")
 	//tmpDecode, _ := base64.StdEncoding.DecodeString(vinfo.Data.PostUrl)
 	//vinfo.Data.PostUrl = negoutils.ByteToStr(tmpDecode)
 	vlist := vinfo.Data.VideoList
 	mainUrl := ""
+	vSize := int64(0)
 	for _, v := range vlist {
 		tmpDecode, e := base64.StdEncoding.DecodeString(v.MainURL)
 		if e != nil {
 			continue
 		}
 		mainUrl = negoutils.ByteToStr(tmpDecode)
-		fmt.Println("mainUrl", mainUrl)
-		fmt.Println("videoSize", v.Size)
+		vSize = v.Size
+		//fmt.Println("mainUrl", mainUrl)
+		//fmt.Println("videoSize", v.Size)
 		break
 	}
-
+	if vSize == 0 {
+		return
+	}
+	db.Execute(videoUpdateSQL, v.Size, auto_id)
 }
