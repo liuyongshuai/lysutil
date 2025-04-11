@@ -119,7 +119,11 @@ func downloadVideo(auto_id uint64, video_id string) {
 	client.AddHeader("myHeaderKey", "myHeaderValue")
 	client.SetUserAgent("Mozilla/5.0 (Linux; Android 6.0.1; SM919 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.84 Mobile Safari/537.36 JsSdk/2 NewsArticle/6.2.7 NetType/wifi")
 	client.SetKeepAlive(false)
-	resp, _ := client.Get()
+	resp, e := client.Get()
+	if e != nil {
+		fmt.Println("get url failed", e)
+		return
+	}
 	ret := resp.GetBodyString()
 	ret = strings.TrimLeft(ret, callback)
 	ret = strings.TrimLeft(ret, "(")
