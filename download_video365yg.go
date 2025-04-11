@@ -58,8 +58,8 @@ var (
 	myconf         negoutils.MySQLConf
 	video_url      = "http://ib.365yg.com/video/urls/v/1/toutiao/mp4/"
 	videoSelectSQL = "SELECT `auto_id`,`video_id` FROM `video_365yg` WHERE `auto_id` > ? AND `video_size` = 0 AND `is_forbidden` = 0 ORDER BY `auto_id` ASC LIMIT 100"
-	videoUpdateSQL = "UDPATE `video_365yg` SET `video_size` = ? WHERE `auto_id` = ?"
-	videoForbidSQL = "UDPATE `video_365yg` SET `is_forbidden` = 1 WHERE `auto_id` = ?"
+	videoUpdateSQL = "UPDATE `video_365yg` SET `video_size` = ? WHERE `auto_id` = ?"
+	videoForbidSQL = "UPDATE `video_365yg` SET `is_forbidden` = 1 WHERE `auto_id` = ?"
 )
 
 func main() {
