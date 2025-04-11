@@ -94,7 +94,7 @@ func main() {
 		rows, err := db.FetchRows(videoSelectSQL, videoAutoId)
 		if err != nil {
 			fmt.Println(err)
-			return
+			break
 		}
 		if len(rows) == 0 {
 			break
