@@ -141,6 +141,7 @@ func downloadVideo(auto_id uint64, video_id string) {
 	//是否被平台封禁
 	if vinfo.Code != 0 {
 		db.Execute(videoForbidSQL, auto_id)
+		fmt.Println("FORBIDDEN\tvideo_id=", video_id, "\tmessage=", vinfo.Message)
 		return
 	}
 
