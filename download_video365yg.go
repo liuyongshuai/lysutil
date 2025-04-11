@@ -84,7 +84,7 @@ func main() {
 	defer db.Close()
 
 	//多goroutine处理
-	for i := 0; i < 24; i++ {
+	for i := 0; i < 240; i++ {
 		go downloadVideo()
 	}
 
@@ -108,7 +108,14 @@ func main() {
 			videoChan <- videoInfo
 		}
 	}
-	close(videoChan)
+
+	for {
+		time.Sleep(10 * time.Second)
+		if len(videoChan) == 0 {
+			close(videoChan)
+			break
+		}
+	}
 }
 
 func downloadVideo() {
