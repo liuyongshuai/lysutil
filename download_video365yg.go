@@ -57,7 +57,7 @@ var (
 	db             *negoutils.DBase
 	myconf         negoutils.MySQLConf
 	video_url      = "http://ib.365yg.com/video/urls/v/1/toutiao/mp4/"
-	videoSelectSQL = "SELECT `auto_id`,``video_id` FROM `video_365yg` WHERE `auto_id` > ? ORDER BY `auto_id` ASC LIMIT 100"
+	videoSelectSQL = "SELECT `auto_id`,``video_id` FROM `video_365yg` WHERE `auto_id` > ? AND `video_size` > 0 ORDER BY `auto_id` ASC LIMIT 100"
 	videoUpdateSQL = "UDPATE `video_365yg` SET `video_size` = ? WHERE `auto_id` = ?"
 )
 
