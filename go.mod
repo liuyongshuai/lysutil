@@ -2,7 +2,7 @@ module github.com/liuyongshuai/lysutil
 
 go 1.24.1
 
-require github.com/liuyongshuai/negoutils v0.0.3
+require github.com/liuyongshuai/negoutils v0.0.4
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
