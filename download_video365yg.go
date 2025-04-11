@@ -60,7 +60,7 @@ var (
 	videoSelectSQL = "SELECT `auto_id`,`video_id` FROM `video_365yg` WHERE `auto_id` > ? AND `video_size` = 0 AND `is_forbidden` = 0 ORDER BY `auto_id` ASC LIMIT 100"
 	videoUpdateSQL = "UPDATE `video_365yg` SET `video_size` = ? WHERE `auto_id` = ?"
 	videoForbidSQL = "UPDATE `video_365yg` SET `is_forbidden` = 1 WHERE `auto_id` = ?"
-	videoChan      = make(chan Video365ygInfo, 10000)
+	videoChan      = make(chan Video365ygInfo, 1000000)
 )
 
 func main() {
