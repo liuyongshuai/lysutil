@@ -32,3 +32,5 @@ CMakeCache.txt
 out
 build/**
 vendor
+download_video365yg
+dump_scrapy
