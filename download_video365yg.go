@@ -158,7 +158,7 @@ func downloadVideo(auto_id uint64, video_id string) {
 	}
 	if vSize == 0 {
 		fmt.Println("invalid vSize")
-		fmt.Println(vlist)
+		fmt.Println(vinfo)
 		return
 	}
 	db.Execute(videoUpdateSQL, vSize, auto_id)
