@@ -105,7 +105,7 @@ func main() {
 }
 
 func downloadVideo(auto_id uint64, video_id string) {
-	t := time.Now().UnixNano()
+	t := time.Now().UnixNano() / 1000000
 	callback := "reqwest_" + strconv.FormatUint(uint64(t), 10)
 	url := video_url + video_id
 	um, _ := negoutils.ParseUrl(url, -1)
