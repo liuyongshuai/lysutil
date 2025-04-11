@@ -60,6 +60,7 @@ var (
 	videoSelectSQL = "SELECT `auto_id`,`video_id` FROM `video_365yg` WHERE `auto_id` > ? AND `video_size` = 0 AND `is_forbidden` = 0 ORDER BY `auto_id` ASC LIMIT 100"
 	videoUpdateSQL = "UPDATE `video_365yg` SET `video_size` = ? WHERE `auto_id` = ?"
 	videoForbidSQL = "UPDATE `video_365yg` SET `is_forbidden` = 1 WHERE `auto_id` = ?"
+	videoChan      = make(chan Video365ygInfo, 10000)
 )
 
 func main() {
@@ -82,6 +83,11 @@ func main() {
 	}
 	defer db.Close()
 
+	//多goroutine处理
+	for i := 0; i < 24; i++ {
+		go downloadVideo()
+	}
+
 	videoAutoId := uint64(0)
 	for {
 		fmt.Println("videoAutoId=", videoAutoId)
@@ -99,12 +105,19 @@ func main() {
 			videoInfo.AutoID, _ = row["auto_id"].ToUint64()
 			videoInfo.VideoID = row["video_id"].ToString()
 			videoAutoId = videoInfo.AutoID
-			downloadVideo(videoInfo.AutoID, videoInfo.VideoID)
+			videoChan <- videoInfo
 		}
 	}
+	close(videoChan)
 }
 
-func downloadVideo(auto_id uint64, video_id string) {
+func downloadVideo() {
+	vid, ok := <-videoChan
+	if !ok {
+		return
+	}
+	auto_id := vid.AutoID
+	video_id := vid.VideoID
 	t := time.Now().UnixNano() / 1000000
 	callback := "reqwest_" + strconv.FormatUint(uint64(t), 10)
 	url := video_url + video_id
