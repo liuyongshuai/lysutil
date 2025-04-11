@@ -111,8 +111,8 @@ func downloadVideo(auto_id uint64, video_id string) {
 	path := um["path"]
 	s := crc32.ChecksumIEEE([]byte(path + "?r=" + strconv.FormatUint(uint64(t), 10)))
 	url += "?r=" + strconv.FormatUint(uint64(t), 10) + "&s=" + strconv.FormatUint(uint64(s), 10) + "&callback=" + callback
-	fmt.Println(url)
-	fmt.Println("\n\n")
+	//fmt.Println(url)
+	//fmt.Println("\n\n")
 
 	client := negoutils.NewHttpClient(url, context.Background())
 	client.SetReferer("http://365yg.com.com")
