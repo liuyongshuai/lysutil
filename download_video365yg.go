@@ -131,7 +131,7 @@ func downloadVideo(auto_id uint64, video_id string) {
 	//fmt.Println(ret)
 	//fmt.Println("\n\n")
 	vinfo := TouTiaoVideo365YGInfo{}
-	e := json.Unmarshal([]byte(ret), &vinfo)
+	e = json.Unmarshal([]byte(ret), &vinfo)
 	if e != nil {
 		fmt.Println("json.Unmarshal vinfo failed", e)
 		return
