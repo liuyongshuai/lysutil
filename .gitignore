@@ -35,3 +35,5 @@ vendor
 download_video365yg
 dump_scrapy
 donwload_video
+*.jpg
+*.mp4
