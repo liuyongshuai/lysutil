@@ -173,7 +173,10 @@ func main() {
 	writer.Flush()
 	fp.Close()
 	if negoutils.FileExists("./"+videourl) && negoutils.FileExists("./"+picurl) {
-		db.Execute(videoUPSQL, video_id)
+		_, _, e = db.Execute(videoUPSQL, video_id)
+		if e != nil {
+			fmt.Println(e)
+		}
 	}
 	return
 }
