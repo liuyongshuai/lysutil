@@ -126,7 +126,7 @@ func main() {
 		fmt.Println(vinfo.Message)
 		return
 	}
-	
+
 	tmpDecode, _ := base64.StdEncoding.DecodeString(vinfo.Data.PostUrl)
 	post_url := negoutils.ByteToStr(tmpDecode)
 	vlist := vinfo.Data.VideoList
