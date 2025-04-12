@@ -52,11 +52,11 @@ type TouTiaoVideo365YGInfo struct {
 		MediaType      string                      `json:"media_type"`
 		VideoList      map[string]TouTiaoVideoInfo `json:"video_list"`
 		UrlExpire      int                         `json:"url_expire"`
-		PostUrl        string                      `json:"post_url"`
+		PosterUrl      string                      `json:"poster_url"`
 	} `json:"data"`
 }
 
-//./donwload_video --video_id 4454f562ba224cad8d141c6e2fa75834
+// ./donwload_video --video_id 4454f562ba224cad8d141c6e2fa75834
 func main() {
 	flag.StringVar(&video_id, "video_id", "", "The greeting object.")
 	flag.Parse()
@@ -127,8 +127,7 @@ func main() {
 		return
 	}
 
-	tmpDecode, _ := base64.StdEncoding.DecodeString(vinfo.Data.PostUrl)
-	post_url := negoutils.ByteToStr(tmpDecode)
+	post_url := vinfo.Data.PosterUrl
 	vlist := vinfo.Data.VideoList
 	mainUrl := ""
 	for _, v := range vlist {
@@ -139,11 +138,11 @@ func main() {
 		mainUrl = negoutils.ByteToStr(tmpDecode)
 		break
 	}
-	fmt.Println("auto_id", auto_id)
-	fmt.Println("video_id", video_id)
-	fmt.Println("title", title)
-	fmt.Println("video_desc", video_desc)
-	fmt.Println("post_url", post_url)
-	fmt.Println("video_url", mainUrl)
+	fmt.Println("auto_id：", auto_id)
+	fmt.Println("video_id：", video_id)
+	fmt.Println("title：", title)
+	fmt.Println("video_desc：", video_desc)
+	fmt.Println("post_url：", post_url)
+	fmt.Println("video_url：", mainUrl)
 	return
 }
