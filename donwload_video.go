@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -18,11 +19,12 @@ import (
 )
 
 var (
-	video_id  string
-	db        *negoutils.DBase
-	myconf    negoutils.MySQLConf
-	video_url = "http://ib.365yg.com/video/urls/v/1/toutiao/mp4/"
-	videoSQL  = "SELECT * FROM `video_365yg` WHERE `video_id` = ? AND `video_size` > 0 ORDER BY `comment_num` DESC LIMIT 1"
+	video_id   string
+	db         *negoutils.DBase
+	myconf     negoutils.MySQLConf
+	video_url  = "http://ib.365yg.com/video/urls/v/1/toutiao/mp4/"
+	videoSQL   = "SELECT * FROM `video_365yg` WHERE `video_id` = ? AND `video_size` > 0 ORDER BY `comment_num` DESC LIMIT 1"
+	videoUPSQL = "UPDATE `video_365yg` SET `is_publish`=1 WHERE `video_id` = ?"
 )
 
 type TouTiaoVideoInfo struct {
@@ -100,18 +102,12 @@ func main() {
 	path := um["path"]
 	s := crc32.ChecksumIEEE([]byte(path + "?r=" + strconv.FormatUint(uint64(t), 10)))
 	url += "?r=" + strconv.FormatUint(uint64(t), 10) + "&s=" + strconv.FormatUint(uint64(s), 10) + "&callback=" + callback
-
-	client := negoutils.NewHttpClient(url, context.Background())
-	client.SetReferer("http://365yg.com")
-	client.AddHeader("myHeaderKey", "myHeaderValue")
-	client.SetUserAgent("Mozilla/5.0 (Linux; Android 6.0.1; SM919 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.84 Mobile Safari/537.36 JsSdk/2 NewsArticle/6.2.7 NetType/wifi")
-	client.SetKeepAlive(false)
-	resp, e := client.Get()
+	tmpByte, e := download(url)
 	if e != nil {
-		fmt.Println("get url failed", e)
+		fmt.Println(e)
 		return
 	}
-	ret := resp.GetBodyString()
+	ret := negoutils.ByteToStr(tmpByte)
 	ret = strings.TrimLeft(ret, callback)
 	ret = strings.TrimLeft(ret, "(")
 	ret = strings.TrimRight(ret, ")")
@@ -144,5 +140,55 @@ func main() {
 	fmt.Println("video_desc：", video_desc)
 	fmt.Println("post_url：", post_url)
 	fmt.Println("video_url：", mainUrl)
+
+	//下载
+	picStr, e := download(post_url)
+	if e != nil {
+		fmt.Println(e)
+		return
+	}
+	picurl := video_id + ".jpg"
+	fp, e := negoutils.OpenNewFile(picurl, "", false)
+	if e != nil {
+		fmt.Println(e)
+		return
+	}
+	writer := bufio.NewWriter(fp)
+	writer.Write(picStr)
+	writer.Flush()
+	fp.Close()
+	videoStr, e := download(mainUrl)
+	if e != nil {
+		fmt.Println(e)
+		return
+	}
+	videourl := video_id + ".mp4"
+	fp, e = negoutils.OpenNewFile(videourl, "", false)
+	if e != nil {
+		fmt.Println(e)
+		return
+	}
+	writer = bufio.NewWriter(fp)
+	writer.Write(videoStr)
+	writer.Flush()
+	fp.Close()
+	if negoutils.FileExists(videourl) && negoutils.FileExists(picurl) {
+		db.Execute(videoUPSQL, auto_id)
+	}
 	return
+}
+
+func download(url string) ([]byte, error) {
+	client := negoutils.NewHttpClient(url, context.Background())
+	client.SetReferer("http://365yg.com")
+	client.AddHeader("myHeaderKey", "myHeaderValue")
+	client.SetTimeout(100 * time.Second)
+	client.SetUserAgent("Mozilla/5.0 (Linux; Android 6.0.1; SM919 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.84 Mobile Safari/537.36 JsSdk/2 NewsArticle/6.2.7 NetType/wifi")
+	client.SetKeepAlive(false)
+	resp, e := client.Get()
+	if e != nil {
+		fmt.Println("get url failed", e)
+		return nil, e
+	}
+	return resp.GetBody(), nil
 }
