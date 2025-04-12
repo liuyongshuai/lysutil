@@ -140,6 +140,7 @@ func main() {
 		break
 	}
 	fmt.Println("auto_id", auto_id)
+	fmt.Println("video_id", video_id)
 	fmt.Println("title", title)
 	fmt.Println("video_desc", video_desc)
 	fmt.Println("post_url", post_url)
