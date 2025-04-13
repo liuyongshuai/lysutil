@@ -147,7 +147,7 @@ func main() {
 		fmt.Println(e)
 		return
 	}
-	picurl := video_id + ".jpg"
+	picurl := "~/" + video_id + ".jpg"
 	fp, e := negoutils.OpenNewFile(picurl, "", false)
 	if e != nil {
 		fmt.Println(e)
@@ -162,7 +162,7 @@ func main() {
 		fmt.Println(e)
 		return
 	}
-	videourl := video_id + ".mp4"
+	videourl := "~/" + video_id + ".mp4"
 	fp, e = negoutils.OpenNewFile(videourl, "", false)
 	if e != nil {
 		fmt.Println(e)
@@ -172,7 +172,7 @@ func main() {
 	writer.Write(videoStr)
 	writer.Flush()
 	fp.Close()
-	if negoutils.FileExists("./"+videourl) && negoutils.FileExists("./"+picurl) {
+	if negoutils.FileExists(videourl) && negoutils.FileExists(picurl) {
 		_, _, e = db.Execute(videoUPSQL, video_id)
 		if e != nil {
 			fmt.Println(e)
