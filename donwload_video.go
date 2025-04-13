@@ -68,7 +68,7 @@ func main() {
 	}
 	myconf = negoutils.MySQLConf{
 		Charset:      "utf8",
-		Host:         "10.40.28.178",
+		Host:         "192.168.3.63",
 		User:         "phpmyadmin",
 		Passwd:       "123456",
 		DbName:       "db_scrapy",
