@@ -147,7 +147,7 @@ func main() {
 		fmt.Println(e)
 		return
 	}
-	picurl := "/home/liuyongshuai/video/" + video_id + ".jpg"
+	picurl := "/home/liuyongshuai/toutiao/" + video_id + ".jpg"
 	fp, e := negoutils.OpenNewFile(picurl, "", false)
 	if e != nil {
 		fmt.Println(e)
@@ -162,7 +162,7 @@ func main() {
 		fmt.Println(e)
 		return
 	}
-	videourl := "/home/liuyongshuai/video/" + video_id + ".mp4"
+	videourl := "/home/liuyongshuai/toutiao/" + video_id + ".mp4"
 	fp, e = negoutils.OpenNewFile(videourl, "", false)
 	if e != nil {
 		fmt.Println(e)
