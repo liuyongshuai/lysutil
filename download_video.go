@@ -147,7 +147,7 @@ func main() {
 		fmt.Println(e)
 		return
 	}
-	picurl := "/home/liuyongshuai/" + video_id + ".jpg"
+	picurl := "/home/liuyongshuai/video/" + video_id + ".jpg"
 	fp, e := negoutils.OpenNewFile(picurl, "", false)
 	if e != nil {
 		fmt.Println(e)
@@ -162,7 +162,7 @@ func main() {
 		fmt.Println(e)
 		return
 	}
-	videourl := "/home/liuyongshuai/" + video_id + ".mp4"
+	videourl := "/home/liuyongshuai/video/" + video_id + ".mp4"
 	fp, e = negoutils.OpenNewFile(videourl, "", false)
 	if e != nil {
 		fmt.Println(e)
@@ -185,7 +185,7 @@ func download(url string) ([]byte, error) {
 	client := negoutils.NewHttpClient(url, context.Background())
 	client.SetReferer("http://365yg.com")
 	client.AddHeader("myHeaderKey", "myHeaderValue")
-	client.SetTimeout(100 * time.Second)
+	client.SetTimeout(100000 * time.Second)
 	client.SetUserAgent("Mozilla/5.0 (Linux; Android 6.0.1; SM919 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.84 Mobile Safari/537.36 JsSdk/2 NewsArticle/6.2.7 NetType/wifi")
 	client.SetKeepAlive(false)
 	resp, e := client.Get()
