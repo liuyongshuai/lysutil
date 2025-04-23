@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"os"
 	"github.com/liuyongshuai/negoutils"
 	"hash/crc32"
 	"strconv"
@@ -140,23 +141,53 @@ func main() {
 	fmt.Println("video_desc：", video_desc)
 	fmt.Println("post_url：", post_url)
 	fmt.Println("video_url：", mainUrl)
+	toutiaoDir := "/home/liuyongshuai/toutiao/"
+	douyinDir := "/home/liuyongshuai/douyin/"
+	os.MkdirAll(toutiaoDir, 0755)
+	os.MkdirAll(douyinDir, 0755)
 
-	videoStr, e := download(mainUrl)
+	//下载
+	picStr, e := download(post_url)
 	if e != nil {
 		fmt.Println(e)
 		return
 	}
-	videourl := "/home/liuyongshuai/douyin/" + title + ".mp4"
-	fp, e := negoutils.OpenNewFile(videourl, "", false)
+	picurl := toutiaoDir + video_id + ".jpg"
+	fp, e := negoutils.OpenNewFile(picurl, "", false)
 	if e != nil {
 		fmt.Println(e)
 		return
 	}
 	writer := bufio.NewWriter(fp)
+	writer.Write(picStr)
+	writer.Flush()
+	fp.Close()
+	videoStr, e := download(mainUrl)
+	if e != nil {
+		fmt.Println(e)
+		return
+	}
+	videourl := toutiaoDir + video_id + ".mp4"
+	fp, e = negoutils.OpenNewFile(videourl, "", false)
+	if e != nil {
+		fmt.Println(e)
+		return
+	}
+	writer = bufio.NewWriter(fp)
 	writer.Write(videoStr)
 	writer.Flush()
 	fp.Close()
-	if negoutils.FileExists(videourl) {
+	videourl = douyinDir + title + ".mp4"
+	fp, e = negoutils.OpenNewFile(videourl, "", false)
+	if e != nil {
+		fmt.Println(e)
+		return
+	}
+	writer = bufio.NewWriter(fp)
+	writer.Write(videoStr)
+	writer.Flush()
+	fp.Close()
+	if negoutils.FileExists(videourl) && negoutils.FileExists(picurl) {
 		_, _, e = db.Execute(videoUPSQL, video_id)
 		if e != nil {
 			fmt.Println(e)
